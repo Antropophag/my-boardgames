@@ -6,11 +6,11 @@ import time
 def fetch_collection(username):
     url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&own=1&subtype=boardgame&stats=1"
     
+    # Ждем, пока коллекция будет готова
     while True:
         res = requests.get(url)
         root = ET.fromstring(res.content)
 
-        # Проверка, готова ли коллекция
         message = root.find('message')
         if message is not None and "Collection not ready" in message.text:
             print("Collection not ready, waiting 5s...")
@@ -18,20 +18,24 @@ def fetch_collection(username):
         else:
             break
 
+    def get_int(tag, default=0):
+        return int(tag.text) if tag is not None and tag.text else default
+
+    def get_text(tag, default=""):
+        return tag.text if tag is not None and tag.text else default
+
     own = []
-    wishlist = []  # пока пустой, можно добавить later
+    wishlist = []
 
     for item in root.findall('item'):
-        game_id = item.get('objectid')
-        name = item.find('name').text
-        image = item.find('image').text
+        game_id = item.get('objectid', "0")
+        name = get_text(item.find('name'), "Unknown")
+        image = get_text(item.find('image'), "")
 
-        # min/max players и playingtime
-        minplayers = int(item.find('minplayers').text or 0)
-        maxplayers = int(item.find('maxplayers').text or 0)
-        playingtime = int(item.find('playingtime').text or 0)
+        minplayers = get_int(item.find('minplayers'))
+        maxplayers = get_int(item.find('maxplayers'))
+        playingtime = get_int(item.find('playingtime'))
 
-        # average rating
         average = 0.0
         stats = item.find('stats')
         if stats is not None:
@@ -58,10 +62,11 @@ def fetch_collection(username):
 
 def main():
     username = "Antropophag"
+    print(f"Fetching collection for user: {username}")
     collection = fetch_collection(username)
     with open("data/games.json", "w", encoding="utf-8") as f:
         json.dump(collection, f, ensure_ascii=False, indent=2)
-    print("Collection saved to data/games.json")
+    print(f"Collection saved to data/games.json ({len(collection['own'])} games)")
 
 if __name__ == "__main__":
     main()
