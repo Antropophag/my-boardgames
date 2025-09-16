@@ -35,13 +35,19 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           if [ -z "$GH_TOKEN" ]; then
-            echo "GH_TOKEN is EMPTY!"
+            echo "❌ GH_TOKEN is EMPTY!"
             exit 1
           else
-            echo "GH_TOKEN is available, length: ${#GH_TOKEN}"
+            echo "✅ GH_TOKEN is available, length: ${#GH_TOKEN}"
           fi
 
-      # 6️⃣ Коммитим и пушим JSON с токеном
+      # 6️⃣ Проверим git remote и статус перед пушем
+      - name: Show git info before commit
+        run: |
+          git remote -v
+          git status
+
+      # 7️⃣ Коммитим и пушим JSON с токеном
       - name: Commit and push changes
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
