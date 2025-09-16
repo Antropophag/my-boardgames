@@ -29,18 +29,13 @@ jobs:
         run: |
           python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json
 
-      # 5️⃣ Коммитим и пушим JSON с токеном
-      - name: Commit and push changes
+      # 5️⃣ Debug: проверка, что токен доступен
+      - name: Debug GH_TOKEN
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # убедись, что секрет существует в этом репо
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          # используем токен для HTTPS авторизации
-          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
-          git add -f data/games.json
-          git commit -m "Update BGG collection" || echo "No changes to commit"
-	- run: echo "Token length is ${#GH_TOKEN}"
-  		env:
-   		 GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          git push origin main
+          if [ -z "$GH_TOKEN" ]; then
+            echo "GH_TOKEN is EMPTY!"
+            exit 1
+          else
+            echo "GH_TOKEN is available, length: ${#GH_TOKEN}"
