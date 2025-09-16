@@ -1,117 +1,104 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
-
-<!-- Masonry + imagesLoaded CDN -->
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-
-<meta name="viewport" content="width=device-width,initial-scale=1" />
 <style>
-  html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; color:#fff; }
-  .mosaic { width:100%; }
-  .grid-sizer, .game { width:20%; } /* 5 колонок default */
-  .game { position:relative; overflow:hidden; }
-  .game img { width:100%; display:block; height:auto; transition:transform .28s ease; object-fit:cover; }
-  .game:hover img { transform:scale(1.05); }
-
+  body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #111;
+    color: #fff;
+  }
+  h2 {
+    text-align: center;
+    margin: 2rem 0 1rem 0;
+  }
+  .mosaic {
+    column-count: 4;
+    column-gap: 0;
+    width: 100%;
+  }
+  .tile {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    position: relative;
+    transition: transform 0.3s;
+    cursor: pointer;
+  }
+  .tile img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+  }
+  .tile:hover {
+    transform: scale(1.05);
+    z-index: 10;
+  }
   .overlay {
-    position:absolute; inset:0; background:rgba(0,0,0,0.66);
-    display:flex; flex-direction:column; justify-content:center; align-items:center;
-    text-align:center; padding:10px; opacity:0; transition:opacity .18s ease;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9rem;
   }
-  .game:hover .overlay { opacity:1; }
-  .overlay h3 { margin:0 0 6px; font-size:15px; line-height:1.05; }
-  .overlay p { margin:2px 0; font-size:12px; }
-
-  /* адаптив */
-  @media (max-width:1200px){ .grid-sizer, .game{ width:25%; } } /* 4 */
-  @media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } } /* 3 */
-  @media (max-width:600px){ .grid-sizer, .game{ width:50%; } } /* 2 */
-  @media (max-width:400px){ .grid-sizer, .game{ width:100%; } } /* 1 */
-
-  /* placeholder image style if no cover */
-  .placeholder {
-    width:100%; padding-top:150%; background:#111; display:flex; align-items:center; justify-content:center; color:#666;
+  .tile:hover .overlay {
+    opacity: 1;
   }
+  @media (max-width: 1200px) { .mosaic { column-count: 3; } }
+  @media (max-width: 800px) { .mosaic { column-count: 2; } }
+  @media (max-width: 500px) { .mosaic { column-count: 1; } }
 </style>
 </head>
 <body>
-  <div id="mosaic" class="mosaic">
-    <div class="grid-sizer"></div>
-  </div>
+
+<div id="main-collection" class="mosaic"></div>
+
+<h2>Wishlist</h2>
+<div id="wishlist-collection" class="mosaic"></div>
 
 <script>
-/*
-  index.html expects /data/games.json to be present.
-  Format: array of objects:
-  [{ "id": "...", "name": "...", "image": "...", "minPlayers": "...", "maxPlayers": "...", "playingTime": "...", "average": 7.1, "weight": 2.5 }, ...]
-*/
+async function loadGames() {
+  const response = await fetch('data/games.json');
+  const games = await response.json();
 
-const DATA_URL = 'data/games.json';
+  const mainContainer = document.getElementById('main-collection');
+  const wishlistContainer = document.getElementById('wishlist-collection');
 
-function placeholderDataUri() {
-  const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#666' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>`);
-  return `data:image/svg+xml;utf8,${svg}`;
-}
-
-function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
-
-async function loadAndRender() {
-  const container = document.getElementById('mosaic');
-
-  // try load local JSON (produced by GH Action). If missing -> show message
-  let games;
-  try {
-    const resp = await fetch(DATA_URL, {cache: "no-store"});
-    if (!resp.ok) throw new Error('no-data');
-    games = await resp.json();
-  } catch (e) {
-    container.innerHTML = `<p style="color:white;text-align:center;padding:24px">Данные ещё не сгенерированы. Запусти workflow или подожди обновления. (Или запусти локально scripts/fetch_bgg_collection.py)</p>`;
-    return;
-  }
-
-  if (!Array.isArray(games) || games.length === 0) {
-    container.innerHTML = `<p style="color:white;text-align:center;padding:24px">Коллекция пустая.</p>`;
-    return;
-  }
-
-  // create tiles
   games.forEach(game => {
-    const div = document.createElement('div');
-    div.className = 'game';
-    const imgSrc = game.image || placeholderDataUri();
-    const ratingText = (typeof game.average === 'number' && !isNaN(game.average)) ? game.average.toFixed(1) : '—';
-    // show weight only if present
-    const weightText = (typeof game.weight === 'number' && !isNaN(game.weight)) ? `${game.weight.toFixed(1)}/5` : null;
+    const container = game.wishlist ? wishlistContainer : mainContainer;
 
-    div.innerHTML = `
-      <img src="${escapeHtml(imgSrc)}" alt="${escapeHtml(game.name)}" loading="lazy">
-      <div class="overlay">
-        <h3>${escapeHtml(game.name)}</h3>
-        <p>Игроки: ${escapeHtml(game.minPlayers)}–${escapeHtml(game.maxPlayers)}</p>
-        <p>Время: ${escapeHtml(game.playingTime)} мин</p>
-        <p>Рейтинг: ${escapeHtml(ratingText)}</p>
-        ${ weightText ? `<p>Сложность: ${escapeHtml(weightText)}</p>` : '' }
-      </div>
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+
+    const img = document.createElement('img');
+    img.src = game.image;
+    img.alt = game.name;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.innerHTML = `
+      <strong>${game.name}</strong><br>
+      ${game.minplayers}-${game.maxplayers} players<br>
+      ${game.playingtime} min<br>
+      Rating: ${game.bgg_rating}
     `;
-    container.appendChild(div);
-  });
 
-  // wait for images then Masonry
-  imagesLoaded(container, function() {
-    new Masonry(container, {
-      itemSelector: '.game',
-      columnWidth: '.grid-sizer',
-      gutter: 0,
-      percentPosition: true
-    });
+    tile.appendChild(img);
+    tile.appendChild(overlay);
+    container.appendChild(tile);
   });
 }
 
-loadAndRender();
+loadGames();
 </script>
+
 </body>
 </html>
