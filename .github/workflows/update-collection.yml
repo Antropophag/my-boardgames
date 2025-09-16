@@ -40,4 +40,7 @@ jobs:
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
+	- run: echo "Token length is ${#GH_TOKEN}"
+  		env:
+   		 GH_TOKEN: ${{ secrets.GH_TOKEN }}
           git push origin main
