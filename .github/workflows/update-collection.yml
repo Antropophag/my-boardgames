@@ -32,11 +32,11 @@ jobs:
       # 5️⃣ Коммитим и пушим JSON с токеном
       - name: Commit and push changes
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # убедись, что секрет существует в этом репо
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # меняем remote URL на токенизированный для авторизации
+          # используем токен для HTTPS авторизации
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
