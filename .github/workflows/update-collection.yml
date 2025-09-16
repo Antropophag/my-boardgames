@@ -3,7 +3,7 @@ name: Update BGG collection
 on:
   workflow_dispatch:   # ручной запуск
   schedule:
-    - cron: '0 12 * * *'  # ежедневный запуск в 12:00 UTC (по желанию)
+    - cron: '0 12 * * *'  # ежедневный запуск (по желанию)
 
 jobs:
   update:
@@ -39,3 +39,16 @@ jobs:
             exit 1
           else
             echo "GH_TOKEN is available, length: ${#GH_TOKEN}"
+          fi
+
+      # 6️⃣ Коммитим и пушим JSON с токеном
+      - name: Commit and push changes
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
+          git add -f data/games.json
+          git commit -m "Update BGG collection" || echo "No changes to commit"
+          git push origin main
