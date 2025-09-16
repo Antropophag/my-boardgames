@@ -1,3 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Boardgames</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+    color: #333;
+  }
+
+  h2 {
+    margin: 16px;
+  }
+
+  /* Контейнер для мозаики */
+  .masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0; /* без отступов */
+  }
+
+  /* Плитка */
+  .tile {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Картинка */
+  .tile img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .tile:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Overlay с информацией */
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 6px;
+    font-size: 13px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .tile:hover .overlay {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
 <h2>My Collection</h2>
 <div id="collection" class="masonry"></div>
 
@@ -37,3 +102,6 @@ fetch('data/games.json')
   })
   .catch(err => console.error(err));
 </script>
+
+</body>
+</html>
