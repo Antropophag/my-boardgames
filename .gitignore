@@ -1,3 +1,4 @@
 data/*.json
+!data/games.json
 __pycache__/
 *.pyc
