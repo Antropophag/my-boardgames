@@ -3,7 +3,7 @@ name: Update BGG collection
 on:
   workflow_dispatch:   # ручной запуск
   schedule:
-    - cron: '0 12 * * *'  # автоматический запуск каждый день в 12:00 UTC (по желанию)
+    - cron: '0 12 * * *'  # ежедневный запуск в 12:00 UTC (по желанию)
 
 jobs:
   update:
@@ -36,8 +36,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # меняем URL на токенизированный для авторизации
+          # меняем remote URL на токенизированный для авторизации
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
-          git push
+          git push origin main
