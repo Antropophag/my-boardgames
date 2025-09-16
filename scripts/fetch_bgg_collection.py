@@ -3,70 +3,77 @@ import xml.etree.ElementTree as ET
 import json
 import time
 
-def fetch_collection(username):
-    url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&own=1&subtype=boardgame&stats=1"
-    
-    # Ждем, пока коллекция будет готова
+def safe_int(tag):
+    try:
+        return int(tag.text)
+    except:
+        return 0
+
+def safe_float(tag):
+    try:
+        return float(tag.get('value', 0.0))
+    except:
+        return 0.0
+
+def fetch_collection(username, own_only=True):
+    """Fetches user's collection or wishlist from BGG"""
+    url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&subtype=boardgame&stats=1"
+    if own_only:
+        url += "&own=1"
+    else:
+        url += "&wishlist=1"
+
     while True:
         res = requests.get(url)
         root = ET.fromstring(res.content)
 
-        message = root.find('message')
-        if message is not None and "Collection not ready" in message.text:
+        # Если API ещё не готово, ждем
+        if root.tag == 'message' or root.attrib.get('termsofuse'):
             print("Collection not ready, waiting 5s...")
             time.sleep(5)
         else:
             break
 
-    def get_int(tag, default=0):
-        return int(tag.text) if tag is not None and tag.text else default
-
-    def get_text(tag, default=""):
-        return tag.text if tag is not None and tag.text else default
-
-    own = []
-    wishlist = []
+    games = []
 
     for item in root.findall('item'):
-        game_id = item.get('objectid', "0")
-        name = get_text(item.find('name'), "Unknown")
-        image = get_text(item.find('image'), "")
+        game_id = item.get('objectid')
+        name_tag = item.find('name')
+        image_tag = item.find('image')
 
-        minplayers = get_int(item.find('minplayers'))
-        maxplayers = get_int(item.find('maxplayers'))
-        playingtime = get_int(item.find('playingtime'))
-
-        average = 0.0
         stats = item.find('stats')
-        if stats is not None:
-            ratings = stats.find('ratings')
-            if ratings is not None:
-                avg_tag = ratings.find('average')
-                if avg_tag is not None:
-                    try:
-                        average = float(avg_tag.get('value', 0.0))
-                    except ValueError:
-                        average = 0.0
+        average = safe_float(stats.find('ratings/average')) if stats is not None else 0.0
 
-        own.append({
+        games.append({
             "id": game_id,
-            "name": name,
-            "minplayers": minplayers,
-            "maxplayers": maxplayers,
-            "playingtime": playingtime,
-            "image": image,
+            "name": name_tag.text if name_tag is not None else "",
+            "minplayers": safe_int(item.find('minplayers')),
+            "maxplayers": safe_int(item.find('maxplayers')),
+            "playingtime": safe_int(item.find('playingtime')),
+            "image": image_tag.text if image_tag is not None else "",
             "average": average
         })
 
-    return {"own": own, "wishlist": wishlist}
+    return games
 
 def main():
     username = "Antropophag"
-    print(f"Fetching collection for user: {username}")
-    collection = fetch_collection(username)
+
+    print("Fetching owned games...")
+    own = fetch_collection(username, own_only=True)
+
+    print("Fetching wishlist games...")
+    wishlist = fetch_collection(username, own_only=False)
+
+    collection = {
+        "own": own,
+        "wishlist": wishlist
+    }
+
     with open("data/games.json", "w", encoding="utf-8") as f:
         json.dump(collection, f, ensure_ascii=False, indent=2)
-    print(f"Collection saved to data/games.json ({len(collection['own'])} games)")
+
+    print(f"Collection saved to data/games.json. Own: {len(own)}, Wishlist: {len(wishlist)}")
 
 if __name__ == "__main__":
     main()
