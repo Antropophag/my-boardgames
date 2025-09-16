@@ -1,75 +1,72 @@
 import requests
 import xml.etree.ElementTree as ET
 import json
-import argparse
 import os
+import argparse
 import time
 
-BGG_API_COLLECTION = "https://boardgamegeek.com/xmlapi2/collection"
-BGG_API_THING = "https://boardgamegeek.com/xmlapi2/thing"
-
 def fetch_collection(username):
+    url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&subtype=boardgame&stats=1"
     print(f"Fetching collection for {username}...")
-    url = f"{BGG_API_COLLECTION}?username={username}&own=1&subtype=boardgame&stats=1"
-    response = requests.get(url)
-    response.raise_for_status()
-    root = ET.fromstring(response.content)
-    game_ids = [item.get('objectid') for item in root.findall('item')]
-    return game_ids
+    
+    while True:
+        r = requests.get(url)
+        if r.status_code == 202:
+            # BGG ещё формирует коллекцию, ждём
+            print("Collection not ready, waiting 5s...")
+            time.sleep(5)
+        else:
+            break
 
-def fetch_game_details(game_ids, batch_size=10, delay=1):
-    games = []
-    print(f"Fetching {len(game_ids)} game details...")
-    for i in range(0, len(game_ids), batch_size):
-        batch = game_ids[i:i+batch_size]
-        ids = ','.join(batch)
-        url = f"{BGG_API_THING}?id={ids}&stats=1"
-        response = requests.get(url)
-        response.raise_for_status()
-        root = ET.fromstring(response.content)
-        for item in root.findall('item'):
-            game_id = item.get('id')
-            name_elem = item.find("name[@type='primary']")
-            name = name_elem.get('value') if name_elem is not None else "Unknown"
-            image_elem = item.find('image')
-            image = image_elem.text if image_elem is not None else ""
-            stats = item.find('statistics/ratings')
-            rating_elem = stats.find('average') if stats is not None else None
-            rating = float(rating_elem.get('value')) if rating_elem is not None else 0.0
-            # Игроки и время
-            min_players_elem = item.find('minplayers')
-            max_players_elem = item.find('maxplayers')
-            playingtime_elem = item.find('playingtime')
-            min_players = int(min_players_elem.get('value', 0)) if min_players_elem is not None else 0
-            max_players = int(max_players_elem.get('value', 0)) if max_players_elem is not None else 0
-            playing_time = int(playingtime_elem.get('value', 0)) if playingtime_elem is not None else 0
+    root = ET.fromstring(r.content)
 
-            games.append({
-                "id": game_id,
-                "name": name,
-                "image": image,
-                "minplayers": min_players,
-                "maxplayers": max_players,
-                "playingtime": playing_time,
-                "bgg_rating": round(rating, 1)
-            })
-        time.sleep(delay)
-    return games
+    own_games = []
+    wishlist_games = []
+
+    for item in root.findall('item'):
+        status = item.find('status')
+        game_data = {
+            "id": item.get('objectid'),
+            "name": item.find('name').text,
+            "minplayers": int(item.find('minplayers').text),
+            "maxplayers": int(item.find('maxplayers').text),
+            "playingtime": int(item.find('playingtime').text),
+            "image": item.find('image').text if item.find('image') is not None else "",
+        }
+
+        # рейтинг Average
+        stats = item.find('stats')
+        rating = 0.0
+        if stats is not None:
+            ratings = stats.find('ratings')
+            if ratings is not None:
+                avg = ratings.find('average')
+                if avg is not None and avg.get('value') != 'N/A':
+                    rating = round(float(avg.get('value')), 1)
+        game_data["bgg_rating"] = rating
+
+        if status is not None:
+            if status.get('own') == '1':
+                own_games.append(game_data)
+            elif status.get('wishlist') == '1':
+                wishlist_games.append(game_data)
+
+    return own_games, wishlist_games
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--username', required=True, help='BGG username')
-    parser.add_argument('--out', required=True, help='Output JSON file')
+    parser.add_argument('--username', required=True)
+    parser.add_argument('--out', default='data/games.json')
     args = parser.parse_args()
 
     os.makedirs(os.path.dirname(args.out), exist_ok=True)
 
-    game_ids = fetch_collection(args.username)
-    games = fetch_game_details(game_ids)
-    
+    own, wishlist = fetch_collection(args.username)
+
+    # сохраняем в один JSON
     with open(args.out, 'w', encoding='utf-8') as f:
-        json.dump(games, f, indent=2, ensure_ascii=False)
-    print(f"Saved {len(games)} games to {args.out}")
+        json.dump({"own": own, "wishlist": wishlist}, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(own)} owned games and {len(wishlist)} wishlist games to {args.out}")
 
 if __name__ == "__main__":
     main()
