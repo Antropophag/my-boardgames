@@ -5,56 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 <style>
-  body {
-    margin: 0;
-    font-family: sans-serif;
-    background: #111;
-    color: #fff;
-  }
-  h2 {
-    text-align: center;
-    margin: 2rem 0 1rem 0;
-  }
-  .mosaic {
-    column-count: 4;
-    column-gap: 0;
-    width: 100%;
-  }
-  .tile {
-    display: inline-block;
-    width: 100%;
-    margin: 0;
-    position: relative;
-    transition: transform 0.3s;
-    cursor: pointer;
-  }
-  .tile img {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-  }
-  .tile:hover {
-    transform: scale(1.05);
-    z-index: 10;
-  }
-  .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    padding: 0.5rem;
-    opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 0.9rem;
-  }
-  .tile:hover .overlay {
-    opacity: 1;
-  }
-  @media (max-width: 1200px) { .mosaic { column-count: 3; } }
-  @media (max-width: 800px) { .mosaic { column-count: 2; } }
-  @media (max-width: 500px) { .mosaic { column-count: 1; } }
+  body { margin:0; font-family:sans-serif; background:#111; color:#fff; }
+  h2 { text-align:center; margin:2rem 0 1rem 0; }
+  .mosaic { column-gap: 0; width:100%; }
+  .tile { display:inline-block; width:100%; position:relative; transition:transform 0.3s; cursor:pointer; margin:0; }
+  .tile img { width:100%; display:block; object-fit:cover; }
+  .tile:hover { transform: scale(1.05); z-index:10; }
+  .overlay { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); color:#fff; padding:0.5rem; opacity:0; transition:opacity 0.3s; font-size:0.9rem; }
+  .tile:hover .overlay { opacity:1; }
+  @media (min-width:1201px){ .mosaic { column-count:4; } }
+  @media (max-width:1200px){ .mosaic { column-count:3; } }
+  @media (max-width:800px){ .mosaic { column-count:2; } }
+  @media (max-width:500px){ .mosaic { column-count:1; } }
 </style>
 </head>
 <body>
@@ -67,34 +29,37 @@
 <script>
 async function loadGames() {
   const response = await fetch('data/games.json');
-  const games = await response.json();
+  const data = await response.json();
 
   const mainContainer = document.getElementById('main-collection');
   const wishlistContainer = document.getElementById('wishlist-collection');
 
-  games.forEach(game => {
-    const container = game.wishlist ? wishlistContainer : mainContainer;
+  function addTiles(games, container) {
+    games.forEach(game => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
 
-    const tile = document.createElement('div');
-    tile.className = 'tile';
+      const img = document.createElement('img');
+      img.src = game.image || '';
+      img.alt = game.name;
 
-    const img = document.createElement('img');
-    img.src = game.image;
-    img.alt = game.name;
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      overlay.innerHTML = `
+        <strong>${game.name}</strong><br>
+        ${game.minplayers}-${game.maxplayers} players<br>
+        ${game.playingtime} min<br>
+        Rating: ${game.bgg_rating || "?"}
+      `;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'overlay';
-    overlay.innerHTML = `
-      <strong>${game.name}</strong><br>
-      ${game.minplayers}-${game.maxplayers} players<br>
-      ${game.playingtime} min<br>
-      Rating: ${game.bgg_rating}
-    `;
+      tile.appendChild(img);
+      tile.appendChild(overlay);
+      container.appendChild(tile);
+    });
+  }
 
-    tile.appendChild(img);
-    tile.appendChild(overlay);
-    container.appendChild(tile);
-  });
+  addTiles(data.own, mainContainer);
+  addTiles(data.wishlist, wishlistContainer);
 }
 
 loadGames();
