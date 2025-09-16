@@ -8,8 +8,8 @@
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #fff;
-    color: #333;
+    background: #000;
+    color: #fff;
   }
 
   h2 {
@@ -19,7 +19,7 @@
   /* Контейнер для мозаики */
   .masonry {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(5, 1fr); /* 5 колонок */
     gap: 0; /* без отступов */
   }
 
@@ -48,7 +48,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.8);
     color: #fff;
     padding: 6px;
     font-size: 13px;
@@ -59,11 +59,35 @@
   .tile:hover .overlay {
     opacity: 1;
   }
+
+  @media (max-width: 1200px) {
+    .masonry {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (max-width: 992px) {
+    .masonry {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .masonry {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .masonry {
+      grid-template-columns: 1fr;
+    }
+  }
+
 </style>
 </head>
 <body>
 
-<h2>My Collection</h2>
 <div id="collection" class="masonry"></div>
 
 <h2>Wishlist</h2>
