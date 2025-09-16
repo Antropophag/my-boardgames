@@ -1,7 +1,7 @@
 name: Update BGG collection
 
 on:
-  workflow_dispatch:   # ручной запуск
+  workflow_dispatch:   # ручной запуск вручную
   schedule:
     - cron: '0 12 * * *'  # ежедневный запуск (по желанию)
 
@@ -10,26 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Забираем репозиторий
+      # 1️⃣ Checkout репозитория
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Настраиваем Python
+      # 2️⃣ Настройка Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # 3️⃣ Устанавливаем зависимости
+      # 3️⃣ Установка зависимостей
       - name: Install dependencies
         run: pip install requests
 
-      # 4️⃣ Запускаем скрипт для скачивания коллекции
+      # 4️⃣ Скачиваем коллекцию BGG
       - name: Fetch BGG collection
         run: |
           python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json
 
-      # 5️⃣ Debug: проверка, что токен доступен
+      # 5️⃣ Debug токена
       - name: Debug GH_TOKEN
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -41,21 +41,25 @@ jobs:
             echo "✅ GH_TOKEN is available, length: ${#GH_TOKEN}"
           fi
 
-      # 6️⃣ Debug: проверка git remote и статуса перед коммитом
-      - name: Show git info
+      # 6️⃣ Debug git remote и статус перед пушем
+      - name: Show git info before push
         run: |
           git remote -v
           git status
 
-      # 7️⃣ Коммитим и пушим JSON с токеном
+      # 7️⃣ Пушим изменения с токеном
       - name: Commit and push changes
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Заменяем remote на токенизированный URL
+          # Заменяем remote на токенизированный URL для успешного пуша
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
           git push origin main --force
+
+      # 8️⃣ Debug git remote после set-url
+      - name: Show remote after set-url
+        run: git remote -v
