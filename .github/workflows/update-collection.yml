@@ -1,9 +1,9 @@
 name: Update BGG collection
 
 on:
-  workflow_dispatch:   # позволяет запускать вручную
+  workflow_dispatch:   # ручной запуск
   schedule:
-    - cron: '0 12 * * *'  # опционально: каждый день в 12:00 UTC
+    - cron: '0 12 * * *'  # каждый день в 12:00 UTC (опционально)
 
 jobs:
   update:
@@ -26,9 +26,12 @@ jobs:
           python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json
 
       - name: Commit and push changes
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
           git push
