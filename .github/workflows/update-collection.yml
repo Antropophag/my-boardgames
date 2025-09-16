@@ -3,7 +3,7 @@ name: Update BGG collection
 on:
   workflow_dispatch:   # ручной запуск
   schedule:
-    - cron: '0 12 * * *'  # ежедневный запуск (по желанию)
+    - cron: '0 12 * * *'  # ежедневный запуск
 
 jobs:
   update:
@@ -31,10 +31,11 @@ jobs:
       # 5️⃣ Коммитим и пушим JSON
       - name: Commit and push changes
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # PAT с правами repo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Подставляем PAT в remote URL
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
