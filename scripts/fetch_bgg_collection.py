@@ -5,18 +5,24 @@ import os
 import argparse
 import time
 
+def get_int(elem, default=0):
+    return int(elem.text) if elem is not None and elem.text else default
+
 def fetch_collection(username):
     url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&subtype=boardgame&stats=1"
     print(f"Fetching collection for {username}...")
-    
-    while True:
+
+    retries = 10
+    while retries > 0:
         r = requests.get(url)
         if r.status_code == 202:
-            # BGG ещё формирует коллекцию, ждём
-            print("Collection not ready, waiting 5s...")
-            time.sleep(5)
+            print("Collection not ready, waiting 10s...")
+            time.sleep(10)
+            retries -= 1
         else:
             break
+    if r.status_code != 200:
+        raise Exception(f"Failed to fetch collection, status {r.status_code}")
 
     root = ET.fromstring(r.content)
 
@@ -24,13 +30,17 @@ def fetch_collection(username):
     wishlist_games = []
 
     for item in root.findall('item'):
-        status = item.find('status')
+        name_elem = item.find('name')
+        minp = get_int(item.find('minplayers'))
+        maxp = get_int(item.find('maxplayers'))
+        time_play = get_int(item.find('playingtime'))
+
         game_data = {
             "id": item.get('objectid'),
-            "name": item.find('name').text,
-            "minplayers": int(item.find('minplayers').text),
-            "maxplayers": int(item.find('maxplayers').text),
-            "playingtime": int(item.find('playingtime').text),
+            "name": name_elem.text if name_elem is not None else "Unknown",
+            "minplayers": minp,
+            "maxplayers": maxp,
+            "playingtime": time_play,
             "image": item.find('image').text if item.find('image') is not None else "",
         }
 
@@ -41,10 +51,12 @@ def fetch_collection(username):
             ratings = stats.find('ratings')
             if ratings is not None:
                 avg = ratings.find('average')
-                if avg is not None and avg.get('value') != 'N/A':
+                if avg is not None and avg.get('value') not in (None, 'N/A'):
                     rating = round(float(avg.get('value')), 1)
         game_data["bgg_rating"] = rating
 
+        # статус игры
+        status = item.find('status')
         if status is not None:
             if status.get('own') == '1':
                 own_games.append(game_data)
@@ -63,9 +75,9 @@ def main():
 
     own, wishlist = fetch_collection(args.username)
 
-    # сохраняем в один JSON
     with open(args.out, 'w', encoding='utf-8') as f:
         json.dump({"own": own, "wishlist": wishlist}, f, ensure_ascii=False, indent=2)
+
     print(f"Saved {len(own)} owned games and {len(wishlist)} wishlist games to {args.out}")
 
 if __name__ == "__main__":
