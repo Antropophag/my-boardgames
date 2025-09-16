@@ -92,8 +92,16 @@ def main():
         time.sleep(0.12)
 
     # write JSON
-    with open(args.out, 'w', encoding='utf-8') as f:
-        json.dump(out, f, ensure_ascii=False, indent=2)
+import os
+import json
+
+# Создаём папку, если её нет
+os.makedirs(os.path.dirname(args.out), exist_ok=True)
+
+# Сохраняем данные в JSON
+with open(args.out, 'w', encoding='utf-8') as f:
+    json.dump(all_games, f, ensure_ascii=False, indent=2)
+
 
 if __name__ == '__main__':
     main()
