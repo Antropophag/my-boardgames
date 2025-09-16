@@ -6,7 +6,7 @@
     "minplayers": 2,
     "maxplayers": 8,
     "playingtime": 60,
-    "average": 7.1
+    "bgg_rating": 7.1
   },
   {
     "id": "194594",
@@ -15,7 +15,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 45,
-    "average": 7.2
+    "bgg_rating": 7.2
   },
   {
     "id": "258003",
@@ -24,7 +24,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 40,
-    "average": 7.6
+    "bgg_rating": 7.6
   },
   {
     "id": "199792",
@@ -33,7 +33,7 @@
     "minplayers": 1,
     "maxplayers": 4,
     "playingtime": 80,
-    "average": 8.0
+    "bgg_rating": 8.0
   },
   {
     "id": "385761",
@@ -42,7 +42,7 @@
     "minplayers": 2,
     "maxplayers": 6,
     "playingtime": 30,
-    "average": 7.6
+    "bgg_rating": 7.6
   },
   {
     "id": "391163",
@@ -51,7 +51,7 @@
     "minplayers": 2,
     "maxplayers": 5,
     "playingtime": 60,
-    "average": 7.7
+    "bgg_rating": 7.7
   },
   {
     "id": "414317",
@@ -60,7 +60,7 @@
     "minplayers": 1,
     "maxplayers": 4,
     "playingtime": 45,
-    "average": 8.0
+    "bgg_rating": 8.0
   },
   {
     "id": "155821",
@@ -69,7 +69,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 90,
-    "average": 7.8
+    "bgg_rating": 7.8
   },
   {
     "id": "255588",
@@ -78,7 +78,7 @@
     "minplayers": 2,
     "maxplayers": 5,
     "playingtime": 90,
-    "average": 8.2
+    "bgg_rating": 8.2
   },
   {
     "id": "374201",
@@ -87,7 +87,7 @@
     "minplayers": 1,
     "maxplayers": 4,
     "playingtime": 45,
-    "average": 7.2
+    "bgg_rating": 7.2
   },
   {
     "id": "284653",
@@ -96,7 +96,7 @@
     "minplayers": 1,
     "maxplayers": 5,
     "playingtime": 60,
-    "average": 7.8
+    "bgg_rating": 7.8
   },
   {
     "id": "378476",
@@ -105,7 +105,7 @@
     "minplayers": 1,
     "maxplayers": 4,
     "playingtime": 90,
-    "average": 7.4
+    "bgg_rating": 7.4
   },
   {
     "id": "194879",
@@ -114,7 +114,7 @@
     "minplayers": 2,
     "maxplayers": 7,
     "playingtime": 45,
-    "average": 7.0
+    "bgg_rating": 7.0
   },
   {
     "id": "30549",
@@ -123,7 +123,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 45,
-    "average": 7.5
+    "bgg_rating": 7.5
   },
   {
     "id": "276498",
@@ -132,7 +132,7 @@
     "minplayers": 2,
     "maxplayers": 2,
     "playingtime": 30,
-    "average": 7.2
+    "bgg_rating": 7.2
   },
   {
     "id": "260180",
@@ -141,7 +141,7 @@
     "minplayers": 1,
     "maxplayers": 4,
     "playingtime": 40,
-    "average": 7.5
+    "bgg_rating": 7.5
   },
   {
     "id": "329465",
@@ -150,7 +150,7 @@
     "minplayers": 1,
     "maxplayers": 6,
     "playingtime": 60,
-    "average": 7.0
+    "bgg_rating": 7.0
   },
   {
     "id": "350637",
@@ -159,7 +159,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 20,
-    "average": 7.3
+    "bgg_rating": 7.3
   },
   {
     "id": "367220",
@@ -168,7 +168,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 45,
-    "average": 7.5
+    "bgg_rating": 7.5
   },
   {
     "id": "313262",
@@ -177,7 +177,7 @@
     "minplayers": 3,
     "maxplayers": 5,
     "playingtime": 60,
-    "average": 6.9
+    "bgg_rating": 6.9
   },
   {
     "id": "268620",
@@ -186,7 +186,7 @@
     "minplayers": 2,
     "maxplayers": 8,
     "playingtime": 15,
-    "average": 6.8
+    "bgg_rating": 6.8
   },
   {
     "id": "335764",
@@ -195,7 +195,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 40,
-    "average": 8.2
+    "bgg_rating": 8.2
   },
   {
     "id": "354544",
@@ -204,7 +204,7 @@
     "minplayers": 2,
     "maxplayers": 2,
     "playingtime": 20,
-    "average": 8.2
+    "bgg_rating": 8.2
   },
   {
     "id": "325635",
@@ -213,7 +213,7 @@
     "minplayers": 2,
     "maxplayers": 2,
     "playingtime": 20,
-    "average": 8.1
+    "bgg_rating": 8.1
   },
   {
     "id": "385529",
@@ -222,7 +222,7 @@
     "minplayers": 2,
     "maxplayers": 4,
     "playingtime": 45,
-    "average": 7.6
+    "bgg_rating": 7.6
   },
   {
     "id": "266192",
@@ -231,7 +231,7 @@
     "minplayers": 1,
     "maxplayers": 5,
     "playingtime": 70,
-    "average": 8.0
+    "bgg_rating": 8.0
   },
   {
     "id": "146548",
@@ -240,6 +240,6 @@
     "minplayers": 4,
     "maxplayers": 7,
     "playingtime": 30,
-    "average": 6.4
+    "bgg_rating": 6.4
   }
 ]
