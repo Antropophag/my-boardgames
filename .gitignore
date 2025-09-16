@@ -1,4 +1,29 @@
-data/*.json
-!data/games.json
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.env
+*.venv
+env/
+venv/
+*.egg-info/
+
+# Data
+data/*
+!data/games.json   # разрешаем добавлять games.json в коммит
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node / Web (если есть)
+node_modules/
+dist/
+build/
+
+# VS Code
+.vscode/
