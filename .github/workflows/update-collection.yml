@@ -1,42 +1,56 @@
 name: Update BGG collection
 
 on:
-  workflow_dispatch:   # ручной запуск
+  workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *'  # ежедневный запуск
+    - cron: '0 12 * * *'
 
 jobs:
   update:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Забираем репозиторий
+      # 1️⃣ Checkout репозитория без сохранения creds
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: false
 
-      # 2️⃣ Настраиваем Python
+      # 2️⃣ Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
-      # 3️⃣ Устанавливаем зависимости
+      # 3️⃣ Dependencies
       - name: Install dependencies
         run: pip install requests
 
-      # 4️⃣ Запускаем скрипт для скачивания коллекции
+      # 4️⃣ Fetch collection
       - name: Fetch BGG collection
-        run: python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json
+        run: |
+          python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json
 
-      # 5️⃣ Коммитим и пушим JSON
+      # 5️⃣ Debug GH_TOKEN
+      - name: Check GH_TOKEN
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "❌ GH_TOKEN is empty"
+            exit 1
+          else
+            echo "✅ GH_TOKEN ok, length: ${#GH_TOKEN}"
+          fi
+
+      # 6️⃣ Commit & Push через токен
       - name: Commit and push changes
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}  # PAT с правами repo
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # Подставляем PAT в remote URL
           git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/Antropophag/my-boardgames.git
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
-          git push origin main
+          git push origin main --force
