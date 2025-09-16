@@ -1,84 +1,60 @@
 import requests
 import xml.etree.ElementTree as ET
 import json
-import os
-import argparse
 import time
 
-def get_int(elem, default=0):
-    return int(elem.text) if elem is not None and elem.text else default
-
 def fetch_collection(username):
-    url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&subtype=boardgame&stats=1"
-    print(f"Fetching collection for {username}...")
+    url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&own=1&subtype=boardgame&stats=1"
+    
+    while True:
+        res = requests.get(url)
+        root = ET.fromstring(res.content)
 
-    retries = 10
-    while retries > 0:
-        r = requests.get(url)
-        if r.status_code == 202:
-            print("Collection not ready, waiting 10s...")
-            time.sleep(10)
-            retries -= 1
+        if root.attrib.get('termsofuse'):
+            # Если API ещё не готово, ждем
+            print("Collection not ready, waiting 5s...")
+            time.sleep(5)
         else:
             break
-    if r.status_code != 200:
-        raise Exception(f"Failed to fetch collection, status {r.status_code}")
 
-    root = ET.fromstring(r.content)
-
-    own_games = []
-    wishlist_games = []
+    own = []
+    wishlist = []
 
     for item in root.findall('item'):
-        name_elem = item.find('name')
-        minp = get_int(item.find('minplayers'))
-        maxp = get_int(item.find('maxplayers'))
-        time_play = get_int(item.find('playingtime'))
+        game_id = item.get('objectid')
+        name = item.find('name').text
+        image = item.find('image').text
 
-        game_data = {
-            "id": item.get('objectid'),
-            "name": name_elem.text if name_elem is not None else "Unknown",
-            "minplayers": minp,
-            "maxplayers": maxp,
-            "playingtime": time_play,
-            "image": item.find('image').text if item.find('image') is not None else "",
-        }
-
-        # рейтинг Average
         stats = item.find('stats')
-        rating = 0.0
+        average = 0.0
         if stats is not None:
             ratings = stats.find('ratings')
             if ratings is not None:
-                avg = ratings.find('average')
-                if avg is not None and avg.get('value') not in (None, 'N/A'):
-                    rating = round(float(avg.get('value')), 1)
-        game_data["bgg_rating"] = rating
+                avg_tag = ratings.find('average')
+                if avg_tag is not None:
+                    try:
+                        average = float(avg_tag.get('value', 0.0))
+                    except ValueError:
+                        average = 0.0
 
-        # статус игры
-        status = item.find('status')
-        if status is not None:
-            if status.get('own') == '1':
-                own_games.append(game_data)
-            elif status.get('wishlist') == '1':
-                wishlist_games.append(game_data)
+        own.append({
+            "id": game_id,
+            "name": name,
+            "minplayers": int(item.find('minplayers').text or 0),
+            "maxplayers": int(item.find('maxplayers').text or 0),
+            "playingtime": int(item.find('playingtime').text or 0),
+            "image": image,
+            "average": average
+        })
 
-    return own_games, wishlist_games
+    return {"own": own, "wishlist": wishlist}
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--username', required=True)
-    parser.add_argument('--out', default='data/games.json')
-    args = parser.parse_args()
-
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
-
-    own, wishlist = fetch_collection(args.username)
-
-    with open(args.out, 'w', encoding='utf-8') as f:
-        json.dump({"own": own, "wishlist": wishlist}, f, ensure_ascii=False, indent=2)
-
-    print(f"Saved {len(own)} owned games and {len(wishlist)} wishlist games to {args.out}")
+    username = "Antropophag"
+    collection = fetch_collection(username)
+    with open("data/games.json", "w", encoding="utf-8") as f:
+        json.dump(collection, f, ensure_ascii=False, indent=2)
+    print("Collection saved to data/games.json")
 
 if __name__ == "__main__":
     main()
