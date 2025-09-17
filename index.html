@@ -1,123 +1,107 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<title>Play with me</title>
-
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Boardgames</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; overflow-x:hidden; }
-  .mosaic { width:100%; margin-bottom:40px; }
-  .grid-sizer, .game { width:20%; } /* 5 колонок */
-  .game { position:relative; overflow:hidden; }
-  .game img { width:100%; display:block; transition:transform .28s ease; }
-  .game:hover img { transform:scale(1.05); }
+body { font-family: 'Roboto', sans-serif; background:#111; color:#fff; margin:0; padding:20px; }
+h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 
-  /* overlay: фиксированная высота, 6 строк текста, показывается только при hover */
-  :root { --overlay-lines: 6; --line-h: 1.2em; }
-  .overlay {
-    position:absolute;
-    left:0; right:0; bottom:0;
-    height: calc(var(--overlay-lines) * var(--line-h) + 26px);
-    background: rgba(0,0,0,0.72);
-    color:#fff;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    align-items:flex-start;
-    text-align:left;
-    padding:10px;
-    opacity:0;
-    transition:opacity .18s ease;
-  }
-  .game:hover .overlay { opacity:1; }
+.mosaic { width:100%; margin-bottom:40px; display:flex; flex-wrap:wrap; transition: all 0.3s ease; }
+.grid-sizer, .game { width:20%; transition: width 0.3s ease; }
+.game { position:relative; overflow:hidden; margin:0; }
+.game img { width:100%; display:block; transition:transform .28s ease; }
+.game:hover img { transform:scale(1.05); }
 
-  .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
-  .overlay p { margin:2px 0; font-size:12px; }
+.overlay {
+  position:absolute; left:0; right:0; bottom:0;
+  height:calc(4 * 1.2em + 20px); /* 4 строки текста */
+  background:rgba(0,0,0,0.72);
+  color:#fff;
+  display:flex; flex-direction:column;
+  justify-content:flex-start; align-items:flex-start;
+  text-align:left;
+  padding:10px;
+  opacity:0;
+  transition:opacity .18s ease;
+}
+.game:hover .overlay { opacity:1; }
 
-  @media (max-width:1200px){ .grid-sizer, .game{ width:25%; } }
-  @media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } }
-  @media (max-width:600px){ .grid-sizer, .game{ width:50%; } }
-  @media (max-width:400px){ .grid-sizer, .game{ width:100%; } }
-
-  .placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#111; color:#666; }
-
-  h2.section-title { color:white; margin:30px 0 20px; font-size:28px; text-align:center; }
+.overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
+.overlay p { margin:2px 0; font-size:12px; }
 </style>
 </head>
 <body>
 
-<!-- Own (без заголовка) -->
-<div id="ownSection">
-  <div class="mosaic" id="ownMosaic"><div class="grid-sizer"></div></div>
+<h2 class="section-title">Wishlist</h2>
+<div id="wishMosaic" class="mosaic">
+  <div class="grid-sizer"></div>
 </div>
 
-<!-- Wishlist -->
-<div id="wishSection">
-  <h2 class="section-title">Wishlist</h2>
-  <div class="mosaic" id="wishMosaic"><div class="grid-sizer"></div></div>
+<h2 class="section-title">Collection</h2>
+<div id="ownMosaic" class="mosaic">
+  <div class="grid-sizer"></div>
 </div>
 
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+function loadGames(file, containerId) {
+  fetch(file)
+    .then(res => res.json())
+    .then(data => {
+      const games = data[containerId==='ownMosaic'?'own':'wishlist'];
+      const container = document.getElementById(containerId);
 
-  function placeholderDataUri(){
-    const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#666' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>`);
-    return `data:image/svg+xml;utf8,${svg}`;
-  }
+      games.forEach(game => {
+        const div = document.createElement('div');
+        div.className = 'game';
+        div.innerHTML = `
+          <img src="${game.image}" alt="${game.name}">
+          <div class="overlay">
+            <h3>${game.name}</h3>
+            <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+            <p>Время: ${game.playingtime} мин</p>
+            <p>Рейтинг: ${game.average.toFixed(2)}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
 
-  function renderMosaic(containerId, games) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '<div class="grid-sizer"></div>'; // reset
+      // динамические колонки
+      function setColumnWidth() {
+        const width = container.clientWidth;
+        let cols = 5;
+        if(width<400) cols=1;
+        else if(width<600) cols=2;
+        else if(width<900) cols=3;
+        else if(width<1200) cols=4;
 
-    if (!games || !games.length) {
-      container.innerHTML += '<p style="color:white;text-align:center;padding:20px">Нет игр.</p>';
-      return;
-    }
+        const colWidth = width / cols;
+        container.querySelectorAll('.grid-sizer, .game').forEach(el=>{
+          el.style.width = colWidth + 'px';
+        });
+      }
 
-    games.forEach(game => {
-      const div = document.createElement('div');
-      div.className = 'game';
-      const imgSrc = game.image || placeholderDataUri();
-
-      const playersText = (game.minplayers || game.minplayers === 0 ? game.minplayers : '?') + '–' + (game.maxplayers || game.maxplayers === 0 ? game.maxplayers : '?');
-      const timeText = (game.playingtime || game.playingtime === 0) ? `${game.playingtime} мин` : '?';
-      const ratingText = (typeof game.average === 'number' && isFinite(game.average)) ? game.average.toFixed(1) : '—';
-
-      div.innerHTML = `
-        <img src="${imgSrc}" alt="${escapeHtml(game.name)}">
-        <div class="overlay">
-          <h3>${escapeHtml(game.name)}</h3>
-          <p>Игроки: ${escapeHtml(playersText)}</p>
-          <p>Время: ${escapeHtml(timeText)}</p>
-          <p>Рейтинг: ${escapeHtml(ratingText)}</p>
-        </div>
-      `;
-      container.appendChild(div);
+      imagesLoaded(container, () => {
+        setColumnWidth();
+        const msnry = new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter: 0, percentPosition: false });
+        
+        // плавная перестройка при ресайзе
+        window.addEventListener('resize', () => {
+          setColumnWidth();
+          msnry.layout();
+        });
+      });
     });
+}
 
-    imagesLoaded(container, () => {
-      new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter: 0, percentPosition: true });
-    });
-  }
-
-  async function loadGames() {
-    try {
-      const res = await fetch('data/games.json');
-      if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
-      const data = await res.json();
-
-      renderMosaic('ownMosaic', data.own || []);
-      renderMosaic('wishMosaic', data.wishlist || []);
-    } catch (err) {
-      console.error(err);
-      document.body.insertAdjacentHTML('beforeend', `<p style="color:white;text-align:center;padding:20px">Ошибка загрузки games.json: ${escapeHtml(err.message||err)}</p>`);
-    }
-  }
-
-  loadGames();
+// загружаем данные
+loadGames('data/games.json', 'ownMosaic');
+loadGames('data/games.json', 'wishMosaic');
 </script>
+
 </body>
 </html>
