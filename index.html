@@ -1,81 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Board Game Collection</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="utf-8" />
+<title>Play with me</title>
+
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+<style>
+  html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; overflow-x:hidden; }
+  .mosaic { width:100%; }
+  .grid-sizer, .game { width:20%; } 
+  .game { position:relative; overflow:hidden; }
+  .game img { width:100%; display:block; transition:transform .28s ease; }
+  .game:hover img { transform:scale(1.05); }
+  .overlay {
+    position:absolute; inset:0;
+    background:rgba(0,0,0,0.62);
+    color:#fff; display:flex; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center;
+    padding:10px; opacity:0; transition:opacity .2s ease;
+  }
+  .game:hover .overlay { opacity:1; }
+  .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
+  .overlay p { margin:2px 0; font-size:12px; }
+
+  @media (max-width:1200px){ .grid-sizer, .game{ width:25%; } }
+  @media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } }
+  @media (max-width:600px){ .grid-sizer, .game{ width:50%; } }
+  @media (max-width:400px){ .grid-sizer, .game{ width:100%; } }
+
+  .loader {
+    position:fixed; left:0; right:0; top:0; bottom:0;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.92); z-index:9999;
+  }
+  .progress-track {
+    width: min(1200px, 94vw); height: 14px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 12px; overflow: hidden; position: relative;
+  }
+  .progress-fill {
+    height:100%; width:0%;
+    background: linear-gradient(90deg,#4ade80,#06b6d4);
+    transition: width 1200ms cubic-bezier(.2,.9,.2,1);
+    will-change: width;
+  }
+  .indeterminate {
+    position:absolute; left: -40%; top: 0; bottom: 0; width: 40%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    animation: indeterminate-move 1400ms linear infinite;
+  }
+  @keyframes indeterminate-move { 0% { left: -40%; } 50% { left: 50%; } 100% { left: 100%; } }
+  .loader.hidden { display:none; }
+</style>
 </head>
-<body class="bg-gray-100 p-6">
+<body>
+<div id="loader" class="loader">
+  <div class="progress-track">
+    <div id="progressFill" class="progress-fill"></div>
+    <div id="indeterminateBar" class="indeterminate" style="display:none;"></div>
+  </div>
+</div>
 
-  <h1 class="text-2xl font-bold mb-4">My Games</h1>
-  <div id="ownGames" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+<div class="mosaic" id="mosaic">
+  <div class="grid-sizer"></div>
+</div>
 
-  <h1 class="text-2xl font-bold mt-8 mb-4">Wishlist</h1>
-  <div id="wishlistGames" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+<script>
+const loader = document.getElementById('loader');
+const progressFill = document.getElementById('progressFill');
+const indeterminateBar = document.getElementById('indeterminateBar');
 
-  <script>
-    // Вставляем сюда ваш JSON
-    const data = {
-      "own": [
-        {
-          "id": "478",
-          "name": "Citadels",
-          "minplayers": 2,
-          "maxplayers": 8,
-          "playingtime": 60,
-          "image": "https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg",
-          "average": 7.05601
-        },
-        {
-          "id": "194594",
-          "name": "Dice Forge",
-          "minplayers": 2,
-          "maxplayers": 4,
-          "playingtime": 45,
-          "image": "https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg",
-          "average": 7.21625
-        }
-        // … добавь остальные игры
-      ],
-      "wishlist": [
-        {
-          "id": "358669",
-          "name": "12 Chip Trick",
-          "minplayers": 2,
-          "maxplayers": 4,
-          "playingtime": 20,
-          "image": "https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png",
-          "average": 6.82447
-        }
-        // … добавь остальные игры
-      ]
-    };
+function showLoader() { loader.classList.remove('hidden'); }
+function hideLoader() { loader.classList.add('hidden'); }
+function setDeterminate(percent) {
+  indeterminateBar.style.display='none';
+  progressFill.style.width = Math.max(0, Math.min(100, percent)) + '%';
+}
 
-    function renderGames(containerId, games) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
+// Заменяем на локальный JSON
+const gamesData = [
+  {
+    "id":"478",
+    "name":"Citadels",
+    "minplayers":2,
+    "maxplayers":8,
+    "playingtime":60,
+    "image":"https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg",
+    "average":7.06,
+    "weight":2.5
+  },
+  {
+    "id":"194594",
+    "name":"Dice Forge",
+    "minplayers":2,
+    "maxplayers":4,
+    "playingtime":45,
+    "image":"https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg",
+    "average":7.22,
+    "weight":2.3
+  },
+  {
+    "id":"358669",
+    "name":"12 Chip Trick",
+    "minplayers":2,
+    "maxplayers":4,
+    "playingtime":20,
+    "image":"https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png",
+    "average":6.82,
+    "weight":1.8
+  }
+];
 
-      games.forEach(game => {
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer";
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+function placeholderDataUri() {
+  const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#666' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>`);
+  return `data:image/svg+xml;utf8,${svg}`;
+}
 
-        card.innerHTML = `
-          <img src="${game.image}" alt="${game.name}" class="w-full h-48 object-cover">
-          <div class="p-2">
-            <h3 class="text-sm font-semibold">${game.name}</h3>
-            <p class="text-xs text-gray-500">Players: ${game.minplayers}-${game.maxplayers} | Time: ${game.playingtime} min</p>
-            <p class="text-xs text-yellow-600">Rating: ${game.average.toFixed(2)}</p>
-          </div>
-        `;
+function renderMosaic() {
+  showLoader();
+  const container = document.getElementById('mosaic');
+  container.innerHTML = '<div class="grid-sizer"></div>';
+  const total = gamesData.length;
+  gamesData.forEach((game, idx) => {
+    const div = document.createElement('div');
+    div.className = 'game';
+    const ratingText = (typeof game.average === 'number') ? game.average.toFixed(1) : '—';
+    const weightText = (typeof game.weight === 'number') ? game.weight.toFixed(1)+'/5' : '—';
+    const imgSrc = game.image || placeholderDataUri();
+    div.innerHTML = `
+      <img src="${imgSrc}" alt="${escapeHtml(game.name)}">
+      <div class="overlay">
+        <h3>${escapeHtml(game.name)}</h3>
+        <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+        <p>Время: ${game.playingtime} мин</p>
+        <p>Рейтинг: ${ratingText}</p>
+        <p>Сложность: ${weightText}</p>
+      </div>
+    `;
+    container.appendChild(div);
+    setDeterminate(Math.round(((idx+1)/total)*100));
+  });
 
-        container.appendChild(card);
-      });
-    }
+  imagesLoaded(container, function() {
+    new Masonry(container, {
+      itemSelector: '.game',
+      columnWidth: '.grid-sizer',
+      gutter:0,
+      percentPosition:true
+    });
+    hideLoader();
+  });
+}
 
-    renderGames("ownGames", data.own);
-    renderGames("wishlistGames", data.wishlist);
-  </script>
-
+renderMosaic();
+</script>
 </body>
 </html>
