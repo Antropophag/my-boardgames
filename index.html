@@ -11,8 +11,11 @@ body, html {
   background: #111;
   font-family: 'Roboto', sans-serif;
   color: #fff;
-  height: 100%;
-  width: 100%;
+}
+h2.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 30px 0 20px;
 }
 .mosaic {
   width: 100%;
@@ -24,7 +27,11 @@ body, html {
   position: relative;
   overflow: hidden;
   margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+.game.show { opacity: 1; transform: translateY(0); }
 .game img {
   width: 100%;
   display: block;
@@ -39,14 +46,14 @@ body, html {
   color: #fff;
   font-weight: bold;
   padding: 8px;
-  opacity: 0;
-  transition: opacity .2s ease;
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 .game:hover .overlay { opacity: 1; }
-.overlay h3 { margin: 0 0 4px; font-size: 14px; line-height: 1.1; }
-.overlay p { margin: 2px 0; font-size: 12px; }
+.overlay h3 { margin:0 0 4px; font-size:14px; line-height:1.1; }
+.overlay p { margin:2px 0; font-size:12px; }
 
 /* Лоадскрин */
 #loader {
@@ -67,29 +74,39 @@ body, html {
 <body>
 
 <div id="loader"><div class="loader-circle"></div></div>
-<div id="mosaic" class="mosaic"></div>
+
+<h2 class="section-title">Pre-ordered</h2>
+<div id="preMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
+<h2 class="section-title">Wishlist</h2>
+<div id="wishMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-// Определяем количество колонок по ширине устройства
 function getColumnCount() {
   return window.innerWidth < 900 ? 2 : 5;
 }
 
-function loadGames(file) {
-  const container = document.getElementById('mosaic');
+function updateColumns(container) {
+  const colWidth = container.clientWidth / getColumnCount();
+  container.querySelectorAll('.grid-sizer, .game').forEach(el => el.style.width = colWidth + 'px');
+  return colWidth;
+}
+
+function loadGames(file, containerId) {
+  const container = document.getElementById(containerId);
   fetch(file)
     .then(res => res.json())
     .then(data => {
-      const games = [...data.own, ...data.preordered, ...data.wishlist];
+      const games = containerId === 'preMosaic' ? data.preordered : data.wishlist;
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
 
         let weightColor = '#00FF00';
-        if (game.averageweight > 4) weightColor = 'red';
-        else if (game.averageweight > 3) weightColor = 'orange';
+        if(game.averageweight > 4) weightColor = 'red';
+        else if(game.averageweight > 3) weightColor = 'orange';
 
         div.innerHTML = `
           <img src="${game.image}" alt="${game.name}">
@@ -105,32 +122,34 @@ function loadGames(file) {
       });
 
       imagesLoaded(container, () => {
+        const colWidth = updateColumns(container);
         const msnry = new Masonry(container, {
           itemSelector: '.game',
-          columnWidth: container.clientWidth / getColumnCount(),
+          columnWidth: colWidth,
           gutter: 0,
           percentPosition: false
         });
 
-        // скрываем лоадскрин
+        // Показываем плитки с анимацией
+        container.querySelectorAll('.game').forEach(el => setTimeout(() => el.classList.add('show'), 50));
+
+        // Скрываем лоадскрин
         document.getElementById('loader').style.display = 'none';
 
+        // При ресайзе пересчитываем ширину
         window.addEventListener('resize', () => {
-          const colWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => el.style.width = colWidth + 'px');
-          msnry.options.columnWidth = colWidth;
+          const newColWidth = container.clientWidth / getColumnCount();
+          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+          msnry.options.columnWidth = newColWidth;
           msnry.layout();
         });
-
-        // установка ширины колонок изначально
-        const colWidth = container.clientWidth / getColumnCount();
-        container.querySelectorAll('.game').forEach(el => el.style.width = colWidth + 'px');
-        msnry.layout();
       });
     });
 }
 
-loadGames('data/games.json');
+// Загружаем обе мозаики
+loadGames('data/games.json', 'preMosaic');
+loadGames('data/games.json', 'wishMosaic');
 </script>
 </body>
 </html>
