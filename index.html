@@ -10,7 +10,7 @@
 body { font-family: 'Roboto', sans-serif; background:#111; color:#fff; margin:0; padding:20px; }
 h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 
-.mosaic { width:100%; margin-bottom:40px; display:flex; flex-wrap:wrap; transition: all 0.3s ease; }
+.mosaic { width:100%; margin-bottom:40px; display:flex; flex-wrap:wrap; }
 .grid-sizer, .game { transition: width 0.3s ease; box-sizing: border-box; }
 .game { position:relative; overflow:hidden; margin:0; }
 .game img { width:100%; display:block; transition:transform .28s ease; }
@@ -53,26 +53,16 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 </head>
 <body>
 
-<!-- Лоадскрин -->
 <div id="loader">
   <div class="loader-circle"></div>
 </div>
 
-<!-- Collection без заголовка -->
-<div id="ownMosaic" class="mosaic">
-  <div class="grid-sizer"></div>
-</div>
-
+<div id="ownMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 <h2 class="section-title">Preordered</h2>
-<div id="preMosaic" class="mosaic">
-  <div class="grid-sizer"></div>
-</div>
-
+<div id="preMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 <h2 class="section-title">Wishlist</h2>
-<div id="wishMosaic" class="mosaic">
-  <div class="grid-sizer"></div>
-</div>
-  
+<div id="wishMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
@@ -86,26 +76,23 @@ function getColumns(width) {
 function updateColumns(container) {
   const width = container.clientWidth;
   const cols = getColumns(width);
-  const colWidth = 100 / cols; // процентная ширина
+  const colWidth = Math.floor(width / cols); // ширина колонки в пикселях
   container.querySelectorAll('.grid-sizer, .game').forEach(el => { 
-    el.style.width = colWidth + '%';
-    el.style.boxSizing = 'border-box';
+    el.style.width = colWidth + 'px';
   });
+  return colWidth;
 }
 
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
-
   fetch(file)
     .then(res => res.json())
     .then(data => {
       const games = data[containerId==='ownMosaic'?'own':(containerId==='preMosaic'?'preordered':'wishlist')];
-
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
 
-        // Градация сложности
         let weightColor = '#00FF00';
         if(game.averageweight > 4) weightColor = 'red';
         else if(game.averageweight > 3) weightColor = 'orange';
@@ -125,38 +112,30 @@ function loadGames(file, containerId) {
     });
 }
 
-// Инициализация Masonry и колонок после полной загрузки страницы
 window.addEventListener('load', () => {
   ['ownMosaic','preMosaic','wishMosaic'].forEach(containerId => {
     const container = document.getElementById(containerId);
-    updateColumns(container);
+    const colWidth = updateColumns(container);
     imagesLoaded(container, () => {
       const msnry = new Masonry(container, { 
-        itemSelector: '.game', 
-        columnWidth: '.grid-sizer', 
-        gutter: 0, 
-        percentPosition: true 
+        itemSelector: '.game',
+        columnWidth: colWidth,
+        gutter: 0,
+        percentPosition: false
       });
-
       document.getElementById('loader').style.display = 'none';
-
-      // Перестройка колонок при ресайзе
       window.addEventListener('resize', () => { 
-        updateColumns(container); 
+        const colWidth = updateColumns(container);
+        msnry.options.columnWidth = colWidth;
         msnry.layout(); 
       });
-
-      // Дополнительный пересчёт через 50ms для надёжности
-      setTimeout(() => { updateColumns(container); msnry.layout(); }, 50);
     });
   });
 });
 
-// Загружаем данные
 loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
-
 </body>
 </html>
