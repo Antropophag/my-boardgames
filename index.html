@@ -9,7 +9,8 @@
 
 <style>
   html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; overflow-x:hidden; }
-  .mosaic { width:100%; }
+  h2 { color:#fff; text-align:center; margin:20px 0 10px; font-size:18px; }
+  .mosaic { width:100%; margin-bottom:40px; }
   .grid-sizer, .game { width:20%; } 
   .game { position:relative; overflow:hidden; }
   .game img { width:100%; display:block; transition:transform .28s ease; }
@@ -63,55 +64,28 @@
   </div>
 </div>
 
-<div class="mosaic" id="mosaic">
-  <div class="grid-sizer"></div>
-</div>
+<div id="ownMosaic" class="mosaic"></div>
+<h2>Wishlist</h2>
+<div id="wishMosaic" class="mosaic"></div>
 
 <script>
+// Пример games.json
+const gamesJson = {
+  "own": [
+    {"id":"478","name":"Citadels","minplayers":2,"maxplayers":8,"playingtime":60,"image":"https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg","average":7.06,"weight":2.5},
+    {"id":"194594","name":"Dice Forge","minplayers":2,"maxplayers":4,"playingtime":45,"image":"https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg","average":7.22,"weight":2.3}
+  ],
+  "wishlist": [
+    {"id":"358669","name":"12 Chip Trick","minplayers":2,"maxplayers":4,"playingtime":20,"image":"https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png","average":6.82,"weight":1.8}
+  ]
+};
+
 const loader = document.getElementById('loader');
 const progressFill = document.getElementById('progressFill');
-const indeterminateBar = document.getElementById('indeterminateBar');
 
 function showLoader() { loader.classList.remove('hidden'); }
 function hideLoader() { loader.classList.add('hidden'); }
-function setDeterminate(percent) {
-  indeterminateBar.style.display='none';
-  progressFill.style.width = Math.max(0, Math.min(100, percent)) + '%';
-}
-
-// Заменяем на локальный JSON
-const gamesData = [
-  {
-    "id":"478",
-    "name":"Citadels",
-    "minplayers":2,
-    "maxplayers":8,
-    "playingtime":60,
-    "image":"https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg",
-    "average":7.06,
-    "weight":2.5
-  },
-  {
-    "id":"194594",
-    "name":"Dice Forge",
-    "minplayers":2,
-    "maxplayers":4,
-    "playingtime":45,
-    "image":"https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg",
-    "average":7.22,
-    "weight":2.3
-  },
-  {
-    "id":"358669",
-    "name":"12 Chip Trick",
-    "minplayers":2,
-    "maxplayers":4,
-    "playingtime":20,
-    "image":"https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png",
-    "average":6.82,
-    "weight":1.8
-  }
-];
+function setDeterminate(percent) { progressFill.style.width = Math.max(0, Math.min(100, percent)) + '%'; }
 
 function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 function placeholderDataUri() {
@@ -119,12 +93,10 @@ function placeholderDataUri() {
   return `data:image/svg+xml;utf8,${svg}`;
 }
 
-function renderMosaic() {
-  showLoader();
-  const container = document.getElementById('mosaic');
+function renderMosaic(containerId, games) {
+  const container = document.getElementById(containerId);
   container.innerHTML = '<div class="grid-sizer"></div>';
-  const total = gamesData.length;
-  gamesData.forEach((game, idx) => {
+  games.forEach((game, idx) => {
     const div = document.createElement('div');
     div.className = 'game';
     const ratingText = (typeof game.average === 'number') ? game.average.toFixed(1) : '—';
@@ -141,7 +113,7 @@ function renderMosaic() {
       </div>
     `;
     container.appendChild(div);
-    setDeterminate(Math.round(((idx+1)/total)*100));
+    setDeterminate(Math.round(((idx+1)/games.length)*100));
   });
 
   imagesLoaded(container, function() {
@@ -151,11 +123,15 @@ function renderMosaic() {
       gutter:0,
       percentPosition:true
     });
-    hideLoader();
   });
 }
 
-renderMosaic();
+showLoader();
+setTimeout(() => { // имитация загрузки
+  renderMosaic('ownMosaic', gamesJson.own);
+  renderMosaic('wishMosaic', gamesJson.wishlist);
+  hideLoader();
+}, 300);
 </script>
 </body>
 </html>
