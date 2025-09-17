@@ -60,4 +60,4 @@ jobs:
       - name: Log execution
         run: |
           echo "Collection updated at $(date)"
-          cat data/games.json | head -n 10  # Показать первые 10 строк для проверки
+          cat data/games.json | head -n 20  # Показать первые 20 строк для проверки
