@@ -36,18 +36,26 @@ def fetch_averageweight_batch(ids):
     Получает averageweight (сложность) пачкой через thing API
     """
     weights = {}
-    batch_size = 50
+    batch_size = 20  # уменьшено
     for i in range(0, len(ids), batch_size):
         batch_ids = ids[i:i+batch_size]
         ids_str = ",".join(batch_ids)
-        response = requests.get(BGG_API_THING, params={"id": ids_str, "stats": 1})
-        response.raise_for_status()
+        try:
+            response = requests.get(BGG_API_THING, params={"id": ids_str, "stats": 1})
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            print(f"⚠ Error fetching batch {ids_str}: {e}")
+            time.sleep(5)
+            continue
+
         root = ET.fromstring(response.content)
         for item in root.findall("item"):
             avgweight_node = item.find("statistics/ratings/averageweight")
             avgweight = float(avgweight_node.attrib.get("value")) if avgweight_node is not None else None
             weights[item.attrib["id"]] = avgweight
-        time.sleep(5)  # пауза 5 секунд между батчами
+
+        time.sleep(5)  # пауза между батчами
+
     return weights
 
 def parse_collection(root):
