@@ -1,9 +1,10 @@
 name: Update BGG collection
 
 on:
+  # Добавляем возможность запускать вручную и по расписанию
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 * * * *'  # Запуск каждый час в 0 минут
 
 jobs:
   update:
@@ -54,3 +55,9 @@ jobs:
           git add -f data/games.json
           git commit -m "Update BGG collection" || echo "No changes to commit"
           git push origin main --force
+
+      # 7️⃣ Логирование результата
+      - name: Log execution
+        run: |
+          echo "Collection updated at $(date)"
+          cat data/games.json | head -n 10  # Показать первые 10 строк для проверки
