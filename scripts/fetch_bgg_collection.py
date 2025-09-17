@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 BGG_API_COLLECTION = "https://boardgamegeek.com/xmlapi2/collection"
 
-def fetch_collection(username, subtype="boardgame", own=1, wishlist=1):
+def fetch_collection(username, subtype="boardgame", own=1, wishlist=1, preordered=1):
     """
     Загружает коллекцию BGG пользователя и возвращает список игр для own и wishlist
     """
@@ -19,7 +19,7 @@ def fetch_collection(username, subtype="boardgame", own=1, wishlist=1):
 
     root = ET.fromstring(response.content)
 
-    data = {"own": [], "wishlist": []}
+    data = {"own": [], "wishlist": [], "preordered": []}
 
     for item in root.findall('item'):
         status = item.find('status')
@@ -30,6 +30,8 @@ def fetch_collection(username, subtype="boardgame", own=1, wishlist=1):
             category = 'own'
         elif status.attrib.get('wishlist') == '1':
             category = 'wishlist'
+        elif status.attrib.get('preordered') == '1':
+            category = 'preordered'
         else:
             continue
 
