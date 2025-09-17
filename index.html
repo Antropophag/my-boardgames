@@ -76,7 +76,7 @@ function getColumns(width) {
 function updateColumns(container) {
   const width = container.clientWidth;
   const cols = getColumns(width);
-  const colWidth = Math.floor(width / cols); // ширина колонки в пикселях
+  const colWidth = Math.floor(width / cols);
   container.querySelectorAll('.grid-sizer, .game').forEach(el => { 
     el.style.width = colWidth + 'px';
   });
@@ -115,19 +115,21 @@ function loadGames(file, containerId) {
 window.addEventListener('load', () => {
   ['ownMosaic','preMosaic','wishMosaic'].forEach(containerId => {
     const container = document.getElementById(containerId);
-    const colWidth = updateColumns(container);
     imagesLoaded(container, () => {
-      const msnry = new Masonry(container, { 
+      const colWidth = updateColumns(container);
+      const msnry = new Masonry(container, {
         itemSelector: '.game',
         columnWidth: colWidth,
         gutter: 0,
         percentPosition: false
       });
+
       document.getElementById('loader').style.display = 'none';
-      window.addEventListener('resize', () => { 
+
+      window.addEventListener('resize', () => {
         const colWidth = updateColumns(container);
         msnry.options.columnWidth = colWidth;
-        msnry.layout(); 
+        msnry.layout();
       });
     });
   });
@@ -137,5 +139,6 @@ loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
+
 </body>
 </html>
