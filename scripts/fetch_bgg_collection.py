@@ -2,26 +2,41 @@ import argparse
 import json
 import requests
 import xml.etree.ElementTree as ET
+import time
 
 BGG_API_COLLECTION = "https://boardgamegeek.com/xmlapi2/collection"
 
-def fetch_collection(username, subtype="boardgame"):
+def fetch_collection(username, subtype="boardgame", own=1, wishlist=1, preordered=1, max_retries=5, retry_delay=5):
     """
-    Загружает коллекцию BGG пользователя и возвращает список игр для own, wishlist и preordered
+    Загружает коллекцию BGG пользователя и возвращает список игр для own, wishlist и preordered.
+    Делает повторные попытки, если API вернул пустой ответ.
     """
     params = {
         "username": username,
         "subtype": subtype,
-        "stats": 1,  # чтобы подтягивались min/max players, playingtime, рейтинг и averageweight
+        "stats": 1,  # подтягиваются min/max players, playingtime, рейтинг, средний вес
     }
-    response = requests.get(BGG_API_COLLECTION, params=params)
-    response.raise_for_status()
 
-    root = ET.fromstring(response.content)
+    for attempt in range(max_retries):
+        response = requests.get(BGG_API_COLLECTION, params=params)
+        if response.status_code != 200:
+            print(f"❌ Ошибка запроса: {response.status_code}")
+            time.sleep(retry_delay)
+            continue
+
+        root = ET.fromstring(response.content)
+        items = root.findall('item')
+        if items:
+            break  # Успешно получили коллекцию
+        else:
+            print(f"⚠ Пустой ответ, повторная попытка {attempt + 1}/{max_retries}")
+            time.sleep(retry_delay)
+    else:
+        raise RuntimeError("Не удалось получить коллекцию после нескольких попыток")
 
     data = {"own": [], "wishlist": [], "preordered": []}
 
-    for item in root.findall('item'):
+    for item in items:
         status = item.find('status')
         if status is None:
             continue
@@ -40,11 +55,12 @@ def fetch_collection(username, subtype="boardgame"):
             minplayers = int(stats.attrib.get('minplayers', 0))
             maxplayers = int(stats.attrib.get('maxplayers', 0))
             playingtime = int(stats.attrib.get('playingtime', 0))
+
             rating_node = stats.find('rating/average')
             average = float(rating_node.attrib.get('value', 0)) if rating_node is not None else 0.0
 
-            weight_node = stats.find('averageweight')
-            averageweight = float(weight_node.text) if weight_node is not None else None
+            weight_node = stats.find('rating/averageweight')
+            averageweight = float(weight_node.attrib.get('value')) if weight_node is not None else None
         else:
             minplayers = maxplayers = playingtime = 0
             average = 0.0
@@ -79,7 +95,7 @@ def main():
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(collection, f, ensure_ascii=False, indent=2)
 
-    print(f"Collection saved to {args.out}")
+    print(f"✅ Collection saved to {args.out}")
 
 if __name__ == "__main__":
     main()
