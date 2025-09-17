@@ -65,6 +65,12 @@ function loadGames(file, containerId) {
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
+        
+// Определяем цвет сложности
+let weightColor = 'green';
+if(game.averageweight > 3.5) weightColor = 'red';
+else if(game.averageweight > 2) weightColor = 'orange';
+
 div.innerHTML = `
   <img src="${game.image}" alt="${game.name}">
   <div class="overlay">
@@ -72,7 +78,7 @@ div.innerHTML = `
     <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
     <p>Время: ${game.playingtime} мин</p>
     <p>Рейтинг: ${game.average.toFixed(2)}</p>
-    <p>Сложность: ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</p>
+    <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
   </div>
         `;
         container.appendChild(div);
