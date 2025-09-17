@@ -27,25 +27,36 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
   padding:10px;
   opacity:0;
   transition:opacity .18s ease;
-  font-weight: bold; /* весь текст жирный */
+  font-weight: bold;
 }
 .game:hover .overlay { opacity:1; }
 
 .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
 .overlay p { margin:2px 0; font-size:12px; }
 
-/* Лоадскрин */
+/* Минималистичный лоадскрин */
 #loader {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:#111; color:#fff; display:flex;
-  align-items:center; justify-content:center; font-size:24px; z-index:9999;
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background:#111;
+  display:flex; align-items:center; justify-content:center;
+  z-index:9999;
 }
+.loader-circle {
+  width:50px; height:50px;
+  border:5px solid #333;
+  border-top:5px solid #00FF00;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
 </style>
 </head>
 <body>
 
 <!-- Лоадскрин -->
-<div id="loader">Загрузка...</div>
+<div id="loader">
+  <div class="loader-circle"></div>
+</div>
 
 <!-- Collection без заголовка -->
 <div id="ownMosaic" class="mosaic">
@@ -67,8 +78,9 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 <script>
 function getColumns(width) {
   if(width < 900) return 2;
-  else if(width < 1200) return 4;
-  else return 5;
+  if(width < 1200) return 4;
+  if(width < 1600) return 5;
+  return 6; // сверхширокие экраны
 }
 
 function loadGames(file, containerId) {
@@ -85,15 +97,15 @@ function loadGames(file, containerId) {
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
-        div.style.width = colWidth + 'px'; // сразу ставим ширину
+        div.style.width = colWidth + 'px';
 
-        // Определяем цвет сложности
+        // Градация сложности
         let weightColor = '#00FF00'; // ярко-зелёный
-        if(game.averageweight > 3.5) weightColor = 'red';
-        else if(game.averageweight > 2) weightColor = 'orange';
+        if(game.averageweight > 4) weightColor = 'red';
+        else if(game.averageweight > 3) weightColor = 'orange';
 
         div.innerHTML = `
-          <img src="${game.image}" alt="${game.name}">
+          <img src="${game.image}" alt="${game.name}" loading="lazy">
           <div class="overlay">
             <h3>${game.name}</h3>
             <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
@@ -105,14 +117,13 @@ function loadGames(file, containerId) {
         container.appendChild(div);
       });
 
-      // ждем полной загрузки изображений
       imagesLoaded(container, () => {
         const msnry = new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter: 0, percentPosition: false });
 
-        // скрываем лоадскрин после загрузки
+        // Скрываем лоадскрин после полной загрузки
         document.getElementById('loader').style.display = 'none';
 
-        // плавная перестройка при ресайзе
+        // Перестройка колонок при ресайзе
         window.addEventListener('resize', () => {
           const width = container.clientWidth;
           const cols = getColumns(width);
@@ -124,7 +135,7 @@ function loadGames(file, containerId) {
     });
 }
 
-// загружаем данные
+// Загружаем данные
 loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
