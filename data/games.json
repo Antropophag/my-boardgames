@@ -3,589 +3,589 @@
     {
       "id": "478",
       "name": "Citadels",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 8,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg",
-      "average": 0.0
+      "average": 7.05601
     },
     {
       "id": "194594",
       "name": "Dice Forge",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg",
-      "average": 0.0
+      "average": 7.21625
     },
     {
       "id": "258003",
       "name": "Dice Forge: Rebellion",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 40,
       "image": "https://cf.geekdo-images.com/JYefnEWBuVJ_d4cbA2W9Sg__original/img/BDXJdkI0AvkTeoopt8loiMJV08I=/0x0/filters:format(jpeg)/pic4347678.jpg",
-      "average": 0.0
+      "average": 7.57351
     },
     {
       "id": "199792",
       "name": "Everdell",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 80,
       "image": "https://cf.geekdo-images.com/fjE7V5LNq31yVEW_yuqI-Q__original/img/HQ1ti16wT9lqja5_h3gUfHUIcVI=/0x0/filters:format(png)/pic3918905.png",
-      "average": 0.0
+      "average": 7.99628
     },
     {
       "id": "385761",
       "name": "Faraway",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 30,
       "image": "https://cf.geekdo-images.com/u1cwi9BWSKsPxSkVO0BzbA__original/img/jTY6_PRF6FrUgInfMajzobVy0S8=/0x0/filters:format(png)/pic7570101.png",
-      "average": 0.0
+      "average": 7.55805
     },
     {
       "id": "391163",
       "name": "Forest Shuffle",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/08bC8NviSTNc4Zvur4pueA__original/img/GcBtTHjdPXagHE-IOCpQ0he6rN4=/0x0/filters:format(jpeg)/pic7578350.jpg",
-      "average": 0.0
+      "average": 7.73003
     },
     {
       "id": "414317",
       "name": "Harmonies",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/A_XP2_VN3ugyqPhezowB_w__original/img/_Rv8lSr3fC1oDRkrQleQW2H2yCs=/0x0/filters:format(png)/pic8026369.png",
-      "average": 0.0
+      "average": 8.02397
     },
     {
       "id": "155821",
       "name": "Inis",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/6QE8mnPFmauoj2THsyUYPA__original/img/6bZdn1SNbpIqU7n5pwtncvdNE_U=/0x0/filters:format(jpeg)/pic4739757.jpg",
-      "average": 0.0
+      "average": 7.81968
     },
     {
       "id": "255588",
       "name": "Inis: Seasons of Inis",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/gqL5T711IcXMTR-KBNmaKQ__original/img/2Mui9yyfV8khht9q4Uk51flM_L4=/0x0/filters:format(jpeg)/pic4226123.jpg",
-      "average": 0.0
+      "average": 8.17219
     },
     {
       "id": "374201",
       "name": "Lata",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/7eFKLGEMBAELQLTS2ECgMA__original/img/b23BPr4G1SepaQNFwURMfWn_e5E=/0x0/filters:format(jpeg)/pic7358600.jpg",
-      "average": 0.0
+      "average": 7.17407
     },
     {
       "id": "284653",
       "name": "Mind MGMT: The Psychic Espionage “Game.”",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/hYP-VIJGRFR8yB78-UN7Rg__original/img/3vUqoYuF2SrVU0n752sfU3bBhHc=/0x0/filters:format(jpeg)/pic5154610.jpg",
-      "average": 0.0
+      "average": 7.82617
     },
     {
       "id": "378476",
       "name": "Mycelia",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/0DDStf5eJUgtSpBzXyYhig__original/img/r1xCqjeUl2kok4IbcpdFpYiSmx4=/0x0/filters:format(jpeg)/pic7431245.jpg",
-      "average": 0.0
+      "average": 7.3767
     },
     {
       "id": "194879",
       "name": "Not Alone",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 7,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/2nPAI9x1rOjj2fq30qRFvQ__original/img/Sc9SmhfC5cLiDdXeY9HOQphCKcQ=/0x0/filters:format(jpeg)/pic3118416.jpg",
-      "average": 0.0
+      "average": 6.96095
     },
     {
       "id": "30549",
       "name": "Pandemic",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/S3ybV1LAp-8SnHIXLLjVqA__original/img/IsrvRLpUV1TEyZsO5rC-btXaPz0=/0x0/filters:format(jpeg)/pic1534148.jpg",
-      "average": 0.0
+      "average": 7.52093
     },
     {
       "id": "276498",
       "name": "Paris: La Cité de la Lumière",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 30,
       "image": "https://cf.geekdo-images.com/6mIsd0NbfluAAZxwS-3P8Q__original/img/NB6DNhFOUVEcrF-FcjSBBTLcU6Y=/0x0/filters:format(jpeg)/pic4664437.jpg",
-      "average": 0.0
+      "average": 7.24146
     },
     {
       "id": "260180",
       "name": "Project L",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 40,
       "image": "https://cf.geekdo-images.com/Zwx2ZXS6r6PaxhkaVEe75Q__original/img/nBfsV9V5a-xc3uJkYhE0DN-QVjI=/0x0/filters:format(jpeg)/pic4309147.jpg",
-      "average": 0.0
+      "average": 7.46055
     },
     {
       "id": "329465",
       "name": "Red Rising",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 6,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/V6QEXXgRgz3urOrRVZ_1zA__original/img/Gp9hIVv-zRxlkrO5Pmg3aXb4P1M=/0x0/filters:format(jpeg)/pic5960554.jpg",
-      "average": 0.0
+      "average": 6.9701
     },
     {
       "id": "350637",
       "name": "Regroup! Chicken Army",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/kodOl_ef_-__fhAbjf_19g__original/img/m1Pz_00AsUf8HVRk9zSg09l1iQA=/0x0/filters:format(jpeg)/pic6983608.jpg",
-      "average": 0.0
+      "average": 7.30225
     },
     {
       "id": "367220",
       "name": "Sea Salt & Paper",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/CIh_rXKoRw9z8K0PJxT8nQ__original/img/AX2wyHhWFgVh5OArXAjVHY-nFZg=/0x0/filters:format(jpeg)/pic6973911.jpg",
-      "average": 0.0
+      "average": 7.50081
     },
     {
       "id": "313262",
       "name": "Shamans",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 3,
+      "maxplayers": 5,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/BNmYPPip0PZBPx9qJCEUxA__original/img/Xw4rULooxkzXr-px2P2a1naITIk=/0x0/filters:format(jpeg)/pic6021323.jpg",
-      "average": 0.0
+      "average": 6.87335
     },
     {
       "id": "268620",
       "name": "Similo",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 8,
+      "playingtime": 15,
       "image": "https://cf.geekdo-images.com/fl0hNCmltu2hpcmXaVnmLg__original/img/1kS0DQYV4y8HQdAmSlNhOW01Lhg=/0x0/filters:format(png)/pic6417388.png",
-      "average": 0.0
+      "average": 6.81461
     },
     {
       "id": "335764",
       "name": "Unmatched: Battle of Legends, Volume Two",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 40,
       "image": "https://cf.geekdo-images.com/_N9ueJu-Vaq656p7HSI9sw__original/img/fa9W5Vt7oNkH2j33U6K7RMHwqlI=/0x0/filters:format(jpeg)/pic6267930.jpg",
-      "average": 0.0
+      "average": 8.23259
     },
     {
       "id": "354544",
       "name": "Unmatched: Houdini vs. The Genie",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/hKve9gkleO4Kp9T1vnJVEg__original/img/4GhAC35Y7YCsQNSZE_IPAzlwKIw=/0x0/filters:format(jpeg)/pic6918007.jpg",
-      "average": 0.0
+      "average": 8.23062
     },
     {
       "id": "325635",
       "name": "Unmatched: Little Red Riding Hood vs. Beowulf",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/7CFgBadtCNf5Mzi1nsrL2Q__original/img/Iv0VzhyEa74-sGfbtt9nwrRKZlw=/0x0/filters:format(jpeg)/pic5822480.jpg",
-      "average": 0.0
+      "average": 8.08409
     },
     {
       "id": "385529",
       "name": "The Vale of Eternity",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/yWwckUmFXuGXxp41-vFaVQ__original/img/FHotXyNFHc3pC2fcu5i8HjrVis4=/0x0/filters:format(png)/pic7461472.png",
-      "average": 0.0
+      "average": 7.60836
     },
     {
       "id": "266192",
       "name": "Wingspan",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 70,
       "image": "https://cf.geekdo-images.com/yLZJCVLlIx4c7eJEWUNJ7w__original/img/cI782Zis9cT66j2MjSHKJGnFPNw=/0x0/filters:format(jpeg)/pic4458123.jpg",
-      "average": 0.0
+      "average": 8.01238
     },
     {
       "id": "146548",
       "name": "Имаджинариум (Imaginarium)",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 4,
+      "maxplayers": 7,
+      "playingtime": 30,
       "image": "https://cf.geekdo-images.com/1s0WlZKmwOM9bIc7njBzsg__original/img/w10INN_OPmVGcOaN1cbkFKILR5k=/0x0/filters:format(png)/pic1917812.png",
-      "average": 0.0
+      "average": 6.37697
     }
   ],
   "wishlist": [
     {
       "id": "358669",
       "name": "12 Chip Trick",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png",
-      "average": 0.0
+      "average": 6.82447
     },
     {
       "id": "152230",
       "name": "Argent: Mancers of the University",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 180,
       "image": "https://cf.geekdo-images.com/xDNC6UurtXYm5ntkkAKyyA__original/img/A4mI9DNK1SF7vqKYUGK7bLO0wJY=/0x0/filters:format(jpeg)/pic5880634.jpg",
-      "average": 0.0
+      "average": 8.07576
     },
     {
       "id": "144797",
       "name": "Argent: The Consortium",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 150,
       "image": "https://cf.geekdo-images.com/g8Ixp3odG02BcW2z2iOVLw__original/img/N5dCYOrhxOynL7EAHQrajLygznw=/0x0/filters:format(jpeg)/pic2336020.jpg",
-      "average": 0.0
+      "average": 7.60996
     },
     {
       "id": "170216",
       "name": "Blood Rage",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/HkZSJfQnZ3EpS214xtuplg__original/img/Myy6IPDJDzLoPdXrPXVZcddBQoQ=/0x0/filters:format(jpeg)/pic2439223.jpg",
-      "average": 0.0
+      "average": 7.90779
     },
     {
       "id": "180593",
       "name": "The Bloody Inn",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/GTUmt2ViVzJOT4ZKXbq2Zg__original/img/8dJoI4olAHxnPu7n4PiXTmyGJ20=/0x0/filters:format(jpeg)/pic2618699.jpg",
-      "average": 0.0
+      "average": 7.06491
     },
     {
       "id": "332386",
       "name": "Brew",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/8eN5t1p4ncee-eVN9NswDA__original/img/Hhv8kruqZZH1vv5W7gR7QXNZ_KM=/0x0/filters:format(png)/pic6007253.png",
-      "average": 0.0
+      "average": 7.04317
     },
     {
       "id": "822",
       "name": "Carcassonne",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/okM0dq_bEXnbyQTOvHfwRA__original/img/aVZEXAI-cUtuunNfPhjeHlS4fwQ=/0x0/filters:format(png)/pic6544250.png",
-      "average": 0.0
+      "average": 7.41273
     },
     {
       "id": "105593",
       "name": "Cheating Moth",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 3,
+      "maxplayers": 5,
+      "playingtime": 30,
       "image": "https://cf.geekdo-images.com/7w7ht4bmAnu0j-_qgcYPiQ__original/img/C1hf_pbsGvD5HP-N0iHME_HSH1E=/0x0/filters:format(jpeg)/pic2220182.jpg",
-      "average": 0.0
+      "average": 6.40892
     },
     {
       "id": "402283",
       "name": "Courtisans",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 30,
       "image": "https://cf.geekdo-images.com/JK1HbIGtiVfsIbnw3Q543w__original/img/kPNCItrb8GwoIwV9R-vjczIkJR4=/0x0/filters:format(jpeg)/pic8004908.jpg",
-      "average": 0.0
+      "average": 7.27411
     },
     {
       "id": "410722",
       "name": "Dark Romance",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/np8mppjKkTyZ9tu0j_X5uQ__original/img/xoreKMQNyX97VnCUau1bbetUNRg=/0x0/filters:format(jpeg)/pic8688519.jpg",
-      "average": 0.0
+      "average": 8.35714
     },
     {
       "id": "344554",
       "name": "Décorum",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/R7bXwsuwemPYXs7q6EkXhw__original/img/jBwrFnSbr05NpsnfcCxpP2G6sq8=/0x0/filters:format(jpeg)/pic6393337.jpg",
-      "average": 0.0
+      "average": 7.38569
     },
     {
       "id": "370591",
       "name": "Dorfromantik: The Board Game",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 6,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/Nqw3SzV4JDd64lcDgytPEg__original/img/CK6xh0d01jIC7WOIGALHZCDli34=/0x0/filters:format(jpeg)/pic7227691.jpg",
-      "average": 0.0
+      "average": 7.61316
     },
     {
       "id": "381278",
       "name": "Dracula vs Van Helsing",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/RbNAitZatR7g82u_9OBV8A__original/img/z2leJtn83aYVYDepcIb9srAjM3I=/0x0/filters:format(jpeg)/pic7453834.jpg",
-      "average": 0.0
+      "average": 7.39379
     },
     {
       "id": "293207",
       "name": "Eila and Something Shiny",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 1,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/ddeXV_p59xHZJtIyNSclvg__original/img/tZc2EYPuGTzURBV786LypUP8Cvs=/0x0/filters:format(jpeg)/pic5391049.jpg",
-      "average": 0.0
+      "average": 7.9461
     },
     {
       "id": "163839",
       "name": "Feudum",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 180,
       "image": "https://cf.geekdo-images.com/6H7GL6Ce6CIz-_bcFG2zxw__original/img/UCPviE7xHksmvIoAOa50KDbVxRc=/0x0/filters:format(jpeg)/pic3074532.jpg",
-      "average": 0.0
+      "average": 7.59516
     },
     {
       "id": "384213",
       "name": "Fromage",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/h87Ft6qXbzwPifN7WGnx2Q__original/img/X5va643QzqHpbIJIPUGv5jp4qGs=/0x0/filters:format(jpeg)/pic7452200.jpg",
-      "average": 0.0
+      "average": 7.68092
     },
     {
       "id": "265188",
       "name": "Glen More II: Chronicles",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 120,
       "image": "https://cf.geekdo-images.com/sMRuph3HFUcaSpJZihGZKw__original/img/ehoqoTirtFb5p9Wk2SwWV8nr6ZU=/0x0/filters:format(jpeg)/pic5841874.jpg",
-      "average": 0.0
+      "average": 7.87263
     },
     {
       "id": "158600",
       "name": "Hanamikoji",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 15,
       "image": "https://cf.geekdo-images.com/uiVZ7QVfRFQx3EBG8eDU8w__original/img/tLBrF40IDpARzoiUor4wwUvWXgY=/0x0/filters:format(png)/pic6339446.png",
-      "average": 0.0
+      "average": 7.46014
     },
     {
       "id": "320718",
       "name": "Hidden Leaders",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 40,
       "image": "https://cf.geekdo-images.com/vDu0Zb4ooGEOF29ZaRQ3EQ__original/img/SP1CFuPlOKKOVtz66o1nKQwBS3o=/0x0/filters:format(jpeg)/pic5845169.jpg",
-      "average": 0.0
+      "average": 6.72897
     },
     {
       "id": "409572",
       "name": "Intent to Kill",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/rLYd41kjq4ku8Yjqc7k-Ng__original/img/6wbFJvdlwWQM5vv1hZc5b2e3zxY=/0x0/filters:format(png)/pic8630018.png",
-      "average": 0.0
+      "average": 7.64151
     },
     {
       "id": "333255",
       "name": "Keep the Heroes Out!",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 40,
       "image": "https://cf.geekdo-images.com/lfFKMNCzIJesp8IFHK8dEw__original/img/qtWs6Wg0a241k2D1TWWbesVwu-s=/0x0/filters:format(jpeg)/pic6985339.jpg",
-      "average": 0.0
+      "average": 7.92426
     },
     {
       "id": "277700",
       "name": "Merchants Cove",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/-JD8JLncWYMes9Q6YIgorg__original/img/HkR7hlj4qqYD1oUvKXeyCLKjsKE=/0x0/filters:format(jpeg)/pic6136538.jpg",
-      "average": 0.0
+      "average": 7.40481
     },
     {
       "id": "291572",
       "name": "Oath",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 6,
+      "playingtime": 150,
       "image": "https://cf.geekdo-images.com/gTxav_KKQK1rDg-XuCjCSA__original/img/lG-iXVzDlfFrD6VPggvg2WQ7228=/0x0/filters:format(jpeg)/pic5164812.jpg",
-      "average": 0.0
+      "average": 7.7316
     },
     {
       "id": "181687",
       "name": "The Pursuit of Happiness",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/RpUStaAwneWPT_JQJpAb1Q__original/img/-v7vEfHCJptqJSMPeNOf5ovy5zY=/0x0/filters:format(jpeg)/pic2853682.jpg",
-      "average": 0.0
+      "average": 7.16267
     },
     {
       "id": "194655",
       "name": "Santorini",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/665Ply7Ho1WVf1v1iZlWeg__original/img/4q6RCxd7st-yW2MyrJwVC_d3ajk=/0x0/filters:format(png)/pic3283110.png",
-      "average": 0.0
+      "average": 7.34252
     },
     {
       "id": "408180",
       "name": "Shackleton Base: A Journey to the Moon",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
       "image": "https://cf.geekdo-images.com/XE4S_nXyHVvld2BOrDmA7Q__original/img/-QciIr30xD5cVmYZVZ_VwuigwSQ=/0x0/filters:format(jpeg)/pic7897060.jpg",
-      "average": 0.0
+      "average": 8.0443
     },
     {
       "id": "92415",
       "name": "Skull",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 3,
+      "maxplayers": 6,
+      "playingtime": 45,
       "image": "https://cf.geekdo-images.com/OPrd2iXm43dir7BwKAMOuQ__original/img/ygPnbmg8FCpA7jO5gXw38uyNQ10=/0x0/filters:format(jpeg)/pic6097488.jpg",
-      "average": 0.0
+      "average": 7.17909
     },
     {
       "id": "373106",
       "name": "Sky Team",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/uXMeQzNenHb3zK7Hoa6b2w__original/img/mWOQnkpyYBorh_Y1-0Y2o-ew17k=/0x0/filters:format(jpeg)/pic7398904.jpg",
-      "average": 0.0
+      "average": 8.1507
     },
     {
       "id": "298231",
       "name": "Skyrise",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/wQNNMPNOm43VMYPAPpJdEA__original/img/5sEsH50Uqyix2PZRz1apZ9FLnUk=/0x0/filters:format(jpeg)/pic8160197.jpg",
-      "average": 0.0
+      "average": 7.72247
     },
     {
       "id": "40692",
       "name": "Small World",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 80,
       "image": "https://cf.geekdo-images.com/aoPM07XzoceB-RydLh08zA__original/img/bYLzrwZO9u-3h2wyU-PHc8aTOY4=/0x0/filters:format(jpeg)/pic428828.jpg",
-      "average": 0.0
+      "average": 7.1958
     },
     {
       "id": "162886",
       "name": "Spirit Island",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
       "image": "https://cf.geekdo-images.com/kjCm4ZvPjIZxS-mYgSPy1g__original/img/9uLd9C3XAvInLCLhAoXqKVk56zs=/0x0/filters:format(jpeg)/pic7013651.jpg",
-      "average": 0.0
+      "average": 8.34009
     },
     {
       "id": "351809",
       "name": "Stick Collection",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/stn2vDM3Bf2NAsJCKZIimA__original/img/mg-mW0f-3mLkQJhErvtHnEDVla8=/0x0/filters:format(jpeg)/pic7757952.jpg",
-      "average": 0.0
+      "average": 6.37557
     },
     {
       "id": "425445",
       "name": "Sweet Lands",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 200,
       "image": "https://cf.geekdo-images.com/qmCyTIgGhdSON0bMUk8qjQ__original/img/NEfd_QHVVzORADKrXdkffvIYBVw=/0x0/filters:format(jpeg)/pic8329173.jpg",
-      "average": 0.0
+      "average": 8.1038
     },
     {
       "id": "14996",
       "name": "Ticket to Ride: Europe",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 60,
       "image": "https://cf.geekdo-images.com/0K1AOciqlMVUWFPLTJSiww__original/img/O37sCRSJLq4S8EpCxFDNVsNBuxE=/0x0/filters:format(jpeg)/pic66668.jpg",
-      "average": 0.0
+      "average": 7.52649
     },
     {
       "id": "336847",
       "name": "Tyrants of the Underdark: Board Game",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
       "image": "https://cf.geekdo-images.com/xXgBciDhd-cS6XavV3YJzA__original/img/jeEGEC74-wDO1khAKKaU8H6BlMY=/0x0/filters:format(jpeg)/pic6480015.jpg",
-      "average": 0.0
+      "average": 8.21533
     },
     {
       "id": "329500",
       "name": "Unconscious Mind",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
       "image": "https://cf.geekdo-images.com/ufkAbhulnKJ7uDpi09TXOQ__original/img/hhBc0bcNj9U3t-4trByrjrO8-ro=/0x0/filters:format(jpeg)/pic7127448.jpg",
-      "average": 0.0
+      "average": 7.92571
     },
     {
       "id": "371942",
       "name": "The White Castle",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 80,
       "image": "https://cf.geekdo-images.com/qXT1U-nFh9PE8ujfdmI7dA__original/img/jzmifZJ0Sg2Js7hmQjzX7bEHVBY=/0x0/filters:format(jpeg)/pic7754663.jpg",
-      "average": 0.0
+      "average": 7.99283
     },
     {
       "id": "392842",
       "name": "Wonder Bowling",
-      "minplayers": 0,
-      "maxplayers": 0,
-      "playingtime": 0,
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 20,
       "image": "https://cf.geekdo-images.com/utzh_1pU_pCqvuLqRawkcw__original/img/574QrTbBxrD3veftOeGNAydMn0Y=/0x0/filters:format(jpeg)/pic8418672.jpg",
-      "average": 0.0
+      "average": 6.95711
     }
   ]
 }
