@@ -47,6 +47,11 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
   <div class="grid-sizer"></div>
 </div>
 
+<h2 class="section-title">Preordered</h2>
+<div id="preMosaic" class="mosaic">
+  <div class="grid-sizer"></div>
+</div>
+
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
@@ -54,7 +59,7 @@ function loadGames(file, containerId) {
   fetch(file)
     .then(res => res.json())
     .then(data => {
-      const games = data[containerId==='ownMosaic'?'own':'wishlist'];
+      const games = data[containerId==='ownMosaic'?'own':(containerId==='preMosaic'?'preordered':'wishlist')];
       const container = document.getElementById(containerId);
 
       games.forEach(game => {
@@ -102,6 +107,7 @@ function loadGames(file, containerId) {
 
 // загружаем данные
 loadGames('data/games.json', 'ownMosaic');
+loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
 
