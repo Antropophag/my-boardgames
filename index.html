@@ -11,7 +11,7 @@ body { font-family: 'Roboto', sans-serif; background:#111; color:#fff; margin:0;
 h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 
 .mosaic { width:100%; margin-bottom:40px; display:flex; flex-wrap:wrap; transition: all 0.3s ease; }
-.grid-sizer, .game { width:20%; transition: width 0.3s ease; }
+.grid-sizer, .game { transition: width 0.3s ease; }
 .game { position:relative; overflow:hidden; margin:0; }
 .game img { width:100%; display:block; transition:transform .28s ease; }
 .game:hover img { transform:scale(1.05); }
@@ -33,9 +33,19 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 
 .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
 .overlay p { margin:2px 0; font-size:12px; }
+
+/* Лоадскрин */
+#loader {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#111; color:#fff; display:flex;
+  align-items:center; justify-content:center; font-size:24px; z-index:9999;
+}
 </style>
 </head>
 <body>
+
+<!-- Лоадскрин -->
+<div id="loader">Загрузка...</div>
 
 <!-- Collection без заголовка -->
 <div id="ownMosaic" class="mosaic">
@@ -47,7 +57,6 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
   <div class="grid-sizer"></div>
 </div>
 
-<!-- Wishlist с заголовком -->
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic">
   <div class="grid-sizer"></div>
@@ -56,21 +65,32 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
+function getColumns(width) {
+  if(width < 900) return 2;
+  else if(width < 1200) return 4;
+  else return 5;
+}
+
 function loadGames(file, containerId) {
+  const container = document.getElementById(containerId);
+  const width = container.clientWidth;
+  const cols = getColumns(width);
+  const colWidth = width / cols;
+
   fetch(file)
     .then(res => res.json())
     .then(data => {
       const games = data[containerId==='ownMosaic'?'own':(containerId==='preMosaic'?'preordered':'wishlist')];
-      const container = document.getElementById(containerId);
 
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
-        
+        div.style.width = colWidth + 'px'; // сразу ставим ширину
+
         // Определяем цвет сложности
-        let weightColor = '#00FF00';
-        if(game.averageweight > 4.0) weightColor = 'red';
-        else if(game.averageweight > 3.0) weightColor = 'orange';
+        let weightColor = '#00FF00'; // ярко-зелёный
+        if(game.averageweight > 3.5) weightColor = 'red';
+        else if(game.averageweight > 2) weightColor = 'orange';
 
         div.innerHTML = `
           <img src="${game.image}" alt="${game.name}">
@@ -85,26 +105,19 @@ function loadGames(file, containerId) {
         container.appendChild(div);
       });
 
-      // динамические колонки
-      function setColumnWidth() {
-        const width = container.clientWidth;
-        let cols = 5;
-        if(width<900) cols=2
-        else if(width<1200) cols=4;
-
-        const colWidth = width / cols;
-        container.querySelectorAll('.grid-sizer, .game').forEach(el=>{
-          el.style.width = colWidth + 'px';
-        });
-      }
-
+      // ждем полной загрузки изображений
       imagesLoaded(container, () => {
-        setColumnWidth();
         const msnry = new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter: 0, percentPosition: false });
-        
+
+        // скрываем лоадскрин после загрузки
+        document.getElementById('loader').style.display = 'none';
+
         // плавная перестройка при ресайзе
         window.addEventListener('resize', () => {
-          setColumnWidth();
+          const width = container.clientWidth;
+          const cols = getColumns(width);
+          const colWidth = width / cols;
+          container.querySelectorAll('.grid-sizer, .game').forEach(el => { el.style.width = colWidth + 'px'; });
           msnry.layout();
         });
       });
