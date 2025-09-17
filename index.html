@@ -12,7 +12,162 @@ html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial
 .mosaic { width:100%; margin-bottom:40px; }
 .grid-sizer, .game { width:20%; }
 .game { position:relative; overflow:hidden; }
-.game img { width:100%; display:block; transition:transform .28s ease; }
+.game img { width:100%; display:block; transition:transform .28s ease; }<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Play with me</title>
+
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
+<style>
+  html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; overflow-x:hidden; }
+  .mosaic { width:100%; margin-bottom:40px; }
+  .grid-sizer, .game { width:20%; } /* 5 колонок */
+  .game { position:relative; overflow:hidden; }
+  .game img { width:100%; display:block; transition:transform .28s ease; }
+  .game:hover img { transform:scale(1.05); }
+
+  /* overlay: фиксированная высота, 6 строк текста */
+  :root { --overlay-lines: 6; --line-h: 1.2em; }
+  .overlay {
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height: calc(var(--overlay-lines) * var(--line-h) + 26px);
+    background: rgba(0,0,0,0.72);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:flex-start;
+    text-align:left;
+    padding:10px;
+    opacity:0;
+    transition:opacity .18s ease;
+  }
+  .game:hover .overlay { opacity:1; }
+
+  .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
+  .overlay p { margin:2px 0; font-size:12px; }
+
+  @media (max-width:1200px){ .grid-sizer, .game{ width:25%; } }
+  @media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } }
+  @media (max-width:600px){ .grid-sizer, .game{ width:50%; } }
+  @media (max-width:400px){ .grid-sizer, .game{ width:100%; } }
+
+  .loader {
+    position:fixed; left:0; right:0; top:0; bottom:0;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(0,0,0,0.92); z-index:9999;
+  }
+  .progress-track { width: min(1200px, 94vw); height: 14px; background: rgba(255,255,255,0.06); border-radius:12px; overflow:hidden; position:relative; }
+  .progress-fill { height:100%; width:0%; background: linear-gradient(90deg,#4ade80,#06b6d4); transition: width 600ms ease; will-change: width; }
+  .indeterminate { position:absolute; left:-40%; top:0; bottom:0; width:40%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent); animation: indeterminate-move 1400ms linear infinite; }
+  @keyframes indeterminate-move { 0% { left:-40%; } 50% { left:50%; } 100% { left:100%; } }
+  .loader.hidden { display:none; }
+  .placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#111; color:#666; }
+
+  h2.section-title { color:white; margin:30px 0 20px; font-size:28px; text-align:center; }
+</style>
+</head>
+<body>
+
+<div id="loader" class="loader" aria-hidden="false">
+  <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div id="progressFill" class="progress-fill"></div>
+    <div id="indeterminateBar" class="indeterminate" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- Own (без заголовка) -->
+<div id="ownSection">
+  <div class="mosaic" id="ownMosaic"><div class="grid-sizer"></div></div>
+</div>
+
+<!-- Wishlist -->
+<div id="wishSection">
+  <h2 class="section-title">Wishlist</h2>
+  <div class="mosaic" id="wishMosaic"><div class="grid-sizer"></div></div>
+</div>
+
+<script>
+  const loader = document.getElementById('loader');
+  const progressFill = document.getElementById('progressFill');
+  const indeterminateBar = document.getElementById('indeterminateBar');
+
+  function showLoader() { loader.classList.remove('hidden'); loader.setAttribute('aria-hidden','false'); }
+  function hideLoader() { loader.classList.add('hidden'); loader.setAttribute('aria-hidden','true'); }
+  function showIndeterminate() { indeterminateBar.style.display='block'; progressFill.style.width='0%'; loader.setAttribute('aria-busy','true'); }
+  function setDeterminate(p){ indeterminateBar.style.display='none'; progressFill.style.width=Math.max(0,Math.min(100,Math.round(p)))+'%'; loader.setAttribute('aria-busy', p<100 ? 'true' : 'false'); }
+
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+
+  function placeholderDataUri(){
+    const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#666' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>`);
+    return `data:image/svg+xml;utf8,${svg}`;
+  }
+
+  function renderMosaic(containerId, games) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '<div class="grid-sizer"></div>'; // reset
+
+    if (!games || !games.length) {
+      container.innerHTML += '<p style="color:white;text-align:center;padding:20px">Нет игр.</p>';
+      return;
+    }
+
+    games.forEach(game => {
+      const div = document.createElement('div');
+      div.className = 'game';
+      const imgSrc = game.image || placeholderDataUri();
+
+      // use fields exactly as in games.json: minplayers, maxplayers, playingtime, average
+      const playersText = (game.minplayers || game.minplayers === 0 ? game.minplayers : '?') + '–' + (game.maxplayers || game.maxplayers === 0 ? game.maxplayers : '?');
+      const timeText = (game.playingtime || game.playingtime === 0) ? `${game.playingtime} мин` : '?';
+      const ratingText = (typeof game.average === 'number' && isFinite(game.average)) ? game.average.toFixed(1) : '—';
+
+      div.innerHTML = `
+        <img src="${imgSrc}" alt="${escapeHtml(game.name)}">
+        <div class="overlay">
+          <h3>${escapeHtml(game.name)}</h3>
+          <p>Игроки: ${escapeHtml(playersText)}</p>
+          <p>Время: ${escapeHtml(timeText)}</p>
+          <p>Рейтинг: ${escapeHtml(ratingText)}</p>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    imagesLoaded(container, () => {
+      new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter: 0, percentPosition: true });
+    });
+  }
+
+  async function loadGames() {
+    showLoader();
+    try {
+      // строго из папки data
+      const res = await fetch('data/games.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status + ' ' + res.statusText);
+      const data = await res.json();
+
+      // если нужно показывать прогресс: можно считать длину и обновлять, но сейчас просто показываем и скрываем
+      renderMosaic('ownMosaic', data.own || []);
+      renderMosaic('wishMosaic', data.wishlist || []);
+    } catch (err) {
+      console.error(err);
+      document.body.insertAdjacentHTML('beforeend', `<p style="color:white;text-align:center;padding:20px">Ошибка загрузки games.json: ${escapeHtml(err.message||err)}</p>`);
+    } finally {
+      hideLoader();
+    }
+  }
+
+  loadGames();
+</script>
+</body>
+</html>
+
 .game:hover img { transform:scale(1.05); }
 
 .overlay {
