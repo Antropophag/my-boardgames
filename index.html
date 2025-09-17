@@ -1,82 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boardgames</title>
-<style>
-  body {
-    margin: 0;
-    background: #000;
-    color: #fff;
-    font-family: sans-serif;
-  }
-
-  .masonry {
-    column-count: 5;
-    column-gap: 0;
-    width: 100%;
-  }
-
-  .tile {
-    display: inline-block;
-    width: 100%;
-    margin: 0;
-    position: relative;
-    break-inside: avoid;
-    cursor: pointer;
-  }
-
-  .tile img {
-    width: 100%;
-    height: auto; /* сохраняет пропорции */
-    display: block;
-  }
-
-  .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    padding: 5px;
-    font-size: 12px;
-    display: none;
-  }
-
-  .tile:hover .overlay {
-    display: block;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Board Game Collection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 p-6">
 
-<div id="collection" class="masonry"></div>
+  <h1 class="text-2xl font-bold mb-4">My Games</h1>
+  <div id="ownGames" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
 
-<script>
-fetch('data/games.json')
-  .then(res => res.json())
-  .then(data => {
-    const collectionContainer = document.getElementById('collection');
+  <h1 class="text-2xl font-bold mt-8 mb-4">Wishlist</h1>
+  <div id="wishlistGames" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
 
-    data.own.forEach(game => {
-      const div = document.createElement('div');
-      div.classList.add('tile');
-      div.innerHTML = `
-        <img src="${game.image}" alt="${game.name}" />
-        <div class="overlay">
-          <p>${game.name}</p>
-          <p>${game.minplayers}-${game.maxplayers} players</p>
-          <p>${game.playingtime} min</p>
-          <p>Rating: ${game.average.toFixed(1)}</p>
-        </div>
-      `;
-      collectionContainer.appendChild(div);
-    });
-  })
-  .catch(err => console.error(err));
-</script>
+  <script>
+    // Вставляем сюда ваш JSON
+    const data = {
+      "own": [
+        {
+          "id": "478",
+          "name": "Citadels",
+          "minplayers": 2,
+          "maxplayers": 8,
+          "playingtime": 60,
+          "image": "https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg",
+          "average": 7.05601
+        },
+        {
+          "id": "194594",
+          "name": "Dice Forge",
+          "minplayers": 2,
+          "maxplayers": 4,
+          "playingtime": 45,
+          "image": "https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg",
+          "average": 7.21625
+        }
+        // … добавь остальные игры
+      ],
+      "wishlist": [
+        {
+          "id": "358669",
+          "name": "12 Chip Trick",
+          "minplayers": 2,
+          "maxplayers": 4,
+          "playingtime": 20,
+          "image": "https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png",
+          "average": 6.82447
+        }
+        // … добавь остальные игры
+      ]
+    };
+
+    function renderGames(containerId, games) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      games.forEach(game => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-lg shadow-md overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer";
+
+        card.innerHTML = `
+          <img src="${game.image}" alt="${game.name}" class="w-full h-48 object-cover">
+          <div class="p-2">
+            <h3 class="text-sm font-semibold">${game.name}</h3>
+            <p class="text-xs text-gray-500">Players: ${game.minplayers}-${game.maxplayers} | Time: ${game.playingtime} min</p>
+            <p class="text-xs text-yellow-600">Rating: ${game.average.toFixed(2)}</p>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    renderGames("ownGames", data.own);
+    renderGames("wishlistGames", data.wishlist);
+  </script>
 
 </body>
 </html>
