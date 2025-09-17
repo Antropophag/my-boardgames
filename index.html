@@ -27,6 +27,7 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
   padding:10px;
   opacity:0;
   transition:opacity .18s ease;
+  font-weight: bold; /* весь текст жирный */
 }
 .game:hover .overlay { opacity:1; }
 
@@ -46,7 +47,7 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
   <div class="grid-sizer"></div>
 </div>
 
-  <!-- Wishlist с заголовком -->
+<!-- Wishlist с заголовком -->
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic">
   <div class="grid-sizer"></div>
@@ -66,20 +67,20 @@ function loadGames(file, containerId) {
         const div = document.createElement('div');
         div.className = 'game';
         
-// Определяем цвет сложности
-let weightColor = 'green';
-if(game.averageweight > 3.5) weightColor = 'red';
-else if(game.averageweight > 2) weightColor = 'orange';
+        // Определяем цвет сложности
+        let weightColor = 'green';
+        if(game.averageweight > 3.5) weightColor = 'red';
+        else if(game.averageweight > 2.5) weightColor = 'orange';
 
-div.innerHTML = `
-  <img src="${game.image}" alt="${game.name}">
-  <div class="overlay">
-    <h3>${game.name}</h3>
-    <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-    <p>Время: ${game.playingtime} мин</p>
-    <p>Рейтинг: ${game.average.toFixed(2)}</p>
-    <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-  </div>
+        div.innerHTML = `
+          <img src="${game.image}" alt="${game.name}">
+          <div class="overlay">
+            <h3>${game.name}</h3>
+            <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+            <p>Время: ${game.playingtime} мин</p>
+            <p>Рейтинг: ${game.average.toFixed(2)}</p>
+            <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+          </div>
         `;
         container.appendChild(div);
       });
