@@ -8,86 +8,86 @@
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
 <style>
-  html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; overflow-x:hidden; }
-  h2 { color:#fff; text-align:center; margin:20px 0 10px; font-size:18px; }
-  .mosaic { width:100%; margin-bottom:40px; }
-  .grid-sizer, .game { width:20%; } 
-  .game { position:relative; overflow:hidden; }
-  .game img { width:100%; display:block; transition:transform .28s ease; }
-  .game:hover img { transform:scale(1.05); }
-  .overlay {
-    position:absolute; inset:0;
-    background:rgba(0,0,0,0.62);
-    color:#fff; display:flex; flex-direction:column;
-    justify-content:center; align-items:center; text-align:center;
-    padding:10px; opacity:0; transition:opacity .2s ease;
-  }
-  .game:hover .overlay { opacity:1; }
-  .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
-  .overlay p { margin:2px 0; font-size:12px; }
+html,body { margin:0; padding:0; height:100%; background:#000; font-family:Arial, sans-serif; overflow-x:hidden; }
+.mosaic { width:100%; margin-bottom:40px; }
+.grid-sizer, .game { width:20%; }
+.game { position:relative; overflow:hidden; }
+.game img { width:100%; display:block; transition:transform .28s ease; }
+.game:hover img { transform:scale(1.05); }
+.overlay {
+  position:absolute; inset:0;
+  background:rgba(0,0,0,0.62);
+  color:#fff; display:flex; flex-direction:column;
+  justify-content:center; align-items:center; text-align:center;
+  padding:10px; opacity:0; transition:opacity .2s ease;
+}
+.game:hover .overlay { opacity:1; }
+.overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
+.overlay p { margin:2px 0; font-size:12px; }
 
-  @media (max-width:1200px){ .grid-sizer, .game{ width:25%; } }
-  @media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } }
-  @media (max-width:600px){ .grid-sizer, .game{ width:50%; } }
-  @media (max-width:400px){ .grid-sizer, .game{ width:100%; } }
+@media (max-width:1200px){ .grid-sizer, .game{ width:25%; } }
+@media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } }
+@media (max-width:600px){ .grid-sizer, .game{ width:50%; } }
+@media (max-width:400px){ .grid-sizer, .game{ width:100%; } }
 
-  .loader {
-    position:fixed; left:0; right:0; top:0; bottom:0;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(0,0,0,0.92); z-index:9999;
-  }
-  .progress-track {
-    width: min(1200px, 94vw); height: 14px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 12px; overflow: hidden; position: relative;
-  }
-  .progress-fill {
-    height:100%; width:0%;
-    background: linear-gradient(90deg,#4ade80,#06b6d4);
-    transition: width 1200ms cubic-bezier(.2,.9,.2,1);
-    will-change: width;
-  }
-  .indeterminate {
-    position:absolute; left: -40%; top: 0; bottom: 0; width: 40%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-    animation: indeterminate-move 1400ms linear infinite;
-  }
-  @keyframes indeterminate-move { 0% { left: -40%; } 50% { left: 50%; } 100% { left: 100%; } }
-  .loader.hidden { display:none; }
+.loader {
+  position:fixed; left:0; right:0; top:0; bottom:0;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0.92);
+  z-index:9999;
+}
+.progress-track {
+  width: min(1200px, 94vw); height: 14px;
+  background: rgba(255,255,255,0.06); border-radius: 12px; overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height:100%; width:0%;
+  background: linear-gradient(90deg,#4ade80,#06b6d4);
+  transition: width 1200ms cubic-bezier(.2,.9,.2,1);
+  will-change: width;
+}
+.indeterminate {
+  position:absolute; left: -40%; top: 0; bottom: 0; width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  animation: indeterminate-move 1400ms linear infinite;
+}
+@keyframes indeterminate-move { 0% { left:-40%; } 50% { left:50%; } 100% { left:100%; } }
+.loader.hidden { display:none; }
+.placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#111; color:#666; }
+h2.section-title { color:white; margin:20px 0 10px 10px; font-size:18px; }
 </style>
 </head>
 <body>
-<div id="loader" class="loader">
-  <div class="progress-track">
+
+<div id="loader" class="loader" aria-hidden="false">
+  <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
     <div id="progressFill" class="progress-fill"></div>
     <div id="indeterminateBar" class="indeterminate" style="display:none;"></div>
   </div>
 </div>
 
-<div id="ownMosaic" class="mosaic"></div>
-<h2>Wishlist</h2>
-<div id="wishMosaic" class="mosaic"></div>
+<div id="ownSection">
+  <div class="mosaic" id="ownMosaic"><div class="grid-sizer"></div></div>
+</div>
+
+<div id="wishSection">
+  <h2 class="section-title">Wishlist</h2>
+  <div class="mosaic" id="wishMosaic"><div class="grid-sizer"></div></div>
+</div>
 
 <script>
-// Пример games.json
-const gamesJson = {
-  "own": [
-    {"id":"478","name":"Citadels","minplayers":2,"maxplayers":8,"playingtime":60,"image":"https://cf.geekdo-images.com/42iW4E-vOumFXRQAiSf-GA__original/img/ochY5pK4sq4vtzkka0OPRwsGLOE=/0x0/filters:format(jpeg)/pic3239104.jpg","average":7.06,"weight":2.5},
-    {"id":"194594","name":"Dice Forge","minplayers":2,"maxplayers":4,"playingtime":45,"image":"https://cf.geekdo-images.com/4BTVGQWO0M9ayxyku3FW6Q__original/img/8G3m0Cc_y3Qa0jcFn4ynWTwOV3A=/0x0/filters:format(jpeg)/pic3477004.jpg","average":7.22,"weight":2.3}
-  ],
-  "wishlist": [
-    {"id":"358669","name":"12 Chip Trick","minplayers":2,"maxplayers":4,"playingtime":20,"image":"https://cf.geekdo-images.com/vU4g_GoMeBG4Ra9guyvpHw__original/img/3ykp4yw4eMXRngew0UzHHJBjW_I=/0x0/filters:format(png)/pic7259827.png","average":6.82,"weight":1.8}
-  ]
-};
-
 const loader = document.getElementById('loader');
 const progressFill = document.getElementById('progressFill');
+const indeterminateBar = document.getElementById('indeterminateBar');
 
-function showLoader() { loader.classList.remove('hidden'); }
-function hideLoader() { loader.classList.add('hidden'); }
-function setDeterminate(percent) { progressFill.style.width = Math.max(0, Math.min(100, percent)) + '%'; }
+function showLoader() { loader.classList.remove('hidden'); loader.setAttribute('aria-hidden','false'); }
+function hideLoader() { loader.classList.add('hidden'); loader.setAttribute('aria-hidden','true'); }
+function showIndeterminate() { indeterminateBar.style.display='block'; progressFill.style.width='0%'; loader.setAttribute('aria-busy','true'); }
+function setDeterminate(percent) { indeterminateBar.style.display='none'; progressFill.style.width=Math.max(0,Math.min(100,Math.round(percent)))+'%'; loader.setAttribute('aria-busy', percent<100?'true':'false'); }
 
 function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+
 function placeholderDataUri() {
   const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#666' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>`);
   return `data:image/svg+xml;utf8,${svg}`;
@@ -95,43 +95,50 @@ function placeholderDataUri() {
 
 function renderMosaic(containerId, games) {
   const container = document.getElementById(containerId);
-  container.innerHTML = '<div class="grid-sizer"></div>';
-  games.forEach((game, idx) => {
+  container.innerHTML = '<div class="grid-sizer"></div>'; // reset
+  if (!games || !games.length) {
+    container.innerHTML += '<p style="color:white;text-align:center;padding:20px">Нет игр.</p>';
+    return;
+  }
+
+  games.forEach(game => {
     const div = document.createElement('div');
     div.className = 'game';
-    const ratingText = (typeof game.average === 'number') ? game.average.toFixed(1) : '—';
-    const weightText = (typeof game.weight === 'number') ? game.weight.toFixed(1)+'/5' : '—';
     const imgSrc = game.image || placeholderDataUri();
     div.innerHTML = `
       <img src="${imgSrc}" alt="${escapeHtml(game.name)}">
       <div class="overlay">
         <h3>${escapeHtml(game.name)}</h3>
-        <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-        <p>Время: ${game.playingtime} мин</p>
-        <p>Рейтинг: ${ratingText}</p>
-        <p>Сложность: ${weightText}</p>
+        <p>Игроки: ${game.minPlayers || '?'}–${game.maxPlayers || '?'}</p>
+        <p>Время: ${game.playingTime || '?'}</p>
+        <p>Рейтинг: ${game.average !== undefined && game.average!==null ? game.average.toFixed(1) : '—'}</p>
+        <p>Сложность: ${game.weight !== undefined && game.weight!==null ? game.weight.toFixed(1)+'/5' : '—'}</p>
       </div>
     `;
     container.appendChild(div);
-    setDeterminate(Math.round(((idx+1)/games.length)*100));
   });
 
-  imagesLoaded(container, function() {
-    new Masonry(container, {
-      itemSelector: '.game',
-      columnWidth: '.grid-sizer',
-      gutter:0,
-      percentPosition:true
-    });
+  imagesLoaded(container, () => {
+    new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter:0, percentPosition:true });
   });
 }
 
-showLoader();
-setTimeout(() => { // имитация загрузки
-  renderMosaic('ownMosaic', gamesJson.own);
-  renderMosaic('wishMosaic', gamesJson.wishlist);
-  hideLoader();
-}, 300);
+async function loadGames() {
+  showLoader();
+  try {
+    const res = await fetch('games.json');
+    const data = await res.json();
+    renderMosaic('ownMosaic', data.own || []);
+    renderMosaic('wishMosaic', data.wishlist || []);
+  } catch(err) {
+    console.error(err);
+    document.body.innerHTML += `<p style="color:white;text-align:center;padding:20px">Ошибка загрузки games.json: ${escapeHtml(err.message||err)}</p>`;
+  } finally {
+    hideLoader();
+  }
+}
+
+loadGames();
 </script>
 </body>
 </html>
