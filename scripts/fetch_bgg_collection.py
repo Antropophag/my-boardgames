@@ -1,79 +1,75 @@
 import requests
 import xml.etree.ElementTree as ET
 import json
-import time
 
-def safe_int(tag):
-    try:
-        return int(tag.text)
-    except:
-        return 0
+def fetch_collection(username, collection_type):
+    """
+    collection_type: "own" или "wishlist"
+    """
+    params = {
+        "username": username,
+        "subtype": "boardgame",
+        "stats": 1
+    }
+    if collection_type == "own":
+        params["own"] = 1
+    elif collection_type == "wishlist":
+        params["wishlist"] = 1
 
-def safe_float(tag):
-    try:
-        return float(tag.get('value', 0.0))
-    except:
-        return 0.0
-
-def fetch_collection(username, own_only=True):
-    """Fetches user's collection or wishlist from BGG"""
-    url = f"https://boardgamegeek.com/xmlapi2/collection?username={username}&subtype=boardgame&stats=1"
-    if own_only:
-        url += "&own=1"
-    else:
-        url += "&wishlist=1"
-
-    while True:
-        res = requests.get(url)
-        root = ET.fromstring(res.content)
-
-        # Если API ещё не готово, ждем
-        if root.tag == 'message' or root.attrib.get('termsofuse'):
-            print("Collection not ready, waiting 5s...")
-            time.sleep(5)
-        else:
-            break
+    url = "https://boardgamegeek.com/xmlapi2/collection"
+    res = requests.get(url, params=params)
+    root = ET.fromstring(res.content)
 
     games = []
-
     for item in root.findall('item'):
-        game_id = item.get('objectid')
+        # Иногда тег отсутствует, используем 0 по умолчанию
+        def get_int(tag_name):
+            t = item.find(tag_name)
+            return int(t.text) if t is not None and t.text.isdigit() else 0
+
+        # Average rating
+        average = 0.0
+        stats = item.find('stats')
+        if stats is not None:
+            ratings = stats.find('ratings')
+            if ratings is not None:
+                avg_tag = ratings.find('average')
+                if avg_tag is not None:
+                    try:
+                        average = float(avg_tag.get('value', 0.0))
+                    except ValueError:
+                        average = 0.0
+
+        # Извлекаем название и изображение
         name_tag = item.find('name')
         image_tag = item.find('image')
-
-        stats = item.find('stats')
-        average = safe_float(stats.find('ratings/average')) if stats is not None else 0.0
+        name = name_tag.text if name_tag is not None else "Unknown"
+        image = image_tag.text if image_tag is not None else ""
 
         games.append({
-            "id": game_id,
-            "name": name_tag.text if name_tag is not None else "",
-            "minplayers": safe_int(item.find('minplayers')),
-            "maxplayers": safe_int(item.find('maxplayers')),
-            "playingtime": safe_int(item.find('playingtime')),
-            "image": image_tag.text if image_tag is not None else "",
+            "id": item.get("objectid"),
+            "name": name,
+            "minplayers": get_int("minplayers"),
+            "maxplayers": get_int("maxplayers"),
+            "playingtime": get_int("playingtime"),
+            "image": image,
             "average": average
         })
-
     return games
 
 def main():
     username = "Antropophag"
+    own_games = fetch_collection(username, "own")
+    wishlist_games = fetch_collection(username, "wishlist")
 
-    print("Fetching owned games...")
-    own = fetch_collection(username, own_only=True)
-
-    print("Fetching wishlist games...")
-    wishlist = fetch_collection(username, own_only=False)
-
-    collection = {
-        "own": own,
-        "wishlist": wishlist
+    data = {
+        "own": own_games,
+        "wishlist": wishlist_games
     }
 
     with open("data/games.json", "w", encoding="utf-8") as f:
-        json.dump(collection, f, ensure_ascii=False, indent=2)
-
-    print(f"Collection saved to data/games.json. Own: {len(own)}, Wishlist: {len(wishlist)}")
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    print(f"Saved {len(own_games)} own games and {len(wishlist_games)} wishlist games to data/games.json")
 
 if __name__ == "__main__":
     main()
