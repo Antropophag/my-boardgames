@@ -2,51 +2,36 @@ import requests
 import xml.etree.ElementTree as ET
 import json
 
-BGG_API = "https://boardgamegeek.com/xmlapi2/collection"
+USERNAME = "Antropophag"
 
-def fetch_games(username, collection_type):
-    """
-    collection_type: "own" или "wishlist"
-    """
-    params = {
-        "username": username,
-        "subtype": "boardgame",
-        "stats": 1  # обязательно для рейтингов
-    }
-    if collection_type == "own":
-        params["own"] = 1
-    else:
-        params["wishlist"] = 1
+# Список типов коллекции, которые хотим получить
+COLLECTION_TYPES = {
+    "own": "own=1",
+    "wishlist": "wishlist=1"
+}
 
-    res = requests.get(BGG_API, params=params)
-    root = ET.fromstring(res.content)
+result = {}
 
+for key, param in COLLECTION_TYPES.items():
+    url = f"https://boardgamegeek.com/xmlapi2/collection?username={USERNAME}&subtype=boardgame&stats=1&{param}"
+    response = requests.get(url)
+    response.raise_for_status()
+
+    root = ET.fromstring(response.content)
     games = []
+
     for item in root.findall('item'):
-        game_id = item.get('objectid')
-        name_tag = item.find('name')
-        image_tag = item.find('image')
-        minp_tag = item.find('minplayers')
-        maxp_tag = item.find('maxplayers')
-        playtime_tag = item.find('playingtime')
-        stats_tag = item.find('stats')
+        game_id = item.attrib['objectid']
+        name = item.find('name').text
+        image = item.find('image').text if item.find('image') is not None else None
 
-        name = name_tag.text if name_tag is not None else "Unknown"
-        image = image_tag.text if image_tag is not None else ""
-        minplayers = int(minp_tag.text) if minp_tag is not None else 0
-        maxplayers = int(maxp_tag.text) if maxp_tag is not None else 0
-        playingtime = int(playtime_tag.text) if playtime_tag is not None else 0
+        stats = item.find('stats')
+        minplayers = int(stats.attrib.get('minplayers', 0))
+        maxplayers = int(stats.attrib.get('maxplayers', 0))
+        playingtime = int(stats.attrib.get('playingtime', 0))
 
-        average = 0.0
-        if stats_tag is not None:
-            ratings = stats_tag.find('ratings')
-            if ratings is not None:
-                avg_tag = ratings.find('average')
-                if avg_tag is not None:
-                    try:
-                        average = float(avg_tag.get('value', 0.0))
-                    except ValueError:
-                        average = 0.0
+        rating = stats.find('rating')
+        average = float(rating.find('average').attrib.get('value', 0)) if rating is not None else 0.0
 
         games.append({
             "id": game_id,
@@ -57,17 +42,8 @@ def fetch_games(username, collection_type):
             "image": image,
             "average": average
         })
-    return games
 
-def main():
-    username = "Antropophag"
-    collection = {
-        "own": fetch_games(username, "own"),
-        "wishlist": fetch_games(username, "wishlist")
-    }
-    with open("data/games.json", "w", encoding="utf-8") as f:
-        json.dump(collection, f, ensure_ascii=False, indent=2)
-    print(f"Collection saved: {len(collection['own'])} own, {len(collection['wishlist'])} wishlist")
+    result[key] = games
 
-if __name__ == "__main__":
-    main()
+# Вывод JSON
+print(json.dumps(result, indent=2, ensure_ascii=False))
