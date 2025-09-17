@@ -18,7 +18,7 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 
 .overlay {
   position:absolute; left:0; right:0; bottom:0;
-  height:calc(4 * 1.2em + 20px); /* 4 строки текста */
+  height:calc(4 * 1.2em + 20px);
   background:rgba(0,0,0,0.72);
   color:#fff;
   display:flex; flex-direction:column;
@@ -80,14 +80,19 @@ function getColumns(width) {
   if(width < 900) return 2;
   if(width < 1200) return 4;
   if(width < 1600) return 5;
-  return 6; // сверхширокие экраны
+  return 6;
+}
+
+function updateColumns(container) {
+  const width = container.clientWidth;
+  const cols = getColumns(width);
+  const colWidth = 100 / cols; // процентная ширина
+  container.querySelectorAll('.grid-sizer, .game').forEach(el => { el.style.width = colWidth + '%'; });
 }
 
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
-  const width = container.clientWidth;
-  const cols = getColumns(width);
-  const colWidth = width / cols;
+  updateColumns(container);
 
   fetch(file)
     .then(res => res.json())
@@ -97,10 +102,9 @@ function loadGames(file, containerId) {
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
-        div.style.width = colWidth + 'px';
 
         // Градация сложности
-        let weightColor = '#00FF00'; // ярко-зелёный
+        let weightColor = '#00FF00';
         if(game.averageweight > 4) weightColor = 'red';
         else if(game.averageweight > 3) weightColor = 'orange';
 
@@ -118,24 +122,23 @@ function loadGames(file, containerId) {
       });
 
       imagesLoaded(container, () => {
-        const msnry = new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter: 0, percentPosition: false });
+        const msnry = new Masonry(container, { 
+          itemSelector: '.game', 
+          columnWidth: '.grid-sizer', 
+          gutter: 0, 
+          percentPosition: true 
+        });
 
-        // Скрываем лоадскрин после полной загрузки
         document.getElementById('loader').style.display = 'none';
 
-        // Перестройка колонок при ресайзе
         window.addEventListener('resize', () => {
-          const width = container.clientWidth;
-          const cols = getColumns(width);
-          const colWidth = width / cols;
-          container.querySelectorAll('.grid-sizer, .game').forEach(el => { el.style.width = colWidth + 'px'; });
+          updateColumns(container);
           msnry.layout();
         });
       });
     });
 }
 
-// Загружаем данные
 loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
