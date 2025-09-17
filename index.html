@@ -95,7 +95,7 @@ function placeholderDataUri() {
 
 function renderMosaic(containerId, games) {
   const container = document.getElementById(containerId);
-  container.innerHTML = '<div class="grid-sizer"></div>'; // reset
+  container.innerHTML = '<div class="grid-sizer"></div>';
   if (!games || !games.length) {
     container.innerHTML += '<p style="color:white;text-align:center;padding:20px">Нет игр.</p>';
     return;
@@ -126,7 +126,7 @@ function renderMosaic(containerId, games) {
 async function loadGames() {
   showLoader();
   try {
-    const res = await fetch('games.json');
+    const res = await fetch('data/games.json'); // исправленный путь
     const data = await res.json();
     renderMosaic('ownMosaic', data.own || []);
     renderMosaic('wishMosaic', data.wishlist || []);
