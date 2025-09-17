@@ -11,7 +11,7 @@ body { font-family: 'Roboto', sans-serif; background:#111; color:#fff; margin:0;
 h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 
 .mosaic { width:100%; margin-bottom:40px; display:flex; flex-wrap:wrap; transition: all 0.3s ease; }
-.grid-sizer, .game { transition: width 0.3s ease; }
+.grid-sizer, .game { transition: width 0.3s ease; box-sizing: border-box; }
 .game { position:relative; overflow:hidden; margin:0; }
 .game img { width:100%; display:block; transition:transform .28s ease; }
 .game:hover img { transform:scale(1.05); }
@@ -87,12 +87,14 @@ function updateColumns(container) {
   const width = container.clientWidth;
   const cols = getColumns(width);
   const colWidth = 100 / cols; // процентная ширина
-  container.querySelectorAll('.grid-sizer, .game').forEach(el => { el.style.width = colWidth + '%'; });
+  container.querySelectorAll('.grid-sizer, .game').forEach(el => { 
+    el.style.width = colWidth + '%';
+    el.style.boxSizing = 'border-box';
+  });
 }
 
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
-  updateColumns(container);
 
   fetch(file)
     .then(res => res.json())
@@ -120,25 +122,37 @@ function loadGames(file, containerId) {
         `;
         container.appendChild(div);
       });
-
-      imagesLoaded(container, () => {
-        const msnry = new Masonry(container, { 
-          itemSelector: '.game', 
-          columnWidth: '.grid-sizer', 
-          gutter: 0, 
-          percentPosition: true 
-        });
-
-        document.getElementById('loader').style.display = 'none';
-
-        window.addEventListener('resize', () => {
-          updateColumns(container);
-          msnry.layout();
-        });
-      });
     });
 }
 
+// Инициализация Masonry и колонок после полной загрузки страницы
+window.addEventListener('load', () => {
+  ['ownMosaic','preMosaic','wishMosaic'].forEach(containerId => {
+    const container = document.getElementById(containerId);
+    updateColumns(container);
+    imagesLoaded(container, () => {
+      const msnry = new Masonry(container, { 
+        itemSelector: '.game', 
+        columnWidth: '.grid-sizer', 
+        gutter: 0, 
+        percentPosition: true 
+      });
+
+      document.getElementById('loader').style.display = 'none';
+
+      // Перестройка колонок при ресайзе
+      window.addEventListener('resize', () => { 
+        updateColumns(container); 
+        msnry.layout(); 
+      });
+
+      // Дополнительный пересчёт через 50ms для надёжности
+      setTimeout(() => { updateColumns(container); msnry.layout(); }, 50);
+    });
+  });
+});
+
+// Загружаем данные
 loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
