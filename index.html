@@ -3,69 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мозаика игр</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.min.css">
+<title>Play with me</title>
+
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+
 <style>
-  body { background: #222; color: #fff; font-family: sans-serif; margin: 0; padding: 0; }
-  #container { margin: 10px; }
-  .game { width: 200px; margin-bottom: 10px; background: #333; border-radius: 10px; overflow: hidden; position: relative; }
-  .game img { width: 100%; display: block; }
-  .overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 8px; background: rgba(0,0,0,0.7); box-sizing: border-box; }
-  .overlay h3 { margin: 0 0 5px; font-size: 16px; }
-  .overlay p { margin: 2px 0; font-size: 14px; }
+  body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 0; }
+  .mosaic { width:100%; margin-bottom:40px; }
+  .grid-sizer, .game { width:20%; }
+  .game { position:relative; overflow:hidden; }
+  .game img { width:100%; display:block; transition:transform .28s ease; }
+  .game:hover img { transform:scale(1.05); }
+  .overlay {
+    position:absolute; inset:0;
+    background:rgba(0,0,0,0.62);
+    color:#fff; display:flex; flex-direction:column;
+    justify-content:center; align-items:center; text-align:center;
+    padding:10px; opacity:0; transition:opacity .2s ease;
+  }
+  .game:hover .overlay { opacity:1; }
+  .overlay h3 { margin:0 0 6px; font-size:14px; line-height:1.1; }
+  .overlay p { margin:2px 0; font-size:12px; }
+
+  @media (max-width:1200px){ .grid-sizer, .game{ width:25%; } }
+  @media (max-width:900px){ .grid-sizer, .game{ width:33.3333%; } }
+  @media (max-width:600px){ .grid-sizer, .game{ width:50%; } }
+  @media (max-width:400px){ .grid-sizer, .game{ width:100%; } }
+
+  h2.section-title { color:white; margin:20px 0 10px 10px; font-size:18px; }
 </style>
 </head>
 <body>
 
-<div id="container" class="grid"></div>
+<div id="ownSection">
+  <div class="mosaic" id="ownMosaic"><div class="grid-sizer"></div></div>
+</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.2/masonry.pkgd.min.js"></script>
+<div id="wishSection">
+  <h2 class="section-title">Wishlist</h2>
+  <div class="mosaic" id="wishMosaic"><div class="grid-sizer"></div></div>
+</div>
+
 <script>
-// JSON с играми
-const data = { "own": [ /* сюда вставь JSON из "own" */ ] };
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 
-// Экранирование HTML
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+function placeholderDataUri() {
+  const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='600' height='800'><rect width='100%' height='100%' fill='#111'/><text x='50%' y='50%' fill='#666' font-size='20' text-anchor='middle' dominant-baseline='middle'>No image</text></svg>`);
+  return `data:image/svg+xml;utf8,${svg}`;
 }
 
-// Создание карточек игр
-function renderGames(containerId, games) {
+function renderMosaic(containerId, games) {
   const container = document.getElementById(containerId);
-  container.innerHTML = '';
+  container.innerHTML = '<div class="grid-sizer"></div>';
   if (!games || !games.length) {
-    container.innerHTML = '<p style="text-align:center;padding:20px">Нет игр.</p>';
+    container.innerHTML += '<p style="color:white;text-align:center;padding:20px">Нет игр.</p>';
     return;
   }
 
   games.forEach(game => {
     const div = document.createElement('div');
     div.className = 'game';
-    const imgSrc = game.image || '';
+    const imgSrc = game.image || placeholderDataUri();
     div.innerHTML = `
       <img src="${imgSrc}" alt="${escapeHtml(game.name)}">
       <div class="overlay">
         <h3>${escapeHtml(game.name)}</h3>
         <p>Игроки: ${game.minplayers || '?'}–${game.maxplayers || '?'}</p>
-        <p>Время: ${game.playingtime || '?'} мин.</p>
-        <p>Рейтинг: ${game.average !== undefined ? game.average.toFixed(1) : '—'}</p>
+        <p>Время: ${game.playingtime || '?'} мин</p>
+        <p>Рейтинг: ${game.average !== undefined && game.average!==null ? game.average.toFixed(1) : '—'}</p>
       </div>
     `;
     container.appendChild(div);
   });
 
-  // Masonry
-  new Masonry(container, {
-    itemSelector: '.game',
-    columnWidth: 200,
-    gutter: 10
+  imagesLoaded(container, () => {
+    new Masonry(container, { itemSelector: '.game', columnWidth: '.grid-sizer', gutter:0, percentPosition:true });
   });
 }
 
-// Рендер
-renderGames('container', data.own);
-</script>
+async function loadGames() {
+  try {
+    const res = await fetch('data/games.json'); // <-- поправил путь
+    const data = await res.json();
+    renderMosaic('ownMosaic', data.own || []);
+    renderMosaic('wishMosaic', data.wishlist || []);
+  } catch(err) {
+    console.error(err);
+    document.body.innerHTML += `<p style="color:white;text-align:center;padding:20px">Ошибка загрузки games.json: ${escapeHtml(err.message||err)}</p>`;
+  }
+}
 
+loadGames();
+</script>
 </body>
 </html>
