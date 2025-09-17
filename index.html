@@ -65,14 +65,15 @@ function loadGames(file, containerId) {
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
-        div.innerHTML = `
-          <img src="${game.image}" alt="${game.name}">
-          <div class="overlay">
-            <h3>${game.name}</h3>
-            <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-            <p>Время: ${game.playingtime} мин</p>
-            <p>Рейтинг: ${game.average.toFixed(2)}</p>
-          </div>
+div.innerHTML = `
+  <img src="${game.image}" alt="${game.name}">
+  <div class="overlay">
+    <h3>${game.name}</h3>
+    <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+    <p>Время: ${game.playingtime} мин</p>
+    <p>Рейтинг: ${game.average.toFixed(2)}</p>
+    <p>Сложность: ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</p>
+  </div>
         `;
         container.appendChild(div);
       });
