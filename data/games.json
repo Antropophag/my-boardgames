@@ -513,6 +513,16 @@
       "averageweight": 2.0238
     },
     {
+      "id": "218074",
+      "name": "Detective: City of Angels",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 150,
+      "image": "https://cf.geekdo-images.com/xWdK1lL-2ZTdzBZGYjjqkw__original/img/952nbRCH-EE0TtcMD_Cpol0tRXQ=/0x0/filters:format(jpeg)/pic3469246.jpg",
+      "average": 7.87671,
+      "averageweight": 2.3735
+    },
+    {
       "id": "381278",
       "name": "Dracula vs Van Helsing",
       "minplayers": 2,
@@ -541,6 +551,16 @@
       "image": "https://cf.geekdo-images.com/6H7GL6Ce6CIz-_bcFG2zxw__original/img/UCPviE7xHksmvIoAOa50KDbVxRc=/0x0/filters:format(jpeg)/pic3074532.jpg",
       "average": 7.59492,
       "averageweight": 4.5909
+    },
+    {
+      "id": "410768",
+      "name": "Final Girl: S1 Ultimate Box",
+      "minplayers": 1,
+      "maxplayers": 1,
+      "playingtime": 0,
+      "image": "https://cf.geekdo-images.com/_0vVRDLk8DHl0hvAsuOkXg__original/img/jJaLTDXQnrb2JpZijQAYtF-b-08=/0x0/filters:format(jpeg)/pic8737684.jpg",
+      "average": 8.85447,
+      "averageweight": 3.0
     },
     {
       "id": "158600",
@@ -853,16 +873,6 @@
       "image": "https://cf.geekdo-images.com/wQNNMPNOm43VMYPAPpJdEA__original/img/5sEsH50Uqyix2PZRz1apZ9FLnUk=/0x0/filters:format(jpeg)/pic8160197.jpg",
       "average": 7.72222,
       "averageweight": 2.2763
-    },
-    {
-      "id": "349748",
-      "name": "StegegetS",
-      "minplayers": 2,
-      "maxplayers": 6,
-      "playingtime": 60,
-      "image": "https://cf.geekdo-images.com/wD_zUMHssoP_pjo06GnfCQ__original/img/bx3upAwRPUTJvlEjmgaHuS94JS0=/0x0/filters:format(jpeg)/pic7194681.jpg",
-      "average": 6.72,
-      "averageweight": 1.6667
     },
     {
       "id": "351809",
