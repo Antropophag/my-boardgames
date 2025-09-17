@@ -75,9 +75,14 @@ h2.section-title {
 
 <div id="loader"><div class="loader-circle"></div></div>
 
+<!-- Own Collection без заголовка -->
+<div id="ownMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
+<!-- Pre-ordered -->
 <h2 class="section-title">Pre-ordered</h2>
 <div id="preMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
+<!-- Wishlist -->
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
@@ -99,7 +104,11 @@ function loadGames(file, containerId) {
   fetch(file)
     .then(res => res.json())
     .then(data => {
-      const games = containerId === 'preMosaic' ? data.preordered : data.wishlist;
+      let games;
+      if(containerId === 'ownMosaic') games = data.own;
+      else if(containerId === 'preMosaic') games = data.preordered;
+      else games = data.wishlist;
+
       games.forEach(game => {
         const div = document.createElement('div');
         div.className = 'game';
@@ -130,13 +139,13 @@ function loadGames(file, containerId) {
           percentPosition: false
         });
 
-        // Показываем плитки с анимацией
+        // плавное появление плиток
         container.querySelectorAll('.game').forEach(el => setTimeout(() => el.classList.add('show'), 50));
 
-        // Скрываем лоадскрин
-        document.getElementById('loader').style.display = 'none';
+        // скрываем лоадскрин только после загрузки первой мозаики
+        if(containerId === 'wishMosaic') document.getElementById('loader').style.display = 'none';
 
-        // При ресайзе пересчитываем ширину
+        // ресайз
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
           container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
@@ -147,7 +156,8 @@ function loadGames(file, containerId) {
     });
 }
 
-// Загружаем обе мозаики
+// Загружаем коллекции
+loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
