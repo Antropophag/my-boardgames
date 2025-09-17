@@ -614,5 +614,133 @@
       "image": "https://cf.geekdo-images.com/qXT1U-nFh9PE8ujfdmI7dA__original/img/jzmifZJ0Sg2Js7hmQjzX7bEHVBY=/0x0/filters:format(jpeg)/pic7754663.jpg",
       "average": 7.99283
     }
+  ],
+  "preordered": [
+    {
+      "id": "441850",
+      "name": "Echoes of Time",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/rU_Ce-FjPz26aGxMyHgyag__original/img/nB12Im1PAQUxlmhFjNJu9aqGfHM=/0x0/filters:format(jpeg)/pic8791732.jpg",
+      "average": 7.43966
+    },
+    {
+      "id": "452817",
+      "name": "Emberheart",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/jUlZOyHFX-T8WIrwJu-hqQ__original/img/L1exq5YdG4k3Kpi76ayBNyBauGA=/0x0/filters:format(png)/pic9081476.png",
+      "average": 7.68656
+    },
+    {
+      "id": "367966",
+      "name": "Endeavor: Deep Sea",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
+      "image": "https://cf.geekdo-images.com/wIbevITv9W79ELP8rEZoKA__original/img/41fYEG_IYb9ECcCO24Dk4dZUNT0=/0x0/filters:format(jpeg)/pic6996584.jpg",
+      "average": 8.21969
+    },
+    {
+      "id": "438442",
+      "name": "Feya's Swamp",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 100,
+      "image": "https://cf.geekdo-images.com/lxzo9PekKd4TRyBUlLH7Yw__original/img/5ofkerciKc8XsWYgejw3xTK0AkE=/0x0/filters:format(png)/pic8703614.png",
+      "average": 8.03
+    },
+    {
+      "id": "384213",
+      "name": "Fromage",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/h87Ft6qXbzwPifN7WGnx2Q__original/img/X5va643QzqHpbIJIPUGv5jp4qGs=/0x0/filters:format(jpeg)/pic7452200.jpg",
+      "average": 7.68092
+    },
+    {
+      "id": "418217",
+      "name": "Inis: Nemed",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/G11aDqPro1E5C7fBAfTqlw__original/img/e90fgRQxKu-v8THSOiNvZPLGo5s=/0x0/filters:format(jpeg)/pic8771521.jpg",
+      "average": 5.53571
+    },
+    {
+      "id": "422484",
+      "name": "King of Tokyo: Duel",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 20,
+      "image": "https://cf.geekdo-images.com/Mv8h6f50NWlxqKSmyxIOIw__original/img/21wYQlTOMAFJFPb4cE1JEKqI1OU=/0x0/filters:format(jpeg)/pic8243567.jpg",
+      "average": 7.13075
+    },
+    {
+      "id": "361314",
+      "name": "Ninja Master",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 15,
+      "image": "https://cf.geekdo-images.com/G5L_wMoBthz8WhIIInEDtw__original/img/q-VnJpDHHZ03s6lMS9rvld2Vtw0=/0x0/filters:format(png)/pic7084385.png",
+      "average": 6.5466
+    },
+    {
+      "id": "231733",
+      "name": "Obsession",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/sy89BiuZXfbSnG7Cag9tBQ__original/img/uArsqbWyUALa982zGWsy8QQWnjE=/0x0/filters:format(png)/pic5902073.png",
+      "average": 8.08801
+    },
+    {
+      "id": "298231",
+      "name": "Skyrise",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/wQNNMPNOm43VMYPAPpJdEA__original/img/5sEsH50Uqyix2PZRz1apZ9FLnUk=/0x0/filters:format(jpeg)/pic8160197.jpg",
+      "average": 7.72247
+    },
+    {
+      "id": "349748",
+      "name": "StegegetS",
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/wD_zUMHssoP_pjo06GnfCQ__original/img/bx3upAwRPUTJvlEjmgaHuS94JS0=/0x0/filters:format(jpeg)/pic7194681.jpg",
+      "average": 6.72
+    },
+    {
+      "id": "351809",
+      "name": "Stick Collection",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 20,
+      "image": "https://cf.geekdo-images.com/stn2vDM3Bf2NAsJCKZIimA__original/img/mg-mW0f-3mLkQJhErvtHnEDVla8=/0x0/filters:format(jpeg)/pic7757952.jpg",
+      "average": 6.37557
+    },
+    {
+      "id": "371433",
+      "name": "Terrorscape",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/rjZM9iiR9ZpWtk4-4-sZhQ__original/img/DGX_74RljS_XmIeNlX-CMOVxsP4=/0x0/filters:format(png)/pic7436308.png",
+      "average": 8.16277
+    },
+    {
+      "id": "351810",
+      "name": "Viking See-Saw",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 10,
+      "image": "https://cf.geekdo-images.com/sZihzTOJUFXSKgDi787gOQ__original/img/-LjmKJOepTVObwvLq2K31XuxdfM=/0x0/filters:format(jpeg)/pic7757953.jpg",
+      "average": 7.14216
+    }
   ]
 }
