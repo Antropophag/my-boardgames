@@ -153,6 +153,9 @@ function createGameDiv(game) {
   div.className = 'game';
 
   const ratingColor = getRatingColor(game.average);
+  let weightColor = '#00FF00';
+  if(game.averageweight > 4) weightColor = 'red';
+  else if(game.averageweight > 3) weightColor = 'orange';
 
   div.innerHTML = `
     <img src="${window.innerWidth < 800 ? game.image : game.image}" alt="${game.name}">
@@ -162,11 +165,13 @@ function createGameDiv(game) {
         <h3><a href="${game.url}" target="_blank" style="color:white;text-decoration:none">${game.name}</a></h3>
         <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
         <p>Время: ${game.playingtime} мин</p>
+        <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
     </div>
   `;
   return div;
 }
+
 
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
