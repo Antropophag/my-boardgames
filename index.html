@@ -118,13 +118,15 @@ function createGameDiv(game) {
   return div;
 }
 
+// динамический расчет ширины колонки (уменьшенная сетка)
 function getColumnWidth(container, isLargeTile=false) {
   const containerWidth = container.clientWidth;
-  let cols = 3;
-  if(containerWidth >= 2500) cols = 6;
-  else if(containerWidth >= 2000) cols = 5;
-  else if(containerWidth >= 1400) cols = 4;
-  else if(containerWidth >= 1000) cols = 3;
+  let cols = 4; // минимально
+  if(containerWidth >= 2500) cols = 10; // раньше 6
+  else if(containerWidth >= 2000) cols = 8; // раньше 5
+  else if(containerWidth >= 1400) cols = 6; // раньше 4
+  else if(containerWidth >= 1000) cols = 4; 
+  else cols = 2;
 
   let colWidth = containerWidth / cols;
   if(isLargeTile) colWidth *= 2;
