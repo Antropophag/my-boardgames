@@ -653,6 +653,26 @@
       "averageweight": 1.8111
     },
     {
+      "id": "220",
+      "name": "High Society",
+      "minplayers": 3,
+      "maxplayers": 5,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/_3wm5Ikl8NtF6oTQ5KT-1g__original/img/Dv5M1RcWQ6UEZyd2eAey-OfSsrU=/0x0/filters:format(jpeg)/pic3894197.jpg",
+      "average": 7.19175,
+      "averageweight": 1.4775
+    },
+    {
+      "id": "177478",
+      "name": "IKI",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/ypE6HrTY1Xvpt1XCpKlMBw__original/img/G4-gFXe9tKgnkgJOFTVO2A-Wbm4=/0x0/filters:format(png)/pic5960068.png",
+      "average": 7.61326,
+      "averageweight": 3.066
+    },
+    {
       "id": "409572",
       "name": "Intent to Kill",
       "minplayers": 2,
@@ -681,6 +701,16 @@
       "image": "https://cf.geekdo-images.com/lfFKMNCzIJesp8IFHK8dEw__original/img/qtWs6Wg0a241k2D1TWWbesVwu-s=/0x0/filters:format(jpeg)/pic6985339.jpg",
       "average": 7.92398,
       "averageweight": 2.4895
+    },
+    {
+      "id": "205059",
+      "name": "Mansions of Madness: Second Edition",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 180,
+      "image": "https://cf.geekdo-images.com/LIooA9bTdjnE9qmhjL-UFw__original/img/Go6c8-ZiXomS8E7X4MBCdDd-aZc=/0x0/filters:format(jpeg)/pic3118622.jpg",
+      "average": 7.92369,
+      "averageweight": 2.6994
     },
     {
       "id": "277700",
@@ -741,6 +771,16 @@
       "image": "https://cf.geekdo-images.com/RpUStaAwneWPT_JQJpAb1Q__original/img/-v7vEfHCJptqJSMPeNOf5ovy5zY=/0x0/filters:format(jpeg)/pic2853682.jpg",
       "average": 7.16273,
       "averageweight": 2.5849
+    },
+    {
+      "id": "12",
+      "name": "Ra",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/k7lG683LBZdvFyS-FH-MpA__original/img/hEqkeRnhyNLxeryIIdOnAHdItfo=/0x0/filters:format(png)/pic6746812.png",
+      "average": 7.67823,
+      "averageweight": 2.3129
     },
     {
       "id": "377470",
@@ -861,6 +901,16 @@
       "image": "https://cf.geekdo-images.com/w7sysEnnXwVe52oucO3T7w__original/img/BsrJW8ae9ABLWFUYLPvWn1PjZnk=/0x0/filters:format(png)/pic8231216.png",
       "average": 8.04928,
       "averageweight": 2.2727
+    },
+    {
+      "id": "274364",
+      "name": "Watergate",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/iTBogxNFa3Ymh-6ST3srsw__original/img/ECgm53fEsB3eDVjZjgeejiZ__Qk=/0x0/filters:format(jpeg)/pic4768766.jpg",
+      "average": 7.73682,
+      "averageweight": 2.2713
     },
     {
       "id": "371942",
