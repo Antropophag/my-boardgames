@@ -34,6 +34,17 @@
       "url": "https://boardgamegeek.com/boardgame/379959"
     },
     {
+      "id": "332386",
+      "name": "Brew",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/8eN5t1p4ncee-eVN9NswDA__original/img/Hhv8kruqZZH1vv5W7gR7QXNZ_KM=/0x0/filters:format(png)/pic6007253.png",
+      "average": 7.04316,
+      "averageweight": 2.4396,
+      "url": "https://boardgamegeek.com/boardgame/332386"
+    },
+    {
       "id": "478",
       "name": "Citadels",
       "minplayers": 2,
@@ -518,17 +529,6 @@
       "average": 8.04821,
       "averageweight": 1.9639,
       "url": "https://boardgamegeek.com/boardgame/413246"
-    },
-    {
-      "id": "332386",
-      "name": "Brew",
-      "minplayers": 2,
-      "maxplayers": 4,
-      "playingtime": 90,
-      "image": "https://cf.geekdo-images.com/8eN5t1p4ncee-eVN9NswDA__original/img/Hhv8kruqZZH1vv5W7gR7QXNZ_KM=/0x0/filters:format(png)/pic6007253.png",
-      "average": 7.04316,
-      "averageweight": 2.4396,
-      "url": "https://boardgamegeek.com/boardgame/332386"
     },
     {
       "id": "290236",
