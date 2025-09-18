@@ -850,6 +850,39 @@
       "url": "https://boardgamegeek.com/boardgame/181687"
     },
     {
+      "id": "223456",
+      "name": "The Pursuit of Happiness: Community",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/JCpbVLLNl5zPIkZ1eW1O4Q__original/img/K6jDX63rsE0ARvfboXhwwmzW8G4=/0x0/filters:format(jpeg)/pic3727801.jpg",
+      "average": 7.52898,
+      "averageweight": 2.625,
+      "url": "https://boardgamegeek.com/boardgame/223456"
+    },
+    {
+      "id": "271732",
+      "name": "The Pursuit of Happiness: Experiences",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/0KzpBhzocKC9iCG62pm2jw__original/img/CmkgwUqbFVClJU9-tYh2bBgE5bQ=/0x0/filters:format(jpeg)/pic4917389.jpg",
+      "average": 7.60485,
+      "averageweight": 2.5714,
+      "url": "https://boardgamegeek.com/boardgame/271732"
+    },
+    {
+      "id": "323848",
+      "name": "The Pursuit of Happiness: Nostalgia",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/aG3XibUCbBhVlHR0-khqsQ__original/img/HQb8BuuSbfnXAFXa54s_RjEU4Zg=/0x0/filters:format(jpeg)/pic5791626.jpg",
+      "average": 7.69074,
+      "averageweight": 3.0,
+      "url": "https://boardgamegeek.com/boardgame/323848"
+    },
+    {
       "id": "12",
       "name": "Ra",
       "minplayers": 2,
