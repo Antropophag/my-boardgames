@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
 <style>
 body {
   margin: 0;
@@ -81,7 +85,7 @@ h2.section-title {
 
 <div id="loader"><div class="loader-circle"></div></div>
 
-<h2 class="section-title">Own Collection</h2>
+<!-- Own Collection без заголовка -->
 <div id="ownMosaic" class="mosaic"></div>
 
 <h2 class="section-title">Pre-ordered</h2>
@@ -97,14 +101,6 @@ function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
 
-  // размер плитки: span 1 или 2
-  if (game.playingtime < 30 || game.averageweight < 2) {
-    div.style.width = 'calc(20% - 0px)'; // для Masonry с 5 колонками
-  } else {
-    div.style.width = 'calc(40% - 0px)'; // крупная плитка 2 колонки
-  }
-
-  // цвет сложности
   let weightColor = '#00FF00';
   if(game.averageweight > 4) weightColor = 'red';
   else if(game.averageweight > 3) weightColor = 'orange';
@@ -122,6 +118,19 @@ function createGameDiv(game) {
   return div;
 }
 
+function getColumnWidth(container, isLargeTile=false) {
+  const containerWidth = container.clientWidth;
+  let cols = 3;
+  if(containerWidth >= 2500) cols = 6;
+  else if(containerWidth >= 2000) cols = 5;
+  else if(containerWidth >= 1400) cols = 4;
+  else if(containerWidth >= 1000) cols = 3;
+
+  let colWidth = containerWidth / cols;
+  if(isLargeTile) colWidth *= 2;
+  return colWidth;
+}
+
 function loadGames(file, containerId, key) {
   const container = document.getElementById(containerId);
   fetch(file)
@@ -130,31 +139,34 @@ function loadGames(file, containerId, key) {
       const games = data[key];
       games.forEach(game => {
         const div = createGameDiv(game);
+        const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
+        div.style.width = getColumnWidth(container, isLarge) + 'px';
         container.appendChild(div);
       });
 
       imagesLoaded(container, () => {
         const msnry = new Masonry(container, {
           itemSelector: '.game',
-          columnWidth: container.querySelector('.game').offsetWidth,
+          columnWidth: '.game',
           gutter: 0,
           percentPosition: false,
           transitionDuration: '0.4s'
         });
 
-        // эффект popIn
         container.querySelectorAll('.game').forEach(el => {
           const delay = 100 + Math.random() * 500;
           setTimeout(() => el.classList.add('show'), delay);
         });
 
-        // скрываем лоадскрин после Wishlist
         if(containerId === 'wishMosaic') {
           document.getElementById('loader').style.display = 'none';
         }
 
-        // ресайз
         window.addEventListener('resize', () => {
+          container.querySelectorAll('.game').forEach(gameEl => {
+            const isLarge = gameEl.offsetWidth > container.clientWidth/3;
+            gameEl.style.width = getColumnWidth(container, isLarge) + 'px';
+          });
           msnry.layout();
         });
       });
