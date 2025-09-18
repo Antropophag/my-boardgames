@@ -5,14 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 
+<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
+body, html {
+  margin: 0; padding: 0;
   background: #111;
+  font-family: 'Roboto', sans-serif;
   color: #fff;
 }
 h2.section-title {
@@ -21,18 +25,18 @@ h2.section-title {
   margin: 30px 0 20px;
 }
 .mosaic {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  grid-auto-rows: 180px;
-  gap: 0;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
+.grid-sizer, .game { box-sizing: border-box; }
 .game {
   position: relative;
   overflow: hidden;
+  margin: 0;
   opacity: 0;
   transform: translateY(20px) scale(0.95);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .game.show {
   opacity: 1;
@@ -46,10 +50,9 @@ h2.section-title {
 }
 .game img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  vertical-align: bottom;
+  transition: transform .3s ease;
 }
 .game:hover img { transform: scale(1.05); }
 .overlay {
@@ -68,6 +71,7 @@ h2.section-title {
 .overlay h3 { margin:0 0 4px; font-size:14px; line-height:1.1; }
 .overlay p { margin:2px 0; font-size:12px; }
 
+/* Лоадскрин */
 #loader {
   position: fixed; top:0; left:0; width:100%; height:100%;
   background:#111; display:flex; justify-content:center; align-items:center;
@@ -87,69 +91,99 @@ h2.section-title {
 
 <div id="loader"><div class="loader-circle"></div></div>
 
-<div id="ownMosaic" class="mosaic"></div>
+<!-- Own Collection -->
+<div id="ownMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
+<!-- Pre-ordered -->
 <h2 class="section-title">Pre-ordered</h2>
-<div id="preMosaic" class="mosaic"></div>
+<div id="preMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
+<!-- Wishlist -->
 <h2 class="section-title">Wishlist</h2>
-<div id="wishMosaic" class="mosaic"></div>
+<div id="wishMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-function createGameDiv(game) {
-  const div = document.createElement('div');
-  div.className = 'game';
-
-  const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
-  if(isLarge) {
-    div.style.gridColumn = 'span 2';
-    div.style.gridRow = 'span 2';
-  }
-
-  let weightColor = '#00FF00';
-  if(game.averageweight > 4) weightColor = 'red';
-  else if(game.averageweight > 3) weightColor = 'orange';
-
-  div.innerHTML = `
-    <img src="${game.image}" alt="${game.name}">
-    <div class="overlay">
-      <h3>${game.name}</h3>
-      <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-      <p>Время: ${game.playingtime} мин</p>
-      <p>Рейтинг: ${game.average.toFixed(2)}</p>
-      <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-    </div>
-  `;
-  return div;
+function getColumnCount() {
+  if (window.innerWidth < 600) return 2;
+  if (window.innerWidth < 900) return 3;
+  if (window.innerWidth < 1200) return 4;
+  return 5;
 }
 
-function loadGames(file, containerId, key) {
+function updateColumns(container) {
+  const colWidth = container.clientWidth / getColumnCount();
+  container.querySelectorAll('.grid-sizer, .game').forEach(el => el.style.width = colWidth + 'px');
+  return colWidth;
+}
+
+function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
   fetch(file)
     .then(res => res.json())
     .then(data => {
-      const games = data[key];
+      let games;
+      if(containerId === 'ownMosaic') games = data.own;
+      else if(containerId === 'preMosaic') games = data.preordered;
+      else games = data.wishlist;
 
-      const smallGames = [], largeGames = [];
       games.forEach(game => {
-        const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
-        if(isLarge) largeGames.push(game);
-        else smallGames.push(game);
-      });
+        const div = document.createElement('div');
+        div.className = 'game';
 
-      const sortedGames = [...largeGames, ...smallGames];
+        let weightColor = '#00FF00';
+        if(game.averageweight > 4) weightColor = 'red';
+        else if(game.averageweight > 3) weightColor = 'orange';
 
-      sortedGames.forEach((game, index) => {
-        const div = createGameDiv(game);
+        div.innerHTML = `
+          <img src="${game.image}" alt="${game.name}">
+          <div class="overlay">
+            <h3>${game.name}</h3>
+            <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+            <p>Время: ${game.playingtime} мин</p>
+            <p>Рейтинг: ${game.average.toFixed(2)}</p>
+            <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+          </div>
+        `;
         container.appendChild(div);
-        setTimeout(() => div.classList.add('show'), index * 80);
       });
 
-      document.getElementById('loader').style.display = 'none';
+      imagesLoaded(container, () => {
+        const colWidth = updateColumns(container);
+        const msnry = new Masonry(container, {
+          itemSelector: '.game',
+          columnWidth: colWidth,
+          gutter: 0,
+          percentPosition: false,
+          transitionDuration: '0.4s'
+        });
+
+        // 🎲 хаотичное появление с эффектом popIn
+        container.querySelectorAll('.game').forEach((el) => {
+          const delay = 200 + Math.random() * 800;
+          setTimeout(() => el.classList.add('show'), delay);
+        });
+
+        // скрываем лоадскрин после Wishlist
+        if(containerId === 'wishMosaic') {
+          document.getElementById('loader').style.display = 'none';
+        }
+
+        // ресайз
+        window.addEventListener('resize', () => {
+          const newColWidth = container.clientWidth / getColumnCount();
+          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+          msnry.options.columnWidth = newColWidth;
+          msnry.layout();
+        });
+      });
     });
 }
 
-loadGames('data/games.json', 'ownMosaic', 'own');
-loadGames('data/games.json', 'preMosaic', 'preordered');
-loadGames('data/games.json', 'wishMosaic', 'wishlist');
+loadGames('data/games.json', 'ownMosaic');
+loadGames('data/games.json', 'preMosaic');
+loadGames('data/games.json', 'wishMosaic');
 </script>
 </body>
 </html>
