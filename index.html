@@ -20,18 +20,18 @@ h2.section-title {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 16px;
-  padding: 0 20px 40px 20px;
+  gap: 0; /* убираем горизонтальные и вертикальные отступы */
+  padding: 0 0 40px 0;
   grid-auto-flow: dense;
 }
 .game {
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  border-radius: 0; /* плитки вплотную, без скругления */
+  box-shadow: none;  /* можно убрать тень, чтобы не было промежутков визуально */
   opacity: 0;
   transform: translateY(20px) scale(0.95);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .game.show {
   opacity: 1;
@@ -46,6 +46,11 @@ h2.section-title {
 .game img {
   width: 100%;
   display: block;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+.game:hover img {
+  transform: scale(1.05); /* эффект увеличения при наведении */
 }
 .overlay {
   position: absolute;
