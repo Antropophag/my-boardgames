@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Boardgame Collection</title>
+<title>Play with me</title>
 
 <style>
 body {
@@ -20,15 +20,15 @@ h2.section-title {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 0; /* убираем горизонтальные и вертикальные отступы */
-  padding: 0 0 40px 0;
+  gap: 0; /* убрали горизонтальные и вертикальные отступы */
+  padding: 0;
   grid-auto-flow: dense;
 }
 .game {
   position: relative;
   overflow: hidden;
-  border-radius: 0; /* плитки вплотную, без скругления */
-  box-shadow: none;  /* можно убрать тень, чтобы не было промежутков визуально */
+  border-radius: 0;
+  box-shadow: none;
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -50,7 +50,7 @@ h2.section-title {
   transition: transform 0.3s ease;
 }
 .game:hover img {
-  transform: scale(1.05); /* эффект увеличения при наведении */
+  transform: scale(1.05);
 }
 .overlay {
   position: absolute;
@@ -104,7 +104,7 @@ function createGameDiv(game) {
   div.className = 'game';
 
   // определяем размер плитки
-  if (game.playingtime <= 30 && game.averageweight < 2) {
+  if (game.playingtime < 30 && game.averageweight < 2) {
     div.style.gridColumn = 'span 1';
   } else {
     div.style.gridColumn = 'span 2';
