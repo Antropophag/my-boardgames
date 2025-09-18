@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -71,20 +69,18 @@ h2.section-title {
   transform: translateY(100%);
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
-.game.show .overlay,
 .game:hover .overlay {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Шестиугольник рейтинга */
+/* Равносторонний шестиугольник рейтинга */
 .rating-hex {
-  width: 48px;
-  height: 55px;
+  width: 50px;
+  aspect-ratio: 1 / 1;
+  background-color: #333;
   clip-path: polygon(
-    25% 0%, 75% 0%,
-    100% 50%, 75% 100%,
-    25% 100%, 0% 50%
+    50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%
   );
   display: flex;
   justify-content: center;
@@ -102,9 +98,10 @@ h2.section-title {
   margin: 0 0 4px;
   font-size: 16px;
   font-weight: 700;
+  color: #fff;
 }
 .overlay-content h3 a {
-  color: #FFD700;
+  color: #fff;
   text-decoration: none;
 }
 .overlay-content h3 a:hover { text-decoration: underline; }
@@ -134,14 +131,11 @@ h2.section-title {
 
 <div id="loader"><div class="loader-circle"></div></div>
 
-<!-- Own Collection -->
 <div id="ownMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
-<!-- Pre-ordered -->
 <h2 class="section-title">Pre-ordered</h2>
 <div id="preMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
-<!-- Wishlist -->
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
@@ -187,6 +181,7 @@ function loadGames(file, containerId) {
         else if(game.averageweight > 3) weightColor = 'orange';
 
         div.innerHTML = `
+          <img src="${game.image}" alt="${game.name}">
           <div class="overlay">
             <div class="rating-hex" style="background-color:${getRatingColor(game.average)}">
               ${game.average.toFixed(1)}
@@ -198,7 +193,6 @@ function loadGames(file, containerId) {
               <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
             </div>
           </div>
-          <img src="${game.image}" alt="${game.name}">
         `;
 
         container.appendChild(div);
