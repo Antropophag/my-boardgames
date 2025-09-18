@@ -1125,6 +1125,26 @@
       "averageweight": 0.0
     },
     {
+      "id": "183394",
+      "name": "Viticulture Essential Edition",
+      "minplayers": 1,
+      "maxplayers": 6,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/l_PRU2lVlX9seScRFcvFlA__original/img/gDL7OZFlzoOFgU0VYlREs8P5hCQ=/0x0/filters:format(jpeg)/pic6500949.jpg",
+      "average": 7.96802,
+      "averageweight": 2.8949
+    },
+    {
+      "id": "290448",
+      "name": "Wingspan: European Expansion",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 70,
+      "image": "https://cf.geekdo-images.com/7izK8WM_bgtvBzxQvLGz-A__original/img/NFkKrFCKJ1YUC1x7bpx-WVDhLq0=/0x0/filters:format(jpeg)/pic4982682.jpg",
+      "average": 8.33286,
+      "averageweight": 2.4217
+    },
+    {
       "id": "392842",
       "name": "Wonder Bowling",
       "minplayers": 2,
