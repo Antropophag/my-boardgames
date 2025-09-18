@@ -17,18 +17,12 @@ h2.section-title {
   font-size: 28px;
   margin: 30px 0 20px;
 }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 0; /* убрали горизонтальные и вертикальные отступы */
-  padding: 0;
-  grid-auto-flow: dense;
+.mosaic {
+  width: 100%;
 }
 .game {
   position: relative;
   overflow: hidden;
-  border-radius: 0;
-  box-shadow: none;
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -46,7 +40,6 @@ h2.section-title {
 .game img {
   width: 100%;
   display: block;
-  height: auto;
   transition: transform 0.3s ease;
 }
 .game:hover img {
@@ -89,25 +82,26 @@ h2.section-title {
 <div id="loader"><div class="loader-circle"></div></div>
 
 <h2 class="section-title">Own Collection</h2>
-<div id="ownGrid" class="grid"></div>
+<div id="ownMosaic" class="mosaic"></div>
 
 <h2 class="section-title">Pre-ordered</h2>
-<div id="preGrid" class="grid"></div>
+<div id="preMosaic" class="mosaic"></div>
 
 <h2 class="section-title">Wishlist</h2>
-<div id="wishGrid" class="grid"></div>
+<div id="wishMosaic" class="mosaic"></div>
 
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
 function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
 
-  // определяем размер плитки
-  if (game.playingtime < 30 && game.averageweight < 2) {
-    div.style.gridColumn = 'span 1';
+  // размер плитки: span 1 или 2
+  if (game.playingtime < 30 || game.averageweight < 2) {
+    div.style.width = 'calc(20% - 0px)'; // для Masonry с 5 колонками
   } else {
-    div.style.gridColumn = 'span 2';
+    div.style.width = 'calc(40% - 0px)'; // крупная плитка 2 колонки
   }
 
   // цвет сложности
@@ -140,23 +134,36 @@ function loadGames(file, containerId, key) {
       });
 
       imagesLoaded(container, () => {
-        // эффект «popIn»
+        const msnry = new Masonry(container, {
+          itemSelector: '.game',
+          columnWidth: container.querySelector('.game').offsetWidth,
+          gutter: 0,
+          percentPosition: false,
+          transitionDuration: '0.4s'
+        });
+
+        // эффект popIn
         container.querySelectorAll('.game').forEach(el => {
           const delay = 100 + Math.random() * 500;
           setTimeout(() => el.classList.add('show'), delay);
         });
 
-        // скрываем лоадскрин после wishlist
-        if(containerId === 'wishGrid') {
+        // скрываем лоадскрин после Wishlist
+        if(containerId === 'wishMosaic') {
           document.getElementById('loader').style.display = 'none';
         }
+
+        // ресайз
+        window.addEventListener('resize', () => {
+          msnry.layout();
+        });
       });
     });
 }
 
-loadGames('data/games.json', 'ownGrid', 'own');
-loadGames('data/games.json', 'preGrid', 'preordered');
-loadGames('data/games.json', 'wishGrid', 'wishlist');
+loadGames('data/games.json', 'ownMosaic', 'own');
+loadGames('data/games.json', 'preMosaic', 'preordered');
+loadGames('data/games.json', 'wishMosaic', 'wishlist');
 </script>
 </body>
 </html>
