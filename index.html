@@ -65,7 +65,7 @@ h2.section-title {
 
 .overlay .rating-hex {
   width: 40px;
-  aspect-ratio: 1.15; /* можно подправить для равносторонности */
+  aspect-ratio: 1.15; 
   background-color: gray;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
@@ -142,10 +142,10 @@ function updateColumns(container) {
 }
 
 function getRatingColor(avg) {
-  if(avg >= 8) return '#4CAF50';       // зеленый
-  if(avg >= 5) return '#2196F3';       // синий
-  if(avg >= 4) return '#9C27B0';       // фиолетовый
-  return '#F44336';                     // красный
+  if(avg >= 8) return '#4CAF50';       
+  if(avg >= 5) return '#2196F3';       
+  if(avg >= 4) return '#9C27B0';       
+  return '#F44336';                     
 }
 
 function createGameDiv(game) {
@@ -153,6 +153,9 @@ function createGameDiv(game) {
   div.className = 'game';
 
   const ratingColor = getRatingColor(game.average);
+  let weightColor = '#00FF00';
+  if(game.averageweight > 4) weightColor = 'red';
+  else if(game.averageweight > 3) weightColor = 'orange';
 
   div.innerHTML = `
     <img src="${window.innerWidth < 800 ? game.image : game.image}" alt="${game.name}">
@@ -162,6 +165,7 @@ function createGameDiv(game) {
         <h3><a href="${game.url}" target="_blank" style="color:white;text-decoration:none">${game.name}</a></h3>
         <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
         <p>Время: ${game.playingtime} мин</p>
+        <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
     </div>
   `;
