@@ -5,11 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -27,11 +24,9 @@ h2.section-title {
 .mosaic {
   width: 100%;
 }
-.grid-sizer, .game { box-sizing: border-box; }
 .game {
   position: relative;
   overflow: hidden;
-  margin: 0;
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -53,44 +48,47 @@ h2.section-title {
   transition: transform .3s ease;
 }
 .game:hover img { transform: scale(1.05); }
+
 .overlay {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.8);
   color: #fff;
   font-weight: bold;
   padding: 8px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   opacity: 0;
-  transition: opacity .2s ease;
+  transition: opacity 0.3s ease;
 }
 .game:hover .overlay { opacity: 1; }
-.overlay h3 { margin:0 0 4px; font-size:14px; line-height:1.1; color: #fff; }
-.overlay p { margin:2px 0; font-size:12px; }
 
-/* Рейтинг в шестиугольнике */
-.hex {
-  position: absolute;
-  left: 8px;
-  top: 8px;
-  width: 50px;
-  height: 43px; /* корректное соотношение для равностороннего */
-  background: green;
-  clip-path: polygon(
-    50% 0%, 
-    93% 25%, 
-    93% 75%, 
-    50% 100%, 
-    7% 75%, 
-    7% 25%
-  );
+.overlay .rating-hex {
+  width: 40px;
+  aspect-ratio: 1.15; /* можно подправить для равносторонности */
+  background-color: gray;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-weight: bold;
   color: #fff;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.overlay .info {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+}
+.overlay .info h3 {
+  margin: 0 0 4px 0;
   font-size: 14px;
+  line-height: 1.1;
+}
+.overlay .info p {
+  margin: 2px 0;
+  font-size: 12px;
 }
 
 /* Лоадскрин */
@@ -107,6 +105,14 @@ h2.section-title {
   animation: spin 1s linear infinite;
 }
 @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+/* Мобильные уменьшенные картинки */
+@media (max-width: 800px) {
+  .game img {
+    width: 100%;
+    height: auto;
+  }
+}
 </style>
 </head>
 <body>
@@ -136,30 +142,27 @@ function updateColumns(container) {
 }
 
 function getRatingColor(avg) {
-  if(avg >= 8.0) return 'green';
-  if(avg >= 5.0) return 'blue';
-  if(avg >= 4.0) return 'purple';
-  return 'red';
+  if(avg >= 8) return '#4CAF50';       // зеленый
+  if(avg >= 5) return '#2196F3';       // синий
+  if(avg >= 4) return '#9C27B0';       // фиолетовый
+  return '#F44336';                     // красный
 }
 
 function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
 
-  // Выбираем картинку: мобильная или оригинал
-  const imgSrc = window.innerWidth < 600 && game.thumb ? game.thumb : game.image;
-
-  // Цвет рейтинга
   const ratingColor = getRatingColor(game.average);
 
   div.innerHTML = `
-    <img src="${imgSrc}" alt="${game.name}">
-    <a href="${game.url}" target="_blank" class="hex" style="background:${ratingColor}">${game.average.toFixed(1)}</a>
+    <img src="${window.innerWidth < 800 ? game.image : game.image}" alt="${game.name}">
     <div class="overlay">
-      <h3>${game.name}</h3>
-      <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-      <p>Время: ${game.playingtime} мин</p>
-      <p>Сложность: ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'} / 5</p>
+      <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
+      <div class="info">
+        <h3><a href="${game.url}" target="_blank" style="color:white;text-decoration:none">${game.name}</a></h3>
+        <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+        <p>Время: ${game.playingtime} мин</p>
+      </div>
     </div>
   `;
   return div;
@@ -170,17 +173,13 @@ function loadGames(file, containerId) {
   fetch(file)
     .then(res => res.json())
     .then(data => {
-      let games;
-      if(containerId === 'ownMosaic') games = data.own;
-      else if(containerId === 'preMosaic') games = data.preordered;
-      else games = data.wishlist;
-
+      let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
+      
       games.forEach((game, index) => {
         const div = createGameDiv(game);
         container.appendChild(div);
       });
 
-      // Ждем полной загрузки всех изображений
       imagesLoaded(container, () => {
         const colWidth = updateColumns(container);
         const msnry = new Masonry(container, {
@@ -191,8 +190,8 @@ function loadGames(file, containerId) {
           transitionDuration: '0.4s'
         });
 
-        container.querySelectorAll('.game').forEach((el, index) => {
-          setTimeout(() => el.classList.add('show'), Math.random()*500);
+        container.querySelectorAll('.game').forEach((el, i) => {
+          setTimeout(() => el.classList.add('show'), 100*i);
         });
 
         if(containerId === 'wishMosaic') {
@@ -201,12 +200,7 @@ function loadGames(file, containerId) {
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => {
-            el.style.width = newColWidth + 'px';
-            const img = el.querySelector('img');
-            if(img && game.thumb && window.innerWidth < 600) img.src = game.thumb;
-            else if(img) img.src = game.image;
-          });
+          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
           msnry.options.columnWidth = newColWidth;
           msnry.layout();
         });
@@ -218,5 +212,6 @@ loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
+
 </body>
 </html>
