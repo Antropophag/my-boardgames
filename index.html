@@ -69,6 +69,12 @@ h2.section-title {
 }
 .game:hover .overlay { opacity: 1; }
 .overlay h3 { margin:0 0 4px; font-size:14px; line-height:1.1; }
+.overlay h3 a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.overlay h3 a:hover { color: #00FF00; }
 .overlay p { margin:2px 0; font-size:12px; }
 
 /* Лоадскрин */
@@ -118,6 +124,27 @@ function updateColumns(container) {
   return colWidth;
 }
 
+function createGameDiv(game) {
+  const div = document.createElement('div');
+  div.className = 'game';
+
+  let weightColor = '#00FF00';
+  if(game.averageweight > 4) weightColor = 'red';
+  else if(game.averageweight > 3) weightColor = 'orange';
+
+  div.innerHTML = `
+    <img src="${game.image}" alt="${game.name}">
+    <div class="overlay">
+      <h3><a href="${game.url || '#'}" target="_blank" rel="noopener noreferrer">${game.name}</a></h3>
+      <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+      <p>Время: ${game.playingtime} мин</p>
+      <p>Рейтинг: ${game.average.toFixed(2)}</p>
+      <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+    </div>
+  `;
+  return div;
+}
+
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
   fetch(file)
@@ -128,26 +155,7 @@ function loadGames(file, containerId) {
       else if(containerId === 'preMosaic') games = data.preordered;
       else games = data.wishlist;
 
-      games.forEach(game => {
-        const div = document.createElement('div');
-        div.className = 'game';
-
-        let weightColor = '#00FF00';
-        if(game.averageweight > 4) weightColor = 'red';
-        else if(game.averageweight > 3) weightColor = 'orange';
-
-        div.innerHTML = `
-          <img src="${game.image}" alt="${game.name}">
-          <div class="overlay">
-            <h3>${game.name}</h3>
-            <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-            <p>Время: ${game.playingtime} мин</p>
-            <p>Рейтинг: ${game.average.toFixed(2)}</p>
-            <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-          </div>
-        `;
-        container.appendChild(div);
-      });
+      games.forEach(game => container.appendChild(createGameDiv(game)));
 
       imagesLoaded(container, () => {
         const colWidth = updateColumns(container);
@@ -165,12 +173,10 @@ function loadGames(file, containerId) {
           setTimeout(() => el.classList.add('show'), delay);
         });
 
-        // скрываем лоадскрин после Wishlist
         if(containerId === 'wishMosaic') {
           document.getElementById('loader').style.display = 'none';
         }
 
-        // ресайз
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
           container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
