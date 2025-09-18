@@ -493,6 +493,16 @@
       "averageweight": 1.1479
     },
     {
+      "id": "406652",
+      "name": "Compile: Main 1",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/KMSUmBs9elKj4qBMxGVFgw__original/img/gE1a5OvsMQJt-LSDS7ktEoYzX1w=/0x0/filters:format(png)/pic8778267.png",
+      "average": 7.92762,
+      "averageweight": 2.325
+    },
+    {
       "id": "402283",
       "name": "Courtisans",
       "minplayers": 2,
@@ -663,6 +673,16 @@
       "averageweight": 2.7317
     },
     {
+      "id": "393322",
+      "name": "Mutagen",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/bqh1xaHoUb6tV8kmyRjBXA__original/img/n5ZS0YaCX-HM7x-v0le3OA0fubg=/0x0/filters:format(png)/pic7605615.png",
+      "average": 6.7,
+      "averageweight": 3.0
+    },
+    {
       "id": "291572",
       "name": "Oath",
       "minplayers": 1,
@@ -743,6 +763,16 @@
       "averageweight": 4.0772
     },
     {
+      "id": "422042",
+      "name": "Tea Garden",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 120,
+      "image": "https://cf.geekdo-images.com/LIIX8JddEnTiwVV_cQ-mCA__original/img/6gQqWfyD1yZHfPi_4kBYfmaaczs=/0x0/filters:format(jpeg)/pic8238877.jpg",
+      "average": 7.55753,
+      "averageweight": 3.0167
+    },
+    {
       "id": "14996",
       "name": "Ticket to Ride: Europe",
       "minplayers": 2,
@@ -773,6 +803,16 @@
       "averageweight": 4.0076
     },
     {
+      "id": "439765",
+      "name": "Unmatched: Battle of Legends, Volume Three",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 40,
+      "image": "https://cf.geekdo-images.com/L1IaHLvM_Ii0IvixFFZm8g__original/img/vJ4tv9g969dttrx6Hqp-I5UWPeE=/0x0/filters:format(jpeg)/pic8721897.jpg",
+      "average": 8.72814,
+      "averageweight": 2.0
+    },
+    {
       "id": "421904",
       "name": "The Vale of Eternity: Artifacts",
       "minplayers": 2,
@@ -801,6 +841,16 @@
       "image": "https://cf.geekdo-images.com/bUbrvlY6Dw1cdb-sNrnkew__original/img/KcU-Srht_4xyLQ69ZjFcFKEOfMc=/0x0/filters:format(jpeg)/pic5188761.jpg",
       "average": 8.0503,
       "averageweight": 3.0414
+    },
+    {
+      "id": "443074",
+      "name": "Zombie Princess",
+      "minplayers": 3,
+      "maxplayers": 6,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/U-PsDEdbsmzqMVLPiVqJQw__original/img/Z-i8O_6kaXV1FsrBy6FFoUb36i4=/0x0/filters:format(png)/pic8805511.png",
+      "average": 8.28571,
+      "averageweight": 3.0
     }
   ],
   "preordered": [
@@ -873,6 +923,16 @@
       "image": "https://cf.geekdo-images.com/G11aDqPro1E5C7fBAfTqlw__original/img/e90fgRQxKu-v8THSOiNvZPLGo5s=/0x0/filters:format(jpeg)/pic8771521.jpg",
       "average": 5.53571,
       "averageweight": 0.0
+    },
+    {
+      "id": "429845",
+      "name": "Jisogi: Anime Studio Tycoon",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
+      "image": "https://cf.geekdo-images.com/pPGPYvP-Vq1sCwrv3xa0MA__original/img/wPHdrZn34YOt6SZBXIfDGy3I8kc=/0x0/filters:format(png)/pic8844372.png",
+      "average": 7.49925,
+      "averageweight": 2.8
     },
     {
       "id": "422484",
