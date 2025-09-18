@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 
-<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
@@ -21,9 +20,7 @@ h2.section-title {
   font-size: 28px;
   margin: 30px 0 20px;
 }
-.mosaic {
-  width: 100%;
-}
+.mosaic { width: 100%; }
 .game {
   position: relative;
   overflow: hidden;
@@ -46,9 +43,7 @@ h2.section-title {
   display: block;
   transition: transform 0.3s ease;
 }
-.game:hover img {
-  transform: scale(1.05);
-}
+.game:hover img { transform: scale(1.05); }
 .overlay {
   position: absolute;
   left: 0; right: 0; bottom: 0;
@@ -65,7 +60,6 @@ h2.section-title {
 .overlay h3 { margin:0 0 4px; font-size:14px; line-height:1.1; }
 .overlay p { margin:2px 0; font-size:12px; }
 
-/* Лоадскрин */
 #loader {
   position: fixed; top:0; left:0; width:100%; height:100%;
   background:#111; display:flex; justify-content:center; align-items:center;
@@ -85,12 +79,9 @@ h2.section-title {
 
 <div id="loader"><div class="loader-circle"></div></div>
 
-<!-- Own Collection без заголовка -->
 <div id="ownMosaic" class="mosaic"></div>
-
 <h2 class="section-title">Pre-ordered</h2>
 <div id="preMosaic" class="mosaic"></div>
-
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic"></div>
 
@@ -139,9 +130,7 @@ function loadGames(file, containerId, key) {
     .then(data => {
       const games = data[key];
 
-      // Разделяем большие и маленькие плитки
-      const smallGames = [];
-      const largeGames = [];
+      const smallGames = [], largeGames = [];
       games.forEach(game => {
         const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
         if(isLarge) largeGames.push(game);
@@ -150,6 +139,8 @@ function loadGames(file, containerId, key) {
 
       const sortedGames = [...largeGames, ...smallGames];
 
+      // Для слепления маленьких плиток по горизонтали добавляем "виртуальные" ряды
+      const virtualRow = [];
       sortedGames.forEach((game, index) => {
         const div = createGameDiv(game);
         const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
@@ -157,7 +148,7 @@ function loadGames(file, containerId, key) {
         container.appendChild(div);
 
         // Эффект волны слева направо
-        setTimeout(() => div.classList.add('show'), index * 100);
+        setTimeout(() => div.classList.add('show'), index * 80);
       });
 
       imagesLoaded(container, () => {
