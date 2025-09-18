@@ -118,13 +118,12 @@ function createGameDiv(game) {
   return div;
 }
 
-// динамический расчет ширины колонки (уменьшенная сетка)
 function getColumnWidth(container, isLargeTile=false) {
   const containerWidth = container.clientWidth;
-  let cols = 4; // минимально
-  if(containerWidth >= 2500) cols = 10; // раньше 6
-  else if(containerWidth >= 2000) cols = 8; // раньше 5
-  else if(containerWidth >= 1400) cols = 6; // раньше 4
+  let cols = 4;
+  if(containerWidth >= 2500) cols = 10;
+  else if(containerWidth >= 2000) cols = 8;
+  else if(containerWidth >= 1400) cols = 6;
   else if(containerWidth >= 1000) cols = 4; 
   else cols = 2;
 
@@ -139,11 +138,26 @@ function loadGames(file, containerId, key) {
     .then(res => res.json())
     .then(data => {
       const games = data[key];
+
+      // Разделяем большие и маленькие плитки
+      const smallGames = [];
+      const largeGames = [];
       games.forEach(game => {
+        const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
+        if(isLarge) largeGames.push(game);
+        else smallGames.push(game);
+      });
+
+      const sortedGames = [...largeGames, ...smallGames];
+
+      sortedGames.forEach((game, index) => {
         const div = createGameDiv(game);
         const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
         div.style.width = getColumnWidth(container, isLarge) + 'px';
         container.appendChild(div);
+
+        // Эффект волны слева направо
+        setTimeout(() => div.classList.add('show'), index * 100);
       });
 
       imagesLoaded(container, () => {
@@ -155,15 +169,6 @@ function loadGames(file, containerId, key) {
           transitionDuration: '0.4s'
         });
 
-        container.querySelectorAll('.game').forEach(el => {
-          const delay = 100 + Math.random() * 500;
-          setTimeout(() => el.classList.add('show'), delay);
-        });
-
-        if(containerId === 'wishMosaic') {
-          document.getElementById('loader').style.display = 'none';
-        }
-
         window.addEventListener('resize', () => {
           container.querySelectorAll('.game').forEach(gameEl => {
             const isLarge = gameEl.offsetWidth > container.clientWidth/3;
@@ -171,6 +176,10 @@ function loadGames(file, containerId, key) {
           });
           msnry.layout();
         });
+
+        if(containerId === 'wishMosaic') {
+          document.getElementById('loader').style.display = 'none';
+        }
       });
     });
 }
