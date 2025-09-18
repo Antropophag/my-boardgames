@@ -5,136 +5,187 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
 
+<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
+<!-- Шрифт BGG -->
 <style>
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+body, html {
+  margin: 0; padding: 0;
   background: #111;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #fff;
-  margin: 0;
-  padding: 0;
 }
 
-.overlay h3, .overlay p {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-</style>
-}
 h2.section-title {
   text-align: center;
   font-size: 28px;
   margin: 30px 0 20px;
 }
+
 .mosaic {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
+
+.grid-sizer, .game { box-sizing: border-box; }
+
 .game {
   position: relative;
   overflow: hidden;
+  margin: 0;
   opacity: 0;
   transform: translateY(20px) scale(0.95);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
 .game.show {
   opacity: 1;
   transform: translateY(0) scale(1);
   animation: popIn 0.4s ease;
 }
+
 @keyframes popIn {
   0%   { transform: translateY(20px) scale(0.95); }
   60%  { transform: translateY(-5px) scale(1.05); }
   100% { transform: translateY(0) scale(1); }
 }
+
 .game img {
   width: 100%;
   display: block;
   vertical-align: bottom;
   transition: transform .3s ease;
 }
+
 .game:hover img { transform: scale(1.05); }
 
 .overlay {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.7);
   color: #fff;
-  font-weight: bold;
+  font-weight: normal;
   padding: 8px;
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity .2s ease;
 }
+
 .game:hover .overlay { opacity: 1; }
 
 .overlay .rating-hex {
   width: 40px;
-  aspect-ratio: 1.15; /* можно подправить для равносторонности */
-  background-color: gray;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  height: 40px;
+  clip-path: polygon(25% 6.7%, 75% 6.7%, 100% 50%, 75% 93.3%, 25% 93.3%, 0% 50%);
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  color: #fff;
+  color: #111;
   margin-right: 8px;
   flex-shrink: 0;
+  font-size: 14px;
 }
+
 .overlay .info {
   display: flex;
   flex-direction: column;
-  font-size: 12px;
 }
-.overlay .info h3 {
-  margin: 0 0 4px 0;
+
+.overlay h3 {
+  margin: 0 0 4px;
   font-size: 14px;
   line-height: 1.1;
 }
-.overlay .info p {
+
+.overlay p {
   margin: 2px 0;
   font-size: 12px;
 }
 
-/* Лоадскрин */
+/* Лоадскрин с кубиком */
 #loader {
   position: fixed; top:0; left:0; width:100%; height:100%;
   background:#111; display:flex; justify-content:center; align-items:center;
   z-index:9999;
+  perspective: 600px;
 }
-.loader-circle {
-  width:50px; height:50px;
-  border:5px solid #333;
-  border-top:5px solid #00FF00;
-  border-radius:50%;
-  animation: spin 1s linear infinite;
-}
-@keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
 
-/* Мобильные уменьшенные картинки */
-@media (max-width: 800px) {
-  .game img {
-    width: 100%;
-    height: auto;
-  }
+.loader-cube {
+  width: 50px;
+  height: 50px;
+  transform-style: preserve-3d;
+  animation: rotateCube 1.2s linear infinite;
+  position: relative;
+}
+
+.loader-cube div {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #00FF00;
+  border: 2px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: #111;
+}
+
+/* Грани кубика */
+.loader-cube .front { transform: rotateY(0deg) translateZ(25px); content:'1'; }
+.loader-cube .back { transform: rotateY(180deg) translateZ(25px); content:'6'; }
+.loader-cube .right { transform: rotateY(90deg) translateZ(25px); content:'3'; }
+.loader-cube .left { transform: rotateY(-90deg) translateZ(25px); content:'4'; }
+.loader-cube .top { transform: rotateX(90deg) translateZ(25px); content:'5'; }
+.loader-cube .bottom { transform: rotateX(-90deg) translateZ(25px); content:'2'; }
+
+@keyframes rotateCube {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
 }
 </style>
 </head>
 <body>
 
-<div id="loader"><div class="loader-circle"></div></div>
+<div id="loader">
+  <div class="loader-cube">
+    <div class="front">1</div>
+    <div class="back">6</div>
+    <div class="right">3</div>
+    <div class="left">4</div>
+    <div class="top">5</div>
+    <div class="bottom">2</div>
+  </div>
+</div>
 
-<div id="ownMosaic" class="mosaic"></div>
+<!-- Own Collection -->
+<div id="ownMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
+<!-- Pre-ordered -->
 <h2 class="section-title">Pre-ordered</h2>
-<div id="preMosaic" class="mosaic"></div>
+<div id="preMosaic" class="mosaic"><div class="grid-sizer"></div></div>
+
+<!-- Wishlist -->
 <h2 class="section-title">Wishlist</h2>
-<div id="wishMosaic" class="mosaic"></div>
+<div id="wishMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
+function getRatingColor(r) {
+  if (r >= 8) return 'green';
+  if (r >= 5) return 'blue';
+  if (r >= 4) return 'purple';
+  return 'red';
+}
+
 function getColumnCount() {
   if (window.innerWidth < 600) return 2;
   if (window.innerWidth < 900) return 3;
@@ -144,15 +195,8 @@ function getColumnCount() {
 
 function updateColumns(container) {
   const colWidth = container.clientWidth / getColumnCount();
-  container.querySelectorAll('.game').forEach(el => el.style.width = colWidth + 'px');
+  container.querySelectorAll('.grid-sizer, .game').forEach(el => el.style.width = colWidth + 'px');
   return colWidth;
-}
-
-function getRatingColor(avg) {
-  if(avg >= 8) return '#4CAF50';       // зеленый
-  if(avg >= 5) return '#2196F3';       // синий
-  if(avg >= 4) return '#9C27B0';       // фиолетовый
-  return '#F44336';                     // красный
 }
 
 function createGameDiv(game) {
@@ -179,17 +223,22 @@ function createGameDiv(game) {
   return div;
 }
 
-
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
   fetch(file)
     .then(res => res.json())
     .then(data => {
-      let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
-      
+      let games;
+      if(containerId === 'ownMosaic') games = data.own;
+      else if(containerId === 'preMosaic') games = data.preordered;
+      else games = data.wishlist;
+
       games.forEach((game, index) => {
         const div = createGameDiv(game);
         container.appendChild(div);
+
+        // хаотичное появление
+        setTimeout(() => div.classList.add('show'), 200 + Math.random()*800);
       });
 
       imagesLoaded(container, () => {
@@ -202,20 +251,16 @@ function loadGames(file, containerId) {
           transitionDuration: '0.4s'
         });
 
-        container.querySelectorAll('.game').forEach((el, i) => {
-          setTimeout(() => el.classList.add('show'), 100*i);
-        });
-
-        if(containerId === 'wishMosaic') {
-          document.getElementById('loader').style.display = 'none';
-        }
-
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
           container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
           msnry.options.columnWidth = newColWidth;
           msnry.layout();
         });
+
+        if(containerId === 'wishMosaic') {
+          document.getElementById('loader').style.display = 'none';
+        }
       });
     });
 }
@@ -224,6 +269,5 @@ loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
-
 </body>
 </html>
