@@ -4,11 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Play with me</title>
-  
+
+<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  
+
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
 body, html {
   margin: 0; padding: 0;
@@ -32,10 +35,19 @@ h2.section-title {
   overflow: hidden;
   margin: 0;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px) scale(0.95);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-.game.show { opacity: 1; transform: translateY(0); }
+.game.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: popIn 0.4s ease;
+}
+@keyframes popIn {
+  0%   { transform: translateY(20px) scale(0.95); }
+  60%  { transform: translateY(-5px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); }
+}
 .game img {
   width: 100%;
   display: block;
@@ -79,7 +91,7 @@ h2.section-title {
 
 <div id="loader"><div class="loader-circle"></div></div>
 
-<!-- Own Collection без заголовка -->
+<!-- Own Collection -->
 <div id="ownMosaic" class="mosaic"><div class="grid-sizer"></div></div>
 
 <!-- Pre-ordered -->
@@ -94,7 +106,10 @@ h2.section-title {
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
 function getColumnCount() {
-  return window.innerWidth < 900 ? 2 : 5;
+  if (window.innerWidth < 600) return 2;
+  if (window.innerWidth < 900) return 3;
+  if (window.innerWidth < 1200) return 4;
+  return 5;
 }
 
 function updateColumns(container) {
@@ -140,14 +155,20 @@ function loadGames(file, containerId) {
           itemSelector: '.game',
           columnWidth: colWidth,
           gutter: 0,
-          percentPosition: false
+          percentPosition: false,
+          transitionDuration: '0.4s'
         });
 
-        // плавное появление плиток
-        container.querySelectorAll('.game').forEach(el => setTimeout(() => el.classList.add('show'), 50));
+        // 🎲 хаотичное появление с эффектом popIn
+        container.querySelectorAll('.game').forEach((el) => {
+          const delay = 200 + Math.random() * 800;
+          setTimeout(() => el.classList.add('show'), delay);
+        });
 
-        // скрываем лоадскрин только после загрузки первой мозаики
-        if(containerId === 'wishMosaic') document.getElementById('loader').style.display = 'none';
+        // скрываем лоадскрин после Wishlist
+        if(containerId === 'wishMosaic') {
+          document.getElementById('loader').style.display = 'none';
+        }
 
         // ресайз
         window.addEventListener('resize', () => {
@@ -160,7 +181,6 @@ function loadGames(file, containerId) {
     });
 }
 
-// Загружаем коллекции
 loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
