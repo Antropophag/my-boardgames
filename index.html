@@ -1,113 +1,157 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boardgame Collection</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <style>
-    body {
-      font-family: "Inter", sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-      color: #333;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boardgame Collection</title>
 
-    h2 {
-      text-align: center;
-      margin: 40px 0 20px;
-      font-size: 2rem;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: #111;
+  color: #fff;
+}
+h2.section-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 30px 0 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  padding: 0 20px 40px 20px;
+  grid-auto-flow: dense;
+}
+.game {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.game.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: popIn 0.4s ease;
+}
+@keyframes popIn {
+  0%   { transform: translateY(20px) scale(0.95); }
+  60%  { transform: translateY(-5px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); }
+}
+.game img {
+  width: 100%;
+  display: block;
+}
+.overlay {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-weight: bold;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.game:hover .overlay { opacity: 1; }
+.overlay h3 { margin:0 0 4px; font-size:14px; line-height:1.1; }
+.overlay p { margin:2px 0; font-size:12px; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 16px;
-      padding: 20px;
-      grid-auto-flow: dense;
-    }
-
-    .game {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease;
-    }
-
-    .game:hover {
-      transform: translateY(-5px);
-    }
-
-    .game img {
-      width: 100%;
-      display: block;
-      height: auto;
-    }
-
-    .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      padding: 10px;
-      display: none;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      display: -webkit-box;
-    }
-
-    .game:hover .overlay {
-      display: -webkit-box;
-    }
-  </style>
+/* Лоадскрин */
+#loader {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background:#111; display:flex; justify-content:center; align-items:center;
+  z-index:9999;
+}
+.loader-circle {
+  width:50px; height:50px;
+  border:5px solid #333;
+  border-top:5px solid #00FF00;
+  border-radius:50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+</style>
 </head>
 <body>
-  <div id="collection" class="grid"></div>
 
-  <h2>Wishlist</h2>
-  <div id="wishlist" class="grid"></div>
+<div id="loader"><div class="loader-circle"></div></div>
 
-  <script>
-    async function loadGames() {
-      const response = await fetch("data/games.json");
-      const data = await response.json();
+<h2 class="section-title">Own Collection</h2>
+<div id="ownGrid" class="grid"></div>
 
-      const collectionEl = document.getElementById("collection");
-      const wishlistEl = document.getElementById("wishlist");
+<h2 class="section-title">Pre-ordered</h2>
+<div id="preGrid" class="grid"></div>
 
-      data.forEach((game) => {
-        const div = document.createElement("div");
-        div.className = "game";
+<h2 class="section-title">Wishlist</h2>
+<div id="wishGrid" class="grid"></div>
 
-        // правила размера
-        if (game.playingTime <= 30 && game.complexity < 2) {
-          div.style.gridColumn = "span 1";
-        } else {
-          div.style.gridColumn = "span 2";
-        }
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script>
+function createGameDiv(game) {
+  const div = document.createElement('div');
+  div.className = 'game';
 
-        div.innerHTML = `
-          <img src="${game.image}" alt="${game.name}">
-          <div class="overlay">
-            <strong>${game.name}</strong><br>
-            👥 ${game.players || "?"} | ⏱ ${game.playingTime || "?"} мин | 🎲 ${game.complexity || "?"}/5
-          </div>
-        `;
+  // определяем размер плитки
+  if (game.playingtime <= 30 && game.averageweight < 2) {
+    div.style.gridColumn = 'span 1';
+  } else {
+    div.style.gridColumn = 'span 2';
+  }
 
-        if (game.status === "wishlist") {
-          wishlistEl.appendChild(div);
-        } else {
-          collectionEl.appendChild(div);
+  // цвет сложности
+  let weightColor = '#00FF00';
+  if(game.averageweight > 4) weightColor = 'red';
+  else if(game.averageweight > 3) weightColor = 'orange';
+
+  div.innerHTML = `
+    <img src="${game.image}" alt="${game.name}">
+    <div class="overlay">
+      <h3>${game.name}</h3>
+      <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+      <p>Время: ${game.playingtime} мин</p>
+      <p>Рейтинг: ${game.average.toFixed(2)}</p>
+      <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+    </div>
+  `;
+  return div;
+}
+
+function loadGames(file, containerId, key) {
+  const container = document.getElementById(containerId);
+  fetch(file)
+    .then(res => res.json())
+    .then(data => {
+      const games = data[key];
+      games.forEach(game => {
+        const div = createGameDiv(game);
+        container.appendChild(div);
+      });
+
+      imagesLoaded(container, () => {
+        // эффект «popIn»
+        container.querySelectorAll('.game').forEach(el => {
+          const delay = 100 + Math.random() * 500;
+          setTimeout(() => el.classList.add('show'), delay);
+        });
+
+        // скрываем лоадскрин после wishlist
+        if(containerId === 'wishGrid') {
+          document.getElementById('loader').style.display = 'none';
         }
       });
-    }
+    });
+}
 
-    loadGames();
-  </script>
+loadGames('data/games.json', 'ownGrid', 'own');
+loadGames('data/games.json', 'preGrid', 'preordered');
+loadGames('data/games.json', 'wishGrid', 'wishlist');
+</script>
 </body>
 </html>
