@@ -20,7 +20,13 @@ h2.section-title {
   font-size: 28px;
   margin: 30px 0 20px;
 }
-.mosaic { width: 100%; }
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-auto-rows: 180px;
+  gap: 0;
+  width: 100%;
+}
 .game {
   position: relative;
   overflow: hidden;
@@ -40,6 +46,8 @@ h2.section-title {
 }
 .game img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   transition: transform 0.3s ease;
 }
@@ -85,12 +93,16 @@ h2.section-title {
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic"></div>
 
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
 function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
+
+  const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
+  if(isLarge) {
+    div.style.gridColumn = 'span 2';
+    div.style.gridRow = 'span 2';
+  }
 
   let weightColor = '#00FF00';
   if(game.averageweight > 4) weightColor = 'red';
@@ -109,20 +121,6 @@ function createGameDiv(game) {
   return div;
 }
 
-function getColumnWidth(container, isLargeTile=false) {
-  const containerWidth = container.clientWidth;
-  let cols = 4;
-  if(containerWidth >= 2500) cols = 10;
-  else if(containerWidth >= 2000) cols = 8;
-  else if(containerWidth >= 1400) cols = 6;
-  else if(containerWidth >= 1000) cols = 4; 
-  else cols = 2;
-
-  let colWidth = containerWidth / cols;
-  if(isLargeTile) colWidth *= 2;
-  return colWidth;
-}
-
 function loadGames(file, containerId, key) {
   const container = document.getElementById(containerId);
   fetch(file)
@@ -139,39 +137,13 @@ function loadGames(file, containerId, key) {
 
       const sortedGames = [...largeGames, ...smallGames];
 
-      // Для слепления маленьких плиток по горизонтали добавляем "виртуальные" ряды
-      const virtualRow = [];
       sortedGames.forEach((game, index) => {
         const div = createGameDiv(game);
-        const isLarge = !(game.playingtime <= 30 && game.averageweight < 2);
-        div.style.width = getColumnWidth(container, isLarge) + 'px';
         container.appendChild(div);
-
-        // Эффект волны слева направо
         setTimeout(() => div.classList.add('show'), index * 80);
       });
 
-      imagesLoaded(container, () => {
-        const msnry = new Masonry(container, {
-          itemSelector: '.game',
-          columnWidth: '.game',
-          gutter: 0,
-          percentPosition: false,
-          transitionDuration: '0.4s'
-        });
-
-        window.addEventListener('resize', () => {
-          container.querySelectorAll('.game').forEach(gameEl => {
-            const isLarge = gameEl.offsetWidth > container.clientWidth/3;
-            gameEl.style.width = getColumnWidth(container, isLarge) + 'px';
-          });
-          msnry.layout();
-        });
-
-        if(containerId === 'wishMosaic') {
-          document.getElementById('loader').style.display = 'none';
-        }
-      });
+      document.getElementById('loader').style.display = 'none';
     });
 }
 
