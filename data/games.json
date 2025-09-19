@@ -707,6 +707,17 @@
       "url": "https://boardgamegeek.com/boardgame/158600"
     },
     {
+      "id": "360899",
+      "name": "Harrow County: The Game of Gothic Conflict",
+      "minplayers": 1,
+      "maxplayers": 3,
+      "playingtime": 90,
+      "image": "https://cf.geekdo-images.com/dXOckpZFmnRjTGnPq8bH_A__original/img/rGJEOjI0nFaR6VG2VP8ssBMTKH0=/0x0/filters:format(png)/pic7104746.png",
+      "average": 7.80621,
+      "averageweight": 3.7273,
+      "url": "https://boardgamegeek.com/boardgame/360899"
+    },
+    {
       "id": "320718",
       "name": "Hidden Leaders",
       "minplayers": 2,
@@ -1057,6 +1068,17 @@
       "average": 8.05036,
       "averageweight": 3.0414,
       "url": "https://boardgamegeek.com/boardgame/227935"
+    },
+    {
+      "id": "400366",
+      "name": "Wondrous Creatures",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 80,
+      "image": "https://cf.geekdo-images.com/3ue_3La0WYopTSDER3shUA__original/img/fm8i0N9fCQRGqNHgk0jh0gk01Ww=/0x0/filters:format(jpeg)/pic8389014.jpg",
+      "average": 8.07185,
+      "averageweight": 3.0379,
+      "url": "https://boardgamegeek.com/boardgame/400366"
     },
     {
       "id": "443074",
