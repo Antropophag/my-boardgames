@@ -8,8 +8,9 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<!-- Foundation Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation-icon-fonts/3.0/foundation-icons.min.css">
+
+<!-- Подключение локального Foundation Icons 3 -->
+<link rel="stylesheet" href="fonts/foundation-icons.css">
 
 <style>
 body, html {
@@ -92,17 +93,18 @@ h2.section-title {
   align-items: center;
 }
 .overlay .info h3 a {
-  color: white;
+  flex: 1; /* название занимает всю левую часть */
   text-decoration: none;
+  color: white;
 }
 .overlay .info h3 .rank {
   display: flex;
   align-items: center;
-  gap: 4px;       /* расстояние между короной и числом */
-  color: #ffffff; /* цвет числа ранга */
+  gap: 4px;
+  color: white; /* число ранга */
 }
 .overlay .info h3 .rank i {
-  color: #e64900; /* цвет короны */
+  color: #e64900; /* корона */
   font-size: 14px;
 }
 .overlay .info p {
