@@ -93,8 +93,12 @@ h2.section-title {
 }
 .title-rank .title a {
   color: white;
-  text-decoration: none;
+  text-decoration: none; /* по умолчанию без подчеркивания */
   font-size: 14px;
+}
+
+.title-rank .title a:hover {
+  text-decoration: underline; /* подчеркивание при наведении */
 }
 .title-rank .rank {
   display: flex;
