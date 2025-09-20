@@ -89,6 +89,7 @@ h2.section-title {
 /* Важные правки для выравнивания названия и ранга */
 .overlay .info h3 {
   display: flex;
+  justify-content: space-between; /* название слева, ранг справа */
   align-items: center;
   margin: 0 0 4px 0;
   font-size: 14px;
@@ -99,14 +100,13 @@ h2.section-title {
   color: white;
 }
 .overlay .info h3 .rank {
-  margin-left: auto;      /* прижимает к правому краю */
   display: flex;
   align-items: center;
   gap: 4px;
-  color: white;           /* число ранга */
+  color: white;       /* число ранга */
 }
 .overlay .info h3 .rank i {
-  color: #e64900;         /* корона */
+  color: #e64900;     /* корона */
   font-size: 14px;
 }
 
