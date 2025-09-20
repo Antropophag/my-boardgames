@@ -21,8 +21,8 @@ def fetch_collection_ready(username, subtype="boardgame", stats=1, delay=15, ret
     print("❌ Collection still empty after retries")
     return root
 
-def fetch_averageweight_batch(ids):
-    weights = {}
+def fetch_game_stats_batch(ids):
+    stats = {}
     batch_size = 20
     for i in range(0, len(ids), batch_size):
         batch_ids = ids[i:i+batch_size]
@@ -34,13 +34,30 @@ def fetch_averageweight_batch(ids):
             print(f"⚠ Error fetching batch {ids_str}: {e}")
             time.sleep(5)
             continue
+
         root = ET.fromstring(response.content)
         for item in root.findall("item"):
+            game_id = item.attrib["id"]
+
+            # --- Average weight
             avgweight_node = item.find("statistics/ratings/averageweight")
             avgweight = float(avgweight_node.attrib.get("value")) if avgweight_node is not None else None
-            weights[item.attrib["id"]] = avgweight
+
+            # --- Overall rank
+            overallrank = None
+            for rank in item.findall("statistics/ratings/ranks/rank"):
+                if rank.attrib.get("name") == "boardgame":
+                    value = rank.attrib.get("value")
+                    overallrank = int(value) if value and value.isdigit() else None
+                    break
+
+            stats[game_id] = {
+                "averageweight": avgweight,
+                "overallrank": overallrank
+            }
+
         time.sleep(5)
-    return weights
+    return stats
 
 def parse_collection(root):
     data = {"own": [], "wishlist": [], "preordered": []}
@@ -83,16 +100,20 @@ def parse_collection(root):
             "image": image,
             "average": average,
             "averageweight": None,
-            "url": f"https://boardgamegeek.com/boardgame/{objectid}"  # <-- добавляем ссылку
+            "overallrank": None,
+            "url": f"https://boardgamegeek.com/boardgame/{objectid}"
         }
 
         data[category].append(game)
         ids_to_fetch.append(objectid)
 
-    weights = fetch_averageweight_batch(ids_to_fetch)
+    # тянем weight и rank
+    stats_data = fetch_game_stats_batch(ids_to_fetch)
     for category in data:
         for game in data[category]:
-            game["averageweight"] = weights.get(game["id"])
+            game_stats = stats_data.get(game["id"], {})
+            game["averageweight"] = game_stats.get("averageweight")
+            game["overallrank"] = game_stats.get("overallrank")
 
     return data
 
