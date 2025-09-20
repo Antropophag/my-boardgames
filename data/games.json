@@ -8,7 +8,7 @@
       "playingtime": 120,
       "image": "https://cf.geekdo-images.com/XWImAu_3RK61wbzcKboVdA__original/img/43ianMZOks7UHlZILx0VBRntOmM=/0x0/filters:format(png)/pic8145530.png",
       "average": 8.05744,
-      "averageweight": 3.422,
+      "averageweight": 3.4213,
       "url": "https://boardgamegeek.com/boardgame/359871"
     },
     {
@@ -32,6 +32,17 @@
       "average": 7.43818,
       "averageweight": 2.6,
       "url": "https://boardgamegeek.com/boardgame/379959"
+    },
+    {
+      "id": "180593",
+      "name": "The Bloody Inn",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/GTUmt2ViVzJOT4ZKXbq2Zg__original/img/8dJoI4olAHxnPu7n4PiXTmyGJ20=/0x0/filters:format(jpeg)/pic2618699.jpg",
+      "average": 7.06491,
+      "averageweight": 2.3493,
+      "url": "https://boardgamegeek.com/boardgame/180593"
     },
     {
       "id": "332386",
@@ -129,7 +140,7 @@
       "playingtime": 60,
       "image": "https://cf.geekdo-images.com/08bC8NviSTNc4Zvur4pueA__original/img/GcBtTHjdPXagHE-IOCpQ0he6rN4=/0x0/filters:format(jpeg)/pic7578350.jpg",
       "average": 7.7297,
-      "averageweight": 2.2059,
+      "averageweight": 2.2078,
       "url": "https://boardgamegeek.com/boardgame/391163"
     },
     {
@@ -195,7 +206,7 @@
       "playingtime": 60,
       "image": "https://cf.geekdo-images.com/hYP-VIJGRFR8yB78-UN7Rg__original/img/3vUqoYuF2SrVU0n752sfU3bBhHc=/0x0/filters:format(jpeg)/pic5154610.jpg",
       "average": 7.82439,
-      "averageweight": 2.9155,
+      "averageweight": 2.9231,
       "url": "https://boardgamegeek.com/boardgame/284653"
     },
     {
@@ -250,7 +261,7 @@
       "playingtime": 45,
       "image": "https://cf.geekdo-images.com/2nPAI9x1rOjj2fq30qRFvQ__original/img/Sc9SmhfC5cLiDdXeY9HOQphCKcQ=/0x0/filters:format(jpeg)/pic3118416.jpg",
       "average": 6.96038,
-      "averageweight": 1.9798,
+      "averageweight": 1.9799,
       "url": "https://boardgamegeek.com/boardgame/194879"
     },
     {
@@ -316,7 +327,7 @@
       "playingtime": 45,
       "image": "https://cf.geekdo-images.com/CIh_rXKoRw9z8K0PJxT8nQ__original/img/AX2wyHhWFgVh5OArXAjVHY-nFZg=/0x0/filters:format(jpeg)/pic6973911.jpg",
       "average": 7.5016,
-      "averageweight": 1.475,
+      "averageweight": 1.4738,
       "url": "https://boardgamegeek.com/boardgame/367220"
     },
     {
@@ -439,17 +450,6 @@
       "average": 6.37709,
       "averageweight": 1.0741,
       "url": "https://boardgamegeek.com/boardgame/146548"
-    },
-    {
-      "id": "180593",
-      "name": "Красная таверна",
-      "minplayers": 1,
-      "maxplayers": 4,
-      "playingtime": 60,
-      "image": "https://cf.geekdo-images.com/s-XmLzoj6i7O76sX4qXg6A__original/img/amiggAJsb4RRinsHIG598el1wn8=/0x0/filters:format(jpeg)/pic5784222.jpg",
-      "average": 7.06491,
-      "averageweight": 2.3473,
-      "url": "https://boardgamegeek.com/boardgame/180593"
     }
   ],
   "wishlist": [
@@ -549,7 +549,7 @@
       "playingtime": 45,
       "image": "https://cf.geekdo-images.com/okM0dq_bEXnbyQTOvHfwRA__original/img/aVZEXAI-cUtuunNfPhjeHlS4fwQ=/0x0/filters:format(png)/pic6544250.png",
       "average": 7.41282,
-      "averageweight": 1.8875,
+      "averageweight": 1.8876,
       "url": "https://boardgamegeek.com/boardgame/822"
     },
     {
@@ -560,7 +560,7 @@
       "playingtime": 30,
       "image": "https://cf.geekdo-images.com/7w7ht4bmAnu0j-_qgcYPiQ__original/img/C1hf_pbsGvD5HP-N0iHME_HSH1E=/0x0/filters:format(jpeg)/pic2220182.jpg",
       "average": 6.4096,
-      "averageweight": 1.1479,
+      "averageweight": 1.1471,
       "url": "https://boardgamegeek.com/boardgame/105593"
     },
     {
@@ -736,7 +736,7 @@
       "playingtime": 30,
       "image": "https://cf.geekdo-images.com/_3wm5Ikl8NtF6oTQ5KT-1g__original/img/Dv5M1RcWQ6UEZyd2eAey-OfSsrU=/0x0/filters:format(jpeg)/pic3894197.jpg",
       "average": 7.19207,
-      "averageweight": 1.4775,
+      "averageweight": 1.4769,
       "url": "https://boardgamegeek.com/boardgame/220"
     },
     {
@@ -747,7 +747,7 @@
       "playingtime": 90,
       "image": "https://cf.geekdo-images.com/ypE6HrTY1Xvpt1XCpKlMBw__original/img/G4-gFXe9tKgnkgJOFTVO2A-Wbm4=/0x0/filters:format(png)/pic5960068.png",
       "average": 7.61338,
-      "averageweight": 3.066,
+      "averageweight": 3.0692,
       "url": "https://boardgamegeek.com/boardgame/177478"
     },
     {
@@ -824,7 +824,7 @@
       "playingtime": 150,
       "image": "https://cf.geekdo-images.com/gTxav_KKQK1rDg-XuCjCSA__original/img/lG-iXVzDlfFrD6VPggvg2WQ7228=/0x0/filters:format(jpeg)/pic5164812.jpg",
       "average": 7.73265,
-      "averageweight": 4.119,
+      "averageweight": 4.1189,
       "url": "https://boardgamegeek.com/boardgame/291572"
     },
     {
@@ -1055,7 +1055,7 @@
       "playingtime": 80,
       "image": "https://cf.geekdo-images.com/qXT1U-nFh9PE8ujfdmI7dA__original/img/jzmifZJ0Sg2Js7hmQjzX7bEHVBY=/0x0/filters:format(jpeg)/pic7754663.jpg",
       "average": 7.99229,
-      "averageweight": 3.0414,
+      "averageweight": 3.0413,
       "url": "https://boardgamegeek.com/boardgame/371942"
     },
     {
@@ -1066,7 +1066,7 @@
       "playingtime": 125,
       "image": "https://cf.geekdo-images.com/bUbrvlY6Dw1cdb-sNrnkew__original/img/KcU-Srht_4xyLQ69ZjFcFKEOfMc=/0x0/filters:format(jpeg)/pic5188761.jpg",
       "average": 8.05026,
-      "averageweight": 3.0414,
+      "averageweight": 3.0413,
       "url": "https://boardgamegeek.com/boardgame/227935"
     },
     {
@@ -1222,7 +1222,7 @@
       "playingtime": 90,
       "image": "https://cf.geekdo-images.com/sy89BiuZXfbSnG7Cag9tBQ__original/img/uArsqbWyUALa982zGWsy8QQWnjE=/0x0/filters:format(png)/pic5902073.png",
       "average": 8.08751,
-      "averageweight": 3.1021,
+      "averageweight": 3.1019,
       "url": "https://boardgamegeek.com/boardgame/231733"
     },
     {
@@ -1310,7 +1310,7 @@
       "playingtime": 90,
       "image": "https://cf.geekdo-images.com/l_PRU2lVlX9seScRFcvFlA__original/img/gDL7OZFlzoOFgU0VYlREs8P5hCQ=/0x0/filters:format(jpeg)/pic6500949.jpg",
       "average": 7.96788,
-      "averageweight": 2.8949,
+      "averageweight": 2.895,
       "url": "https://boardgamegeek.com/boardgame/183394"
     },
     {
