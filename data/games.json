@@ -639,6 +639,18 @@
       "url": "https://boardgamegeek.com/boardgame/105593"
     },
     {
+      "id": "377061",
+      "name": "Coffee Rush",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/LdK5ItPPwIHKUITxh3vqxA__original/img/gKSzzvUhpCYH1PjIzSYo9ffxSoM=/0x0/filters:format(jpeg)/pic7275386.jpg",
+      "average": 7.11801,
+      "averageweight": 1.8158,
+      "overallrank": 1502,
+      "url": "https://boardgamegeek.com/boardgame/377061"
+    },
+    {
       "id": "406652",
       "name": "Compile: Main 1",
       "minplayers": 2,
@@ -853,18 +865,6 @@
       "averageweight": 1.8111,
       "overallrank": 2161,
       "url": "https://boardgamegeek.com/boardgame/320718"
-    },
-    {
-      "id": "220",
-      "name": "High Society",
-      "minplayers": 3,
-      "maxplayers": 5,
-      "playingtime": 30,
-      "image": "https://cf.geekdo-images.com/_3wm5Ikl8NtF6oTQ5KT-1g__original/img/Dv5M1RcWQ6UEZyd2eAey-OfSsrU=/0x0/filters:format(jpeg)/pic3894197.jpg",
-      "average": 7.19207,
-      "averageweight": 1.4769,
-      "overallrank": 530,
-      "url": "https://boardgamegeek.com/boardgame/220"
     },
     {
       "id": "339906",
