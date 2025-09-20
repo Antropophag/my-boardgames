@@ -87,22 +87,20 @@ h2.section-title {
 }
 
 .overlay .info h3 {
+  display: flex;
+  align-items: center;
   margin: 0 0 4px 0;
   font-size: 14px;
   line-height: 1.1;
-  display: flex;
-  justify-content: space-between; /* название слева, ранг справа */
-  align-items: center;
 }
 
 .overlay .info h3 a {
-  flex-grow: 1;          /* занимает левую часть */
   text-decoration: none;
   color: white;
 }
 
 .overlay .info h3 .rank {
-  flex-shrink: 0;         /* не сжимается, прижимается к правому краю */
+  margin-left: auto;      /* прижимает к правому краю */
   display: flex;
   align-items: center;
   gap: 4px;
