@@ -1048,6 +1048,17 @@
       "url": "https://boardgamegeek.com/boardgame/274364"
     },
     {
+      "id": "335275",
+      "name": "Whirling Witchcraft",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/Vghbon6jnyUg6oPQju7DyQ__original/img/mXoGk0Cpiww8k1OpjyCkC3M6FAM=/0x0/filters:format(jpeg)/pic6088814.jpg",
+      "average": 7.16948,
+      "averageweight": 1.8302,
+      "url": "https://boardgamegeek.com/boardgame/335275"
+    },
+    {
       "id": "371942",
       "name": "The White Castle",
       "minplayers": 1,
@@ -1090,17 +1101,6 @@
       "average": 8.28571,
       "averageweight": 3.0,
       "url": "https://boardgamegeek.com/boardgame/443074"
-    },
-    {
-      "id": "313439",
-      "name": "Процесс 1920",
-      "minplayers": 2,
-      "maxplayers": 2,
-      "playingtime": 30,
-      "image": "https://cf.geekdo-images.com/G0W6Fk6ACDLWS9tnxYLJbg__original/img/xi4Q_M1p4ZFyy5gCGH9TIhGzNlY=/0x0/filters:format(jpeg)/pic8805022.jpg",
-      "average": 6.65994,
-      "averageweight": 1.5,
-      "url": "https://boardgamegeek.com/boardgame/313439"
     }
   ],
   "preordered": [
