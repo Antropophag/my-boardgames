@@ -79,11 +79,13 @@ h2.section-title {
   margin-right: 8px;
   flex-shrink: 0;
 }
+
 .overlay .info {
   display: flex;
   flex-direction: column;
   font-size: 12px;
 }
+
 .overlay .info h3 {
   margin: 0 0 4px 0;
   font-size: 14px;
@@ -92,21 +94,26 @@ h2.section-title {
   justify-content: space-between; /* название слева, ранг справа */
   align-items: center;
 }
+
 .overlay .info h3 a {
-  flex: 1; /* название занимает всю левую часть */
+  flex-grow: 1;          /* занимает левую часть */
   text-decoration: none;
   color: white;
 }
+
 .overlay .info h3 .rank {
+  flex-shrink: 0;         /* не сжимается, прижимается к правому краю */
   display: flex;
   align-items: center;
   gap: 4px;
-  color: white; /* число ранга */
+  color: white;           /* число ранга */
 }
+
 .overlay .info h3 .rank i {
-  color: #e64900; /* корона */
+  color: #e64900;         /* корона */
   font-size: 14px;
 }
+
 .overlay .info p {
   margin: 2px 0;
   font-size: 12px;
