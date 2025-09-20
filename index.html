@@ -64,9 +64,16 @@ h2.section-title {
 }
 .game:hover .overlay { opacity: 1; }
 
-.overlay .rating-hex {
+/* Контейнер для рейтинга и названия/ранга */
+.overlay-content {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.rating-hex {
   width: 40px;
-  aspect-ratio: 1.15; 
+  aspect-ratio: 1.15;
   background-color: gray;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
   display: flex;
@@ -78,18 +85,11 @@ h2.section-title {
   flex-shrink: 0;
 }
 
-.overlay .info {
-  display: flex;
-  flex-direction: column;
-  font-size: 12px;
-}
-
-/* Новый контейнер для названия и ранга */
 .title-rank {
   display: flex;
   justify-content: space-between;
+  flex: 1; /* занимает оставшееся место */
   align-items: center;
-  margin-bottom: 4px;
 }
 .title-rank .title a {
   color: white;
@@ -183,16 +183,16 @@ function createGameDiv(game) {
   div.innerHTML = `
     <img src="${game.image}" alt="${game.name}">
     <div class="overlay">
-      <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
-      <div class="info">
+      <div class="overlay-content">
+        <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
         <div class="title-rank">
           <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
           <div class="rank"><i class="fi-crown"></i> ${rank}</div>
         </div>
-        <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-        <p>Время: ${game.playingtime} мин</p>
-        <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
+      <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+      <p>Время: ${game.playingtime} мин</p>
+      <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
     </div>
   `;
   return div;
