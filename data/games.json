@@ -740,6 +740,17 @@
       "url": "https://boardgamegeek.com/boardgame/220"
     },
     {
+      "id": "339906",
+      "name": "The Hunger",
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/P6xRtuVTPwR148SP4oIXGQ__original/img/ivfJXcTwNCdEcYj8XjsFbnV2UHY=/0x0/filters:format(jpeg)/pic6218039.jpg",
+      "average": 7.03111,
+      "averageweight": 2.314,
+      "url": "https://boardgamegeek.com/boardgame/339906"
+    },
+    {
       "id": "177478",
       "name": "IKI",
       "minplayers": 2,
@@ -826,6 +837,17 @@
       "average": 7.73265,
       "averageweight": 4.1189,
       "url": "https://boardgamegeek.com/boardgame/291572"
+    },
+    {
+      "id": "266810",
+      "name": "Paladins of the West Kingdom",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
+      "image": "https://cf.geekdo-images.com/4nhokcLdYoo6ulbZ1rmGgA__original/img/9ktZDu003VVVTw0RxD-ufLYV1HQ=/0x0/filters:format(png)/pic4462987.png",
+      "average": 7.96169,
+      "averageweight": 3.7141,
+      "url": "https://boardgamegeek.com/boardgame/266810"
     },
     {
       "id": "400995",
