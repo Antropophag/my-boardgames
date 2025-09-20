@@ -608,6 +608,17 @@
       "url": "https://boardgamegeek.com/boardgame/402283"
     },
     {
+      "id": "324856",
+      "name": "The Crew: Mission Deep Sea",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 20,
+      "image": "https://cf.geekdo-images.com/VuBqZ1sMaDAVVHF_OEJP4g__original/img/jGWxczXC_VWZofeAmlO_DkB0hCI=/0x0/filters:format(jpeg)/pic5988903.jpg",
+      "average": 8.07541,
+      "averageweight": 2.0387,
+      "url": "https://boardgamegeek.com/boardgame/324856"
+    },
+    {
       "id": "298069",
       "name": "Cubitos",
       "minplayers": 2,
@@ -1112,6 +1123,17 @@
       "average": 8.04858,
       "averageweight": 2.2727,
       "url": "https://boardgamegeek.com/boardgame/421904"
+    },
+    {
+      "id": "436651",
+      "name": "The Vale of Eternity: Curse",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/lRRyWRygB4rFaEgQ8JmtNw__original/img/kZabQbsrHWlalE-LA6u5i8Quzhg=/0x0/filters:format(png)/pic8879294.png",
+      "average": 8.125,
+      "averageweight": 3.0,
+      "url": "https://boardgamegeek.com/boardgame/436651"
     },
     {
       "id": "274364",
