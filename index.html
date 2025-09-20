@@ -107,9 +107,11 @@ h2.section-title {
   font-size: 14px;
 }
 
+/* Восстановлены шрифты для игроков, времени и сложности */
 .overlay .info p {
   margin: 2px 0;
   font-size: 12px;
+  color: #fff;
 }
 
 /* Лоадскрин */
@@ -190,9 +192,11 @@ function createGameDiv(game) {
           <div class="rank"><i class="fi-crown"></i> ${rank}</div>
         </div>
       </div>
-      <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
-      <p>Время: ${game.playingtime} мин</p>
-      <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+      <div class="info">
+        <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
+        <p>Время: ${game.playingtime} мин</p>
+        <p>Сложность: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+      </div>
     </div>
   `;
   return div;
