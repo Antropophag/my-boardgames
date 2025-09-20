@@ -608,6 +608,17 @@
       "url": "https://boardgamegeek.com/boardgame/344554"
     },
     {
+      "id": "397931",
+      "name": "Deep Regrets",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 150,
+      "image": "https://cf.geekdo-images.com/WUvpRzsNSZgq1gyvjiQcWw__original/img/wXnREOcKLkysXorXqRQXKslz-iI=/0x0/filters:format(jpeg)/pic8156363.jpg",
+      "average": 7.4283,
+      "averageweight": 2.375,
+      "url": "https://boardgamegeek.com/boardgame/397931"
+    },
+    {
       "id": "218074",
       "name": "Detective: City of Angels",
       "minplayers": 1,
@@ -1002,6 +1013,17 @@
       "average": 7.56722,
       "averageweight": 3.0328,
       "url": "https://boardgamegeek.com/boardgame/422042"
+    },
+    {
+      "id": "342070",
+      "name": "Thunder Road: Vendetta",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 75,
+      "image": "https://cf.geekdo-images.com/l0bFsrGy_cfKRK6YW_dG-g__original/img/XsxovE47zCq8N2VSIybKgiEh9dg=/0x0/filters:format(png)/pic8586892.png",
+      "average": 7.93128,
+      "averageweight": 1.9512,
+      "url": "https://boardgamegeek.com/boardgame/342070"
     },
     {
       "id": "14996",
