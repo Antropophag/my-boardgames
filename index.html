@@ -177,18 +177,17 @@ function createGameDiv(game) {
   if(game.averageweight > 4) weightColor = 'red';
   else if(game.averageweight > 3) weightColor = 'orange';
 
+  const rank = game.overallrank ?? '—';
+
   div.innerHTML = `
-    <img src="${window.innerWidth < 800 ? game.image : game.image}" alt="${game.name}">
+    <img src="${game.image}" alt="${game.name}">
     <div class="overlay">
       <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
       <div class="info">
         <h3>
           <a href="${game.url}" target="_blank">${game.name}</a>
           <span class="rank">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/>
-            </svg>
-            ${game.rank ?? '—'}
+            <i class="fi-crown" style="color:#e64900; font-size:14px;"></i> ${rank}
           </span>
         </h3>
         <p>Игроки: ${game.minplayers}–${game.maxplayers}</p>
@@ -199,6 +198,7 @@ function createGameDiv(game) {
   `;
   return div;
 }
+
 
 function loadGames(file, containerId) {
   const container = document.getElementById(containerId);
