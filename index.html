@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Wonder Unit Sans через Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Wonder+Unit+Sans:wght@400;700&display=swap" rel="stylesheet">
+<!-- Wonder Unit Sans через CDN -->
+<link href="https://fonts.cdnfonts.com/css/wonder-unit-sans" rel="stylesheet">
 
 <!-- Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -106,6 +106,7 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
+  font-family: 'Wonder Unit Sans', sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -115,11 +116,11 @@ h2.section-title {
   font-size: 14px;
 }
 
-/* Мобильный оверлей с иконками */
+/* Мобильные иконки в строку, текст сжимается и не переносится */
 .overlay .info {
   display: flex;
   justify-content: flex-start;
-  gap: 12px;
+  gap: 20px;
   font-weight: bold;
   font-size: 13px;
   color: #fff;
@@ -127,13 +128,15 @@ h2.section-title {
 .overlay .info p {
   flex: 1 1 0;
   min-width: 0;
-  margin: 0;
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap; /* запрет переноса */
+  margin: 0;
+  font-weight: bold;
 }
 .overlay .info i {
-  font-size: 15px;
+  font-size: 16px; /* слегка увеличенные иконки */
 }
 
 /* Десктопная колонка с надписями под друг другом */
@@ -267,7 +270,6 @@ function loadGames(file, containerId) {
           setTimeout(() => el.classList.add('show'), 100*i);
         });
 
-        // Лоадскрин максимум 3 секунды
         setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 3000);
 
         window.addEventListener('resize', () => {
