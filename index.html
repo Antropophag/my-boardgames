@@ -19,7 +19,7 @@ body, html {
   margin: 0; padding: 0;
   background: #111;
   font-family: 'Metropolis', sans-serif;
-  font-weight: 400; /* обычный текст */
+  font-weight: 400;
   color: #fff;
 }
 h2.section-title {
@@ -34,7 +34,7 @@ h2.section-title {
   position: relative;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(20px); /* только вертикальное смещение */
+  transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .game.show {
@@ -80,7 +80,7 @@ h2.section-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 700; /* жирный для числа рейтинга */
+  font-weight: 700;
   color: #fff;
   margin-right: 8px;
   flex-shrink: 0;
@@ -96,7 +96,7 @@ h2.section-title {
   color: white;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 700; /* жирный для названия игры */
+  font-weight: 700;
 }
 .title-rank .title a:hover {
   text-decoration: underline;
@@ -107,7 +107,7 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-weight: 700; /* жирный для ранга */
+  font-weight: 700;
   font-size: 14px;
   color: white;
 }
@@ -120,7 +120,7 @@ h2.section-title {
   display: flex;
   gap: 16px;
   font-size: 13px;
-  font-weight: 400; /* обычный для текста info */
+  font-weight: 700; /* теперь Bold */
 }
 .overlay .info p {
   margin: 0;
@@ -210,7 +210,7 @@ function createGameDiv(game) {
       </div>
       <div class="info">
         <p><i class="fi-torso"></i>${game.minplayers}–${game.maxplayers}</p>
-        <p><i class="fi-clock"></i>${game.playingtime} мин</p>
+        <p><i class="fi-clock"></i>${game.playingtime} min</p>
         <p><i class="fi-puzzle"></i><span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
     </div>
