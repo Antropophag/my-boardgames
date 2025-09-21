@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Montserrat для текста -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<!-- Wonder Unit Sans через CDN -->
+<link href="https://fonts.googleapis.com/css2?family=Wonder+Unit+Sans:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -18,7 +18,7 @@
 body, html {
   margin: 0; padding: 0;
   background: #212529;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Wonder Unit Sans', sans-serif;
   color: #fff;
 }
 h2.section-title {
@@ -106,7 +106,6 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -122,13 +121,12 @@ h2.section-title {
   font-weight: bold;
   font-size: 13px;
   color: #fff;
-  flex: 1;
+  flex-wrap: nowrap;
 }
 .overlay .info i {
-  font-size: 16px;
+  font-size: 14px;
 }
 
-/* Десктопная колонка с надписями под друг другом */
 .info-column { 
   display: none; 
   font-weight: bold; 
@@ -141,18 +139,12 @@ h2.section-title {
 }
 
 #loader {
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:#212529;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background:#212529; display:flex; justify-content:center; align-items:center;
   z-index:9999;
 }
-.loader-gif {
-  width: 250px; /* 50px * 5 */
-  height: 250px;
+#loader img {
+  width: 100px; /* увеличим через CSS, scale можно отдельно */
 }
 
 @media (max-width: 800px) {
@@ -167,9 +159,7 @@ h2.section-title {
 </head>
 <body>
 
-<div id="loader">
-  <img src="dice.gif" alt="loading" class="loader-gif">
-</div>
+<div id="loader"><img src="dice.gif" alt="Loading..."></div>
 
 <div id="ownMosaic" class="mosaic"></div>
 <h2 class="section-title">Pre-ordered</h2>
@@ -177,7 +167,6 @@ h2.section-title {
 <h2 class="section-title">Wishlist</h2>
 <div id="wishMosaic" class="mosaic"></div>
 
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
 function getColumnCount() {
@@ -243,43 +232,43 @@ function loadGames(file, containerId) {
     .then(data => {
       let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
       
-      games.forEach((game, index) => {
+      games.forEach(game => {
         const div = createGameDiv(game);
         container.appendChild(div);
-      });
-
-      imagesLoaded(container, () => {
-        const colWidth = updateColumns(container);
-        const msnry = new Masonry(container, {
-          itemSelector: '.game',
-          columnWidth: colWidth,
-          gutter: 0,
-          percentPosition: false,
-          transitionDuration: '0.4s'
-        });
-
-        // Лоадскрин максимум 3 секунды
-        setTimeout(() => {
-          document.getElementById('loader').style.display = 'none';
-          // Запускаем анимацию появления плиток
-          container.querySelectorAll('.game').forEach((el, i) => {
-            setTimeout(() => el.classList.add('show'), 100*i);
-          });
-        }, 3000);
-
-        window.addEventListener('resize', () => {
-          const newColWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-          msnry.options.columnWidth = newColWidth;
-          msnry.layout();
-        });
       });
     });
 }
 
+// Загружаем все игры
 loadGames('data/games.json', 'ownMosaic');
 loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
+
+// Таймер лоадскрина 3 секунды, Masonry и анимация запускаются после
+setTimeout(() => {
+  document.getElementById('loader').style.display = 'none';
+
+  ['ownMosaic','preMosaic','wishMosaic'].forEach(containerId => {
+    const container = document.getElementById(containerId);
+    const colWidth = updateColumns(container);
+    const msnry = new Masonry(container, {
+      itemSelector: '.game',
+      columnWidth: colWidth,
+      gutter: 0,
+      percentPosition: false,
+      transitionDuration: '0.4s'
+    });
+    container.querySelectorAll('.game').forEach((el, i) => {
+      setTimeout(() => el.classList.add('show'), 100*i);
+    });
+    window.addEventListener('resize', () => {
+      const newColWidth = container.clientWidth / getColumnCount();
+      container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+      msnry.options.columnWidth = newColWidth;
+      msnry.layout();
+    });
+  });
+}, 3000);
 </script>
 
 </body>
