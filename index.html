@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Wonder Unit Sans через Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Wonder+Unit+Sans:wght@400;700&display=swap" rel="stylesheet">
+<!-- Google Fonts Montserrat -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -18,7 +18,7 @@
 body, html {
   margin: 0; padding: 0;
   background: #111;
-  font-family: 'Wonder Unit Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #fff;
 }
 h2.section-title {
@@ -106,7 +106,7 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: 'Wonder Unit Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -118,14 +118,14 @@ h2.section-title {
 
 .overlay .info {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* выравнивание по ширине на мобильных */
   font-weight: bold;
   font-size: 13px;
   color: #fff;
-  gap: 20px;
+  flex-wrap: nowrap;
 }
 .overlay .info i {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Десктопная колонка с надписями под друг другом */
