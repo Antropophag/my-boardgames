@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Google Fonts Wonder Unit Sans -->
+<!-- Wonder Unit Sans через Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Wonder+Unit+Sans:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Foundation Icons 3 -->
@@ -18,7 +18,7 @@
 body, html {
   margin: 0; padding: 0;
   background: #111;
-  font-family: 'Wonder Unit Sans', Arial, sans-serif;
+  font-family: 'Wonder Unit Sans', sans-serif;
   color: #fff;
 }
 h2.section-title {
@@ -106,7 +106,6 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: 'Wonder Unit Sans', Arial, sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -116,16 +115,25 @@ h2.section-title {
   font-size: 14px;
 }
 
+/* Мобильный оверлей с иконками */
 .overlay .info {
   display: flex;
   justify-content: flex-start;
-  gap: 20px;
+  gap: 12px;
   font-weight: bold;
   font-size: 13px;
   color: #fff;
 }
+.overlay .info p {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 .overlay .info i {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 /* Десктопная колонка с надписями под друг другом */
@@ -260,9 +268,7 @@ function loadGames(file, containerId) {
         });
 
         // Лоадскрин максимум 3 секунды
-        setTimeout(() => {
-          document.getElementById('loader').style.display = 'none';
-        }, 3000);
+        setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 3000);
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
