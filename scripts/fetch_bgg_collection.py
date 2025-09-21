@@ -90,6 +90,9 @@ def parse_collection(root):
         image_node = item.find("image")
         image = image_node.text if image_node is not None else ""
 
+        thumbnail_node = item.find("thumbnail")
+        thumbnail = thumbnail_node.text if thumbnail_node is not None else ""
+
         objectid = item.attrib.get("objectid", "")
         game = {
             "id": objectid,
@@ -98,6 +101,7 @@ def parse_collection(root):
             "maxplayers": maxplayers,
             "playingtime": playingtime,
             "image": image,
+            "thumbnail": thumbnail,  # добавлено
             "average": average,
             "averageweight": None,
             "overallrank": None,
