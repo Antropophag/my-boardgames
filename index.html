@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Metropolis Bold через CDN -->
-<link href="https://fonts.cdnfonts.com/css/metropolis" rel="stylesheet">
+<!-- Подключение шрифта Metropolis Bold через CDN -->
+<link href="https://cdn.jsdelivr.net/npm/metropolis-font@0.1.0/dist/metropolis-bold.css" rel="stylesheet">
 
 <!-- Подключение Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -33,7 +33,7 @@ h2.section-title {
   position: relative;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(20px); 
+  transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .game.show {
@@ -118,17 +118,15 @@ h2.section-title {
 
 .overlay .info {
   display: flex;
-  gap: 15px;
-  font-size: 13px;
+  gap: 12px;
   font-weight: bold;
-  align-items: center;
+  font-size: 13px;
+  flex-wrap: nowrap;
 }
-.overlay .info i {
-  font-size: 15px;
-  color: #fff;
-}
-.overlay .info span {
-  display: inline-block;
+.overlay .info span i {
+  font-size: 16px;
+  margin-right: 4px;
+  vertical-align: middle;
   color: #fff;
 }
 
@@ -150,10 +148,6 @@ h2.section-title {
   .game img {
     width: 100%;
     height: auto;
-  }
-  .overlay .info {
-    flex-wrap: wrap;
-    gap: 10px;
   }
 }
 </style>
@@ -213,9 +207,9 @@ function createGameDiv(game) {
         </div>
       </div>
       <div class="info">
+        <span><i class="fi-torso"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</span>
         <span><i class="fi-puzzle"></i> ${game.minplayers}–${game.maxplayers}</span>
         <span><i class="fi-clock"></i> ${game.playingtime} min</span>
-        <span><i class="fi-torso"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</span>
       </div>
     </div>
   `;
@@ -248,10 +242,10 @@ function loadGames(file, containerId) {
           setTimeout(() => el.classList.add('show'), 100*i);
         });
 
-        // Лоадскрин скрывается максимум через 3 секунды
-        const hideLoader = () => { document.getElementById('loader').style.display = 'none'; };
-        setTimeout(hideLoader, 3000);
-        hideLoader();
+        // Лоадскрин не висит дольше 3 секунд
+        setTimeout(() => {
+          document.getElementById('loader').style.display = 'none';
+        }, 3000);
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
