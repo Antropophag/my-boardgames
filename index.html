@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Подключение шрифта Metropolis -->
-<link href="https://fonts.cdnfonts.com/css/metropolis" rel="stylesheet">
+<!-- Подключение шрифта Metropolis через CDN -->
+<link href="https://cdn.jsdelivr.net/npm/metropolis-font@1.0.0/dist/css/metropolis.min.css" rel="stylesheet">
 
 <!-- Подключение Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -19,7 +19,6 @@ body, html {
   margin: 0; padding: 0;
   background: #111;
   font-family: 'Metropolis', sans-serif;
-  font-weight: 400;
   color: #fff;
 }
 h2.section-title {
@@ -60,6 +59,7 @@ h2.section-title {
   left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.8);
   color: #fff;
+  font-weight: bold;
   padding: 8px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -80,7 +80,7 @@ h2.section-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 700;
+  font-weight: bold;
   color: #fff;
   margin-right: 8px;
   flex-shrink: 0;
@@ -96,7 +96,6 @@ h2.section-title {
   color: white;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 700;
 }
 .title-rank .title a:hover {
   text-decoration: underline;
@@ -107,34 +106,35 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-weight: 700;
+  font-family: 'Metropolis', sans-serif;
+  font-weight: bold;
   font-size: 14px;
   color: white;
 }
 .title-rank .rank i {
   color: #e64900;
-  font-size: 14px; /* корона прежнего размера */
+  font-size: 14px;
 }
 
-/* Блок с игроки, время, сложность */
 .overlay .info {
   display: flex;
   gap: 12px;
   font-size: 13px;
   font-weight: 700;
-  flex-wrap: nowrap;      /* запрет переноса */
-  overflow: hidden;       /* предотвращает выход элементов */
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
-.overlay .info p {
-  margin: 0;
+
+.overlay .info span {
   display: flex;
   align-items: center;
   gap: 4px;
-  white-space: nowrap;     /* текст не переносится */
+  font-weight: 700;
 }
+
 .overlay .info i {
-  color: #fff;
-  font-size: 16px; /* увеличенные иконки */
+  color: white;
+  font-size: 14px;
 }
 
 #loader {
@@ -214,9 +214,9 @@ function createGameDiv(game) {
         </div>
       </div>
       <div class="info">
-        <p><i class="fi-torso"></i>${game.minplayers}–${game.maxplayers}</p>
-        <p><i class="fi-clock"></i>${game.playingtime} min</p>
-        <p><i class="fi-puzzle"></i><span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+        <span><i class="fi-puzzle"></i> ${game.minplayers}–${game.maxplayers}</span>
+        <span><i class="fi-clock"></i> ${game.playingtime} min</span>
+        <span><i class="fi-torso"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</span>
       </div>
     </div>
   `;
@@ -255,4 +255,18 @@ function loadGames(file, containerId) {
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => el.style.width
+          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+          msnry.options.columnWidth = newColWidth;
+          msnry.layout();
+        });
+      });
+    });
+}
+
+loadGames('data/games.json', 'ownMosaic');
+loadGames('data/games.json', 'preMosaic');
+loadGames('data/games.json', 'wishMosaic');
+</script>
+
+</body>
+</html>
