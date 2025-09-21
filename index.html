@@ -180,9 +180,9 @@ function createGameDiv(game) {
   div.className = 'game';
 
   const ratingColor = getRatingColor(game.average);
-  let weightColor = '#00FF00';
-  if(game.averageweight > 4) weightColor = 'red';
-  else if(game.averageweight > 3) weightColor = 'orange';
+  let weightColor = '#5bda98';
+  if(game.averageweight > 4) weightColor = '#df4751';
+  else if(game.averageweight > 3) weightColor = '#ff6b26';
 
   const rank = game.overallrank ?? '—';
 
