@@ -123,9 +123,7 @@ h2.section-title {
   color: #fff;
   flex-wrap: nowrap;
 }
-.overlay .info i {
-  font-size: 14px;
-}
+.overlay .info i { font-size: 14px; }
 
 .info-column { 
   display: none; 
@@ -144,7 +142,7 @@ h2.section-title {
   z-index:9999;
 }
 #loader img {
-  width: 100px; /* увеличим через CSS, scale можно отдельно */
+  transform: scale(5); /* масштабируем лоадскрин в 5 раз */
 }
 
 @media (max-width: 800px) {
@@ -225,50 +223,56 @@ function createGameDiv(game) {
   return div;
 }
 
-function loadGames(file, containerId) {
-  const container = document.getElementById(containerId);
-  fetch(file)
+function loadGamesSequentially() {
+  fetch('data/games.json')
     .then(res => res.json())
     .then(data => {
-      let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
-      
-      games.forEach(game => {
-        const div = createGameDiv(game);
-        container.appendChild(div);
-      });
+      const sections = [
+        { id: 'ownMosaic', key: 'own' },
+        { id: 'preMosaic', key: 'preordered' },
+        { id: 'wishMosaic', key: 'wishlist' }
+      ];
+
+      function loadSection(index) {
+        if(index >= sections.length) return;
+
+        const container = document.getElementById(sections[index].id);
+        const games = data[sections[index].key];
+        games.forEach(game => container.appendChild(createGameDiv(game)));
+
+        const colWidth = updateColumns(container);
+        const msnry = new Masonry(container, {
+          itemSelector: '.game',
+          columnWidth: colWidth,
+          gutter: 0,
+          percentPosition: false,
+          transitionDuration: '0.4s'
+        });
+
+        container.querySelectorAll('.game').forEach((el, i) => {
+          setTimeout(() => el.classList.add('show'), 100*i);
+        });
+
+        window.addEventListener('resize', () => {
+          const newColWidth = container.clientWidth / getColumnCount();
+          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+          msnry.options.columnWidth = newColWidth;
+          msnry.layout();
+        });
+
+        if(index === 0) {
+          // Скрываем лоадскрин после загрузки own
+          document.getElementById('loader').style.display = 'none';
+        }
+
+        loadSection(index + 1);
+      }
+
+      loadSection(0);
     });
 }
 
-// Загружаем все игры
-loadGames('data/games.json', 'ownMosaic');
-loadGames('data/games.json', 'preMosaic');
-loadGames('data/games.json', 'wishMosaic');
-
-// Таймер лоадскрина 3 секунды, Masonry и анимация запускаются после
-setTimeout(() => {
-  document.getElementById('loader').style.display = 'none';
-
-  ['ownMosaic','preMosaic','wishMosaic'].forEach(containerId => {
-    const container = document.getElementById(containerId);
-    const colWidth = updateColumns(container);
-    const msnry = new Masonry(container, {
-      itemSelector: '.game',
-      columnWidth: colWidth,
-      gutter: 0,
-      percentPosition: false,
-      transitionDuration: '0.4s'
-    });
-    container.querySelectorAll('.game').forEach((el, i) => {
-      setTimeout(() => el.classList.add('show'), 100*i);
-    });
-    window.addEventListener('resize', () => {
-      const newColWidth = container.clientWidth / getColumnCount();
-      container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-      msnry.options.columnWidth = newColWidth;
-      msnry.layout();
-    });
-  });
-}, 3000);
+loadGamesSequentially();
 </script>
 
 </body>
