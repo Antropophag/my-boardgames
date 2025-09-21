@@ -113,14 +113,14 @@ h2.section-title {
 }
 .title-rank .rank i {
   color: #e64900;
-  font-size: 14px;
+  font-size: 14px; /* корона прежнего размера */
 }
 
 .overlay .info {
   display: flex;
   gap: 16px;
   font-size: 13px;
-  font-weight: 700; /* теперь Bold */
+  font-weight: 700;
 }
 .overlay .info p {
   margin: 0;
@@ -130,6 +130,7 @@ h2.section-title {
 }
 .overlay .info i {
   color: #fff;
+  font-size: 16px; /* увеличены иконки сложности, времени и игроков */
 }
 
 #loader {
@@ -263,5 +264,4 @@ loadGames('data/games.json', 'preMosaic');
 loadGames('data/games.json', 'wishMosaic');
 </script>
 
-</body>
-</html>
+</
