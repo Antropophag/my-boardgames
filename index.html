@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Google Fonts Montserrat -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<!-- Wonder Unit Sans через Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Wonder+Unit+Sans:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -18,7 +18,7 @@
 body, html {
   margin: 0; padding: 0;
   background: #111;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Wonder Unit Sans', sans-serif;
   color: #fff;
 }
 h2.section-title {
@@ -106,6 +106,7 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
+  font-family: 'Wonder Unit Sans', sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -115,25 +116,16 @@ h2.section-title {
   font-size: 14px;
 }
 
-/* Мобильные иконки в строку, равные отступы */
 .overlay .info {
   display: flex;
-  justify-content: flex-start;
-  gap: 12px; /* равные промежутки между элементами */
+  justify-content: space-between;
   font-weight: bold;
   font-size: 13px;
   color: #fff;
-}
-.overlay .info p {
-  display: flex;
-  align-items: center;
-  gap: 4px;       /* расстояние между иконкой и текстом */
-  white-space: nowrap;
-  flex-shrink: 1; /* элементы сжимаются, чтобы уместиться в одну строку */
-  margin: 0;
+  gap: 20px;
 }
 .overlay .info i {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* Десктопная колонка с надписями под друг другом */
@@ -163,7 +155,10 @@ h2.section-title {
 @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
 
 @media (max-width: 800px) {
-  .game img { width: 100%; height: auto; }
+  .game img {
+    width: 100%;
+    height: auto;
+  }
   .info-column { display: none; }
 }
 @media (min-width: 801px) {
@@ -229,12 +224,12 @@ function createGameDiv(game) {
       <div class="info">
         <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
         <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-        <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</p>
+        <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
       <div class="info-column">
         <p>Players: ${game.minplayers}–${game.maxplayers}</p>
         <p>Playing time: ${game.playingtime} min</p>
-        <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</p>
+        <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
     </div>
   `;
