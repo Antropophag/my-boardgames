@@ -8,8 +8,8 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<!-- Wonder Unit Sans через CDN -->
-<link href="https://fonts.cdnfonts.com/css/wonder-unit-sans" rel="stylesheet">
+<!-- Google Fonts Montserrat -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -18,7 +18,7 @@
 body, html {
   margin: 0; padding: 0;
   background: #111;
-  font-family: 'Wonder Unit Sans', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   color: #fff;
 }
 h2.section-title {
@@ -106,7 +106,6 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: 'Wonder Unit Sans', sans-serif;
   font-weight: bold;
   font-size: 14px;
   color: white;
@@ -116,23 +115,22 @@ h2.section-title {
   font-size: 14px;
 }
 
-/* Мобильные иконки в строку, выравнивание по ширине */
+/* Мобильные иконки в строку, равные отступы */
 .overlay .info {
   display: flex;
-  justify-content: space-between; /* равные отступы */
+  justify-content: flex-start;
+  gap: 12px; /* равные промежутки между элементами */
   font-weight: bold;
   font-size: 13px;
   color: #fff;
 }
 .overlay .info p {
-  flex: 1;
-  min-width: 0;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 4px;       /* расстояние между иконкой и текстом */
   white-space: nowrap;
+  flex-shrink: 1; /* элементы сжимаются, чтобы уместиться в одну строку */
   margin: 0;
-  font-weight: bold;
 }
 .overlay .info i {
   font-size: 16px;
@@ -269,7 +267,10 @@ function loadGames(file, containerId) {
           setTimeout(() => el.classList.add('show'), 100*i);
         });
 
-        setTimeout(() => { document.getElementById('loader').style.display = 'none'; }, 3000);
+        // Лоадскрин максимум 3 секунды
+        setTimeout(() => {
+          document.getElementById('loader').style.display = 'none';
+        }, 3000);
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
