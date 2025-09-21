@@ -17,7 +17,7 @@
 <style>
 body, html {
   margin: 0; padding: 0;
-  background: #212529; /* изменено с #111 */
+  background: #212529; /* фон совпадает с лоадером */
   font-family: 'Montserrat', sans-serif;
   color: #fff;
 }
@@ -119,37 +119,35 @@ h2.section-title {
 .overlay .info {
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   font-weight: bold;
   font-size: 13px;
   color: #fff;
 }
 .overlay .info i {
-  font-size: 14px;
+  font-size: 16px;
 }
 
-/* Десктопная колонка с надписями под друг другом */
 .info-column { 
   display: none; 
   font-weight: bold; 
   font-size: 13px; 
   color: #fff; 
+  line-height: 1.2;
 }
 .info-column p {
-  margin: 0;
-  line-height: 1.2;
+  margin: 2px 0;
 }
 
 #loader {
   position: fixed; top:0; left:0; width:100%; height:100%;
-  background:#212529; /* изменено с #111 */
-  display:flex; justify-content:center; align-items:center;
+  background:#212529; display:flex; justify-content:center; align-items:center;
   z-index:9999;
 }
-#loader img {
-  width: 80px;
-  height: 80px;
+.loader-circle {
+  width:50px; height:50px;
+  background: url('dice.gif') center/contain no-repeat;
 }
-
 @media (max-width: 800px) {
   .game img {
     width: 100%;
@@ -165,7 +163,7 @@ h2.section-title {
 </head>
 <body>
 
-<div id="loader"><img src="dice.gif" alt="Loading..."></div>
+<div id="loader"><div class="loader-circle"></div></div>
 
 <div id="ownMosaic" class="mosaic"></div>
 <h2 class="section-title">Pre-ordered</h2>
@@ -244,6 +242,9 @@ function loadGames(file, containerId) {
         container.appendChild(div);
       });
 
+      const loader = document.getElementById('loader');
+      let loaderTimeout = setTimeout(() => loader.style.display = 'none', 3000);
+
       imagesLoaded(container, () => {
         const colWidth = updateColumns(container);
         const msnry = new Masonry(container, {
@@ -258,10 +259,8 @@ function loadGames(file, containerId) {
           setTimeout(() => el.classList.add('show'), 100*i);
         });
 
-        // Лоадскрин максимум 3 секунды
-        setTimeout(() => {
-          document.getElementById('loader').style.display = 'none';
-        }, 3000);
+        clearTimeout(loaderTimeout);
+        loader.style.display = 'none';
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
