@@ -7,9 +7,7 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-
-<!-- Подключение шрифта Metropolis Bold через CDN -->
-<link href="https://cdn.jsdelivr.net/npm/metropolis-font@0.1.0/dist/metropolis-bold.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Metropolis:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- Подключение Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -116,17 +114,17 @@ h2.section-title {
   font-size: 14px;
 }
 
-.overlay .info {
+.info-row {
   display: flex;
   gap: 12px;
   font-weight: bold;
   font-size: 13px;
+  align-items: center;
   flex-wrap: nowrap;
 }
-.overlay .info span i {
-  font-size: 16px;
+.info-row i {
   margin-right: 4px;
-  vertical-align: middle;
+  font-size: 14px;
   color: #fff;
 }
 
@@ -207,9 +205,11 @@ function createGameDiv(game) {
         </div>
       </div>
       <div class="info">
-        <span><i class="fi-torso"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</span>
-        <span><i class="fi-puzzle"></i> ${game.minplayers}–${game.maxplayers}</span>
-        <span><i class="fi-clock"></i> ${game.playingtime} min</span>
+        <div class="info-row">
+          <span class="info-item"><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</span>
+          <span class="info-item"><i class="fi-clock"></i> ${game.playingtime} min</span>
+          <span class="info-item"><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span>/5</span>
+        </div>
       </div>
     </div>
   `;
@@ -242,7 +242,7 @@ function loadGames(file, containerId) {
           setTimeout(() => el.classList.add('show'), 100*i);
         });
 
-        // Лоадскрин не висит дольше 3 секунд
+        // Лоадскрин максимум 3 секунды
         setTimeout(() => {
           document.getElementById('loader').style.display = 'none';
         }, 3000);
