@@ -116,27 +116,26 @@ h2.section-title {
   font-size: 14px;
 }
 
-/* Мобильные иконки в строку, текст сжимается и не переносится */
+/* Мобильные иконки в строку, выравнивание по ширине */
 .overlay .info {
   display: flex;
-  justify-content: flex-start;
-  gap: 20px;
+  justify-content: space-between; /* равные отступы */
   font-weight: bold;
   font-size: 13px;
   color: #fff;
 }
 .overlay .info p {
-  flex: 1 1 0;
+  flex: 1;
   min-width: 0;
   display: flex;
   align-items: center;
   gap: 4px;
-  white-space: nowrap; /* запрет переноса */
+  white-space: nowrap;
   margin: 0;
   font-weight: bold;
 }
 .overlay .info i {
-  font-size: 16px; /* слегка увеличенные иконки */
+  font-size: 16px;
 }
 
 /* Десктопная колонка с надписями под друг другом */
