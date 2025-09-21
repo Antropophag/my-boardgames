@@ -116,21 +116,25 @@ h2.section-title {
   font-size: 14px; /* корона прежнего размера */
 }
 
+/* Блок с игроки, время, сложность */
 .overlay .info {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   font-size: 13px;
   font-weight: 700;
+  flex-wrap: nowrap;      /* запрет переноса */
+  overflow: hidden;       /* предотвращает выход элементов */
 }
 .overlay .info p {
   margin: 0;
   display: flex;
   align-items: center;
   gap: 4px;
+  white-space: nowrap;     /* текст не переносится */
 }
 .overlay .info i {
   color: #fff;
-  font-size: 16px; /* увеличены иконки сложности, времени и игроков */
+  font-size: 16px; /* увеличенные иконки */
 }
 
 #loader {
@@ -251,17 +255,4 @@ function loadGames(file, containerId) {
 
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-          msnry.options.columnWidth = newColWidth;
-          msnry.layout();
-        });
-      });
-    });
-}
-
-loadGames('data/games.json', 'ownMosaic');
-loadGames('data/games.json', 'preMosaic');
-loadGames('data/games.json', 'wishMosaic');
-</script>
-
-</
+          container.querySelectorAll('.game').forEach(el => el.style.width
