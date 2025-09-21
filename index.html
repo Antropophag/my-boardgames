@@ -118,14 +118,13 @@ h2.section-title {
 
 .overlay .info {
   display: flex;
-  justify-content: space-between; /* выравнивание по ширине на мобильных */
+  justify-content: space-between;
   font-weight: bold;
   font-size: 13px;
   color: #fff;
-  flex-wrap: nowrap;
 }
 .overlay .info i {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* Десктопная колонка с надписями под друг другом */
@@ -136,7 +135,7 @@ h2.section-title {
   color: #fff; 
 }
 .info-column p {
-  margin: 2px 0;
+  margin: 0;
   line-height: 1.2;
 }
 
@@ -145,14 +144,10 @@ h2.section-title {
   background:#111; display:flex; justify-content:center; align-items:center;
   z-index:9999;
 }
-.loader-circle {
-  width:50px; height:50px;
-  border:5px solid #333;
-  border-top:5px solid #00FF00;
-  border-radius:50%;
-  animation: spin 1s linear infinite;
+#loader img {
+  width: 80px;
+  height: 80px;
 }
-@keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
 
 @media (max-width: 800px) {
   .game img {
@@ -169,7 +164,7 @@ h2.section-title {
 </head>
 <body>
 
-<div id="loader"><div class="loader-circle"></div></div>
+<div id="loader"><img src="dice.gif" alt="Loading..."></div>
 
 <div id="ownMosaic" class="mosaic"></div>
 <h2 class="section-title">Pre-ordered</h2>
