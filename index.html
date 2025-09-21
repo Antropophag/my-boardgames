@@ -7,7 +7,9 @@
 
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Подключение шрифта Metropolis -->
+<link href="https://fonts.cdnfonts.com/css/metropolis" rel="stylesheet">
 
 <!-- Подключение Foundation Icons 3 -->
 <link rel="stylesheet" href="fonts/foundation-icons.css">
@@ -16,7 +18,8 @@
 body, html {
   margin: 0; padding: 0;
   background: #111;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Metropolis', sans-serif;
+  font-weight: 400; /* обычный текст */
   color: #fff;
 }
 h2.section-title {
@@ -31,7 +34,7 @@ h2.section-title {
   position: relative;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px); /* только вертикальное смещение */
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .game.show {
@@ -57,7 +60,6 @@ h2.section-title {
   left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.8);
   color: #fff;
-  font-weight: bold;
   padding: 8px;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -78,7 +80,7 @@ h2.section-title {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  font-weight: 700; /* жирный для числа рейтинга */
   color: #fff;
   margin-right: 8px;
   flex-shrink: 0;
@@ -94,6 +96,7 @@ h2.section-title {
   color: white;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 700; /* жирный для названия игры */
 }
 .title-rank .title a:hover {
   text-decoration: underline;
@@ -104,8 +107,7 @@ h2.section-title {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
+  font-weight: 700; /* жирный для ранга */
   font-size: 14px;
   color: white;
 }
@@ -114,25 +116,20 @@ h2.section-title {
   font-size: 14px;
 }
 
-/* Исправлено: иконки в ряд, выравнены по левому краю с равным gap */
 .overlay .info {
   display: flex;
-  align-items: center;
   gap: 16px;
-  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 400; /* обычный для текста info */
 }
-
-.overlay .info span {
+.overlay .info p {
+  margin: 0;
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 13px;
-  color: #fff;
 }
-
 .overlay .info i {
-  font-size: 14px;
-  color: white;
+  color: #fff;
 }
 
 #loader {
@@ -212,9 +209,9 @@ function createGameDiv(game) {
         </div>
       </div>
       <div class="info">
-        <span><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</span>
-        <span><i class="fi-clock"></i> ${game.playingtime} мин</span>
-        <span><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</span>
+        <p><i class="fi-torso"></i>${game.minplayers}–${game.maxplayers}</p>
+        <p><i class="fi-clock"></i>${game.playingtime} мин</p>
+        <p><i class="fi-puzzle"></i><span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
     </div>
   `;
