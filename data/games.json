@@ -109,6 +109,18 @@
       "url": "https://boardgamegeek.com/boardgame/258003"
     },
     {
+      "id": "381278",
+      "name": "Dracula vs Van Helsing",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/RbNAitZatR7g82u_9OBV8A__original/img/z2leJtn83aYVYDepcIb9srAjM3I=/0x0/filters:format(jpeg)/pic7453834.jpg",
+      "average": 7.39341,
+      "averageweight": 1.7361,
+      "overallrank": 1416,
+      "url": "https://boardgamegeek.com/boardgame/381278"
+    },
+    {
       "id": "396989",
       "name": "Evenfall",
       "minplayers": 1,
@@ -771,18 +783,6 @@
       "url": "https://boardgamegeek.com/boardgame/218074"
     },
     {
-      "id": "381278",
-      "name": "Dracula vs Van Helsing",
-      "minplayers": 2,
-      "maxplayers": 2,
-      "playingtime": 45,
-      "image": "https://cf.geekdo-images.com/RbNAitZatR7g82u_9OBV8A__original/img/z2leJtn83aYVYDepcIb9srAjM3I=/0x0/filters:format(jpeg)/pic7453834.jpg",
-      "average": 7.39341,
-      "averageweight": 1.7361,
-      "overallrank": 1416,
-      "url": "https://boardgamegeek.com/boardgame/381278"
-    },
-    {
       "id": "363307",
       "name": "Evergreen",
       "minplayers": 1,
@@ -829,6 +829,18 @@
       "averageweight": 3.0,
       "overallrank": null,
       "url": "https://boardgamegeek.com/boardgame/410768"
+    },
+    {
+      "id": "439305",
+      "name": "Flamecraft Duals",
+      "minplayers": 1,
+      "maxplayers": 2,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/wIpk8_5xO9Hh3cAPvWAslQ__original/img/Ko8nRSvQkLHcwn6TTPoPj4z_zVI=/0x0/filters:format(png)/pic8706498.png",
+      "average": 8.16245,
+      "averageweight": 1.75,
+      "overallrank": 17270,
+      "url": "https://boardgamegeek.com/boardgame/439305"
     },
     {
       "id": "281619",
