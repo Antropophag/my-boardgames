@@ -903,6 +903,42 @@
       "url": "https://boardgamegeek.com/boardgame/333255"
     },
     {
+      "id": "368173",
+      "name": "Let's Go! To Japan",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/OvhEUaF43CIjSFz8aF_yzQ__original/img/HoWWP2Q0rLOyInX0KZqObNkT8SM=/0x0/filters:format(jpeg)/pic6996891.jpg",
+      "average": 7.62828,
+      "averageweight": 2.2485,
+      "overallrank": 457,
+      "url": "https://boardgamegeek.com/boardgame/368173"
+    },
+    {
+      "id": "387481",
+      "name": "Let's Go! To Japan: Day Trip",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/k1KplTUQFFZzqO7M0a-Z6Q__original/img/dNr2gHyOHbFRD6KNpkk1jG4QgMQ=/0x0/filters:format(jpeg)/pic8134653.jpg",
+      "average": 7.8851,
+      "averageweight": 2.3333,
+      "overallrank": null,
+      "url": "https://boardgamegeek.com/boardgame/387481"
+    },
+    {
+      "id": "387479",
+      "name": "Let's Go! To Japan: Grab Your Passport",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/pdvo42G5ZEbA_2wS4_Y9Sw__original/img/doyqxkUEp6rr1hmcmaePLD04DOM=/0x0/filters:format(jpeg)/pic8134660.jpg",
+      "average": 7.97829,
+      "averageweight": 2.0,
+      "overallrank": null,
+      "url": "https://boardgamegeek.com/boardgame/387479"
+    },
+    {
       "id": "205059",
       "name": "Mansions of Madness: Second Edition",
       "minplayers": 1,
