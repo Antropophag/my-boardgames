@@ -31,7 +31,7 @@ h2.section-title {
   position: relative;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(20px); /* только вертикальное смещение */
+  transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .game.show {
@@ -114,10 +114,11 @@ h2.section-title {
   font-size: 14px;
 }
 
+/* Исправлено: иконки в ряд, выравнены по левому краю с равным gap */
 .overlay .info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-top: 6px;
 }
 
