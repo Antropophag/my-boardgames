@@ -1,104 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play with me</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" href="/favicon-512x512.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/foundation-icons.css">
+
+<style>
+body, html { margin:0; padding:0; background:#262626; font-family:'Montserrat',sans-serif; color:#fff; }
+h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
+.mosaic { width:100%; }
+.game { position:relative; overflow:hidden; opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
+.game.show { opacity:1; transform:translateY(0); animation:popIn .4s ease; }
+@keyframes popIn { 0%{transform:translateY(20px);}60%{transform:translateY(-5px);}100%{transform:translateY(0);} }
+.game img { width:100%; display:block; vertical-align:bottom; transition: transform .3s ease; }
+.game:hover img { transform:scale(1.05); }
+
+.overlay { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); color:#fff; font-weight:bold; padding:8px; opacity:0; transition:opacity .3s ease; }
+.game:hover .overlay { opacity:1; }
+.overlay-content { display:flex; align-items:center; margin-bottom:4px; }
+.rating-hex { width:40px; aspect-ratio:1.15; background-color:gray; clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0; }
+.title-rank { display:flex; justify-content:space-between; flex:1; align-items:center; }
+.title-rank .title a { color:white; text-decoration:none; font-size:14px; }
+.title-rank .title a:hover { text-decoration:underline dotted white; }
+.title-rank .rank { display:flex; align-items:center; gap:4px; font-weight:bold; font-size:14px; color:white; }
+.title-rank .rank i { color:#e64900; font-size:14px; }
+
+.overlay .info { display:flex; justify-content:space-between; font-weight:bold; font-size:13px; color:#fff; flex:1; }
+.overlay .info i { font-size:16px; }
+
+.info-column { display:none; font-weight:bold; font-size:13px; color:#fff; }
+.info-column p { margin:2px 0; line-height:1.2; }
+
+#loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#262626; display:flex; justify-content:center; align-items:center; z-index:9999; }
+.loader-gif { width:250px; height:250px; }
+
+@media(max-width:800px){ .game img{width:100%;height:auto;} .info-column{display:none;} }
+@media(min-width:801px){ .overlay .info{display:none;} .info-column{display:block;} }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <img src="dice.gif" alt="loading" class="loader-gif">
+</div>
+
+<div id="ownMosaic" class="mosaic"></div>
+<h2 class="section-title">Pre-ordered</h2>
+<div id="preMosaic" class="mosaic"></div>
+<h2 class="section-title">Wishlist</h2>
+<div id="wishMosaic" class="mosaic"></div>
+
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-function getRatingColor(avg){
-  if(avg>=8) return '#186b40';
-  if(avg>=7) return '#1978b3';
-  if(avg>=5) return '#5369a2';
-  return '#666e75';
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-function createGameDiv(game){
-  const div = document.createElement('div');
-  div.className = 'game';
+  function getRatingColor(avg){
+    if(avg>=8) return '#186b40';
+    if(avg>=7) return '#1978b3';
+    if(avg>=5) return '#5369a2';
+    return '#666e75';
+  }
 
-  const ratingColor = getRatingColor(game.average);
-  let weightColor = '#5bda98';
-  if(game.averageweight>4) weightColor='#df4751';
-  else if(game.averageweight>3) weightColor='#ff6b26';
+  function createGameDiv(game){
+    const div = document.createElement('div');
+    div.className = 'game';
 
-  const rank = game.overallrank ?? '—';
+    const ratingColor = getRatingColor(game.average);
+    let weightColor = '#5bda98';
+    if(game.averageweight>4) weightColor='#df4751';
+    else if(game.averageweight>3) weightColor='#ff6b26';
 
-  // Используем 100% ширины колонки через Weserv
-  const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
+    const rank = game.overallrank ?? '—';
+    const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
 
-  div.innerHTML = `
-    <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
-    <div class="overlay">
-      <div class="overlay-content">
-        <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
-        <div class="title-rank">
-          <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
-          <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+    div.innerHTML = `
+      <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
+      <div class="overlay">
+        <div class="overlay-content">
+          <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
+          <div class="title-rank">
+            <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
+            <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+          </div>
+        </div>
+        <div class="info">
+          <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
+          <p><i class="fi-clock"></i> ${game.playingtime} min</p>
+          <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+        </div>
+        <div class="info-column">
+          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
+          <p>Playing time: ${game.playingtime} min</p>
+          <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
         </div>
       </div>
-      <div class="info">
-        <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
-        <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-        <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-      </div>
-      <div class="info-column">
-        <p>Players: ${game.minplayers}–${game.maxplayers}</p>
-        <p>Playing time: ${game.playingtime} min</p>
-        <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-      </div>
-    </div>
-  `;
-  return div;
-}
+    `;
+    return div;
+  }
 
-function getColumnCount(){
-  if(window.innerWidth<600) return 2;
-  if(window.innerWidth<900) return 3;
-  if(window.innerWidth<1200) return 4;
-  return 5;
-}
+  function getColumnCount(){
+    if(window.innerWidth < 600) return 2;
+    if(window.innerWidth < 900) return 3;
+    if(window.innerWidth < 1200) return 4;
+    return 5;
+  }
 
-function layoutMasonry(container){
-  const colCount = getColumnCount();
-  const colWidth = container.clientWidth / colCount;
+  function layoutMasonry(container){
+    const colCount = getColumnCount();
+    const colWidth = container.clientWidth / colCount;
 
-  container.querySelectorAll('.game').forEach(el=>{
-    el.style.width = colWidth + 'px';
-  });
-
-  return new Masonry(container, {
-    itemSelector: '.game',
-    columnWidth: colWidth,
-    gutter: 0,
-    percentPosition: false,
-    transitionDuration: '0.4s'
-  });
-}
-
-function loadGames(file, containerId){
-  const container = document.getElementById(containerId);
-
-  fetch(file)
-    .then(res => res.json())
-    .then(data => {
-      const games = data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
-      games.forEach(game => container.appendChild(createGameDiv(game)));
-
-      imagesLoaded(container, () => {
-        const msnry = layoutMasonry(container);
-
-        // Анимация появления
-        container.querySelectorAll('.game').forEach((el,i)=>{
-          setTimeout(()=>el.classList.add('show'), 100*i);
-        });
-
-        document.getElementById('loader').style.display = 'none';
-
-        window.addEventListener('resize', () => {
-          const newColWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-          msnry.options.columnWidth = newColWidth;
-          msnry.layout();
-        });
-      });
+    container.querySelectorAll('.game').forEach(el => {
+      el.style.width = colWidth + 'px';
     });
-}
 
-loadGames('data/games.json','ownMosaic');
-loadGames('data/games.json','preMosaic');
-loadGames('data/games.json','wishMosaic');
+    return new Masonry(container, {
+      itemSelector: '.game',
+      columnWidth: colWidth,
+      gutter: 0,
+      percentPosition: false,
+      transitionDuration: '0.4s'
+    });
+  }
+
+  function loadGames(file, containerId){
+    const container = document.getElementById(containerId);
+    if(!container) return console.warn('Container not found:', containerId);
+
+    fetch(file)
+      .then(res => res.json())
+      .then(data => {
+        const games = data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
+        games.forEach(game => container.appendChild(createGameDiv(game)));
+
+        imagesLoaded(container, () => {
+          const msnry = layoutMasonry(container);
+
+          container.querySelectorAll('.game').forEach((el,i)=>{
+            setTimeout(()=>el.classList.add('show'), 100*i);
+          });
+
+          const loader = document.getElementById('loader');
+          if(loader) loader.style.display='none';
+
+          window.addEventListener('resize', () => {
+            const newColWidth = container.clientWidth / getColumnCount();
+            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+            msnry.options.columnWidth = newColWidth;
+            msnry.layout();
+          });
+        });
+      })
+      .catch(err => console.error('Failed to load games:', err));
+  }
+
+  loadGames('data/games.json','ownMosaic');
+  loadGames('data/games.json','preMosaic');
+  loadGames('data/games.json','wishMosaic');
+
+});
 </script>
+
+</body>
+</html>
