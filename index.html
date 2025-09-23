@@ -202,7 +202,7 @@ function getRatingColor(avg) {
   return '#666e75';                     
 }
 
-function createGameDiv(game) {
+function createGameDiv(game, colWidth) {
   const div = document.createElement('div');
   div.className = 'game';
 
@@ -213,8 +213,12 @@ function createGameDiv(game) {
 
   const rank = game.overallrank ?? '—';
 
+  // WebP через weserv.nl под ширину колонки
+  const w = Math.round(colWidth);
+  const thumbUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${w}&output=webp`;
+
   div.innerHTML = `
-    <img src="${game.image}" alt="${game.name}">
+    <img src="${thumbUrl}" alt="${game.name}">
     <div class="overlay">
       <div class="overlay-content">
         <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
@@ -244,14 +248,14 @@ function loadGames(file, containerId) {
     .then(res => res.json())
     .then(data => {
       let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
-      
-      games.forEach((game, index) => {
-        const div = createGameDiv(game);
+      const colWidth = container.clientWidth / getColumnCount();
+
+      games.forEach(game => {
+        const div = createGameDiv(game, colWidth);
         container.appendChild(div);
       });
 
       imagesLoaded(container, () => {
-        const colWidth = updateColumns(container);
         const msnry = new Masonry(container, {
           itemSelector: '.game',
           columnWidth: colWidth,
@@ -263,7 +267,6 @@ function loadGames(file, containerId) {
         // Лоадскрин максимум 3 секунды
         setTimeout(() => {
           document.getElementById('loader').style.display = 'none';
-          // Запускаем анимацию появления плиток
           container.querySelectorAll('.game').forEach((el, i) => {
             setTimeout(() => el.classList.add('show'), 100*i);
           });
@@ -272,6 +275,13 @@ function loadGames(file, containerId) {
         window.addEventListener('resize', () => {
           const newColWidth = container.clientWidth / getColumnCount();
           container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+
+          // Переподгружаем картинки под новую ширину
+          container.querySelectorAll('.game img').forEach((img, idx) => {
+            const game = games[idx];
+            img.src = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${Math.round(newColWidth)}&output=webp`;
+          });
+
           msnry.options.columnWidth = newColWidth;
           msnry.layout();
         });
