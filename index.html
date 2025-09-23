@@ -202,7 +202,7 @@ function getRatingColor(avg) {
   return '#666e75';                     
 }
 
-function createGameDiv(game, colWidth) {
+function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
 
@@ -213,12 +213,8 @@ function createGameDiv(game, colWidth) {
 
   const rank = game.overallrank ?? '—';
 
-  // WebP через weserv.nl под ширину колонки
-  const w = Math.round(colWidth);
-  const thumbUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${w}&output=webp`;
-
   div.innerHTML = `
-    <img src="${thumbUrl}" alt="${game.name}">
+    <img src="${game.image}" alt="${game.name}">
     <div class="overlay">
       <div class="overlay-content">
         <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
@@ -242,56 +238,50 @@ function createGameDiv(game, colWidth) {
   return div;
 }
 
-function loadGames(file, containerId) {
-  const container = document.getElementById(containerId);
-  fetch(file)
-    .then(res => res.json())
-    .then(data => {
-      let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
-      const colWidth = container.clientWidth / getColumnCount();
+function loadGamesSection(file, containerId) {
+  return new Promise(resolve => {
+    const container = document.getElementById(containerId);
+    fetch(file)
+      .then(res => res.json())
+      .then(data => {
+        let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
+        games.forEach(game => container.appendChild(createGameDiv(game)));
 
-      games.forEach(game => {
-        const div = createGameDiv(game, colWidth);
-        container.appendChild(div);
-      });
+        imagesLoaded(container, () => {
+          const colWidth = updateColumns(container);
+          const msnry = new Masonry(container, {
+            itemSelector: '.game',
+            columnWidth: colWidth,
+            gutter: 0,
+            percentPosition: false,
+            transitionDuration: '0.4s'
+          });
 
-      imagesLoaded(container, () => {
-        const msnry = new Masonry(container, {
-          itemSelector: '.game',
-          columnWidth: colWidth,
-          gutter: 0,
-          percentPosition: false,
-          transitionDuration: '0.4s'
-        });
-
-        // Лоадскрин максимум 3 секунды
-        setTimeout(() => {
-          document.getElementById('loader').style.display = 'none';
           container.querySelectorAll('.game').forEach((el, i) => {
             setTimeout(() => el.classList.add('show'), 100*i);
           });
-        }, 3000);
 
-        window.addEventListener('resize', () => {
-          const newColWidth = container.clientWidth / getColumnCount();
-          container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-
-          // Переподгружаем картинки под новую ширину
-          container.querySelectorAll('.game img').forEach((img, idx) => {
-            const game = games[idx];
-            img.src = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${Math.round(newColWidth)}&output=webp`;
+          window.addEventListener('resize', () => {
+            const newColWidth = container.clientWidth / getColumnCount();
+            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+            msnry.options.columnWidth = newColWidth;
+            msnry.layout();
           });
 
-          msnry.options.columnWidth = newColWidth;
-          msnry.layout();
+          resolve();
         });
       });
-    });
+  });
 }
 
-loadGames('data/games.json', 'ownMosaic');
-loadGames('data/games.json', 'preMosaic');
-loadGames('data/games.json', 'wishMosaic');
+async function loadAllSections() {
+  await loadGamesSection('data/games.json', 'ownMosaic');
+  document.getElementById('loader').style.display = 'none';
+  await loadGamesSection('data/games.json', 'preMosaic');
+  await loadGamesSection('data/games.json', 'wishMosaic');
+}
+
+loadAllSections();
 </script>
 
 </body>
