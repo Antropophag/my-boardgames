@@ -17,17 +17,17 @@
 body, html { margin:0; padding:0; background:#262626; font-family:'Montserrat',sans-serif; color:#fff; }
 h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 .mosaic { width:100%; }
-.game { position:relative; overflow:hidden; opacity:0; transform:translateY(20px); transition:opacity 0.5s ease, transform 0.5s ease; }
-.game.show { opacity:1; transform:translateY(0); animation:popIn 0.4s ease; }
-@keyframes popIn { 0% { transform:translateY(20px); } 60% { transform:translateY(-5px); } 100% { transform:translateY(0); } }
-.game img { width:100%; display:block; vertical-align:bottom; transition: transform .3s ease; }
-.game:hover img { transform: scale(1.05); }
+.game { position:relative; overflow:hidden; opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
+.game.show { opacity:1; transform:translateY(0); animation:popIn .4s ease; }
+@keyframes popIn { 0%{transform:translateY(20px);} 60%{transform:translateY(-5px);} 100%{transform:translateY(0);} }
+.game img { width:100%; display:block; vertical-align:bottom; transition:transform .3s ease; }
+.game:hover img { transform:scale(1.05); }
 
-.overlay { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); color:#fff; font-weight:bold; padding:8px; opacity:0; transition:opacity 0.3s ease; }
+.overlay { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); color:#fff; font-weight:bold; padding:8px; opacity:0; transition:opacity .3s ease; }
 .game:hover .overlay { opacity:1; }
 
 .overlay-content { display:flex; align-items:center; margin-bottom:4px; }
-.rating-hex { width:40px; aspect-ratio:1.15; background-color:gray; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0; }
+.rating-hex { width:40px; aspect-ratio:1.15; background-color:gray; clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0; }
 .title-rank { display:flex; justify-content:space-between; flex:1; align-items:center; }
 .title-rank .title a { color:white; text-decoration:none; font-size:14px; }
 .title-rank .title a:hover { text-decoration:underline; text-decoration-style:dotted; text-decoration-color:white; }
@@ -43,13 +43,15 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 #loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#262626; display:flex; justify-content:center; align-items:center; z-index:9999; }
 .loader-gif { width:250px; height:250px; }
 
-@media (max-width:800px) { .game img { width:100%; height:auto; } .info-column { display:none; } }
-@media (min-width:801px) { .overlay .info { display:none; } .info-column { display:block; } }
+@media (max-width:800px) { .game img{width:100%; height:auto;} .info-column{display:none;} }
+@media (min-width:801px) { .overlay .info{display:none;} .info-column{display:block;} }
 </style>
 </head>
 <body>
 
-<div id="loader"><img src="dice.gif" alt="loading" class="loader-gif"></div>
+<div id="loader">
+  <img src="dice.gif" alt="loading" class="loader-gif">
+</div>
 
 <div id="ownMosaic" class="mosaic"></div>
 <h2 class="section-title">Pre-ordered</h2>
@@ -60,45 +62,47 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
+// --- Прокси через weserv.nl ---
+function getWeservUrl(url, width) {
+  return `https://images.weserv.nl/?url=${encodeURIComponent(url.replace(/^https?:\/\//,''))}&w=${Math.round(width)}&output=webp&fit=cover`;
+}
+
 function getColumnCount() {
-  if(window.innerWidth<600) return 2;
-  if(window.innerWidth<900) return 3;
-  if(window.innerWidth<1200) return 4;
+  if (window.innerWidth < 600) return 2;
+  if (window.innerWidth < 900) return 3;
+  if (window.innerWidth < 1200) return 4;
   return 5;
 }
 
+const columnCount = getColumnCount();
+const colWidthGlobal = document.getElementById('ownMosaic').clientWidth / columnCount;
+
 function updateColumns(container) {
-  const colWidth = container.clientWidth / getColumnCount();
-  container.querySelectorAll('.game').forEach(el=>el.style.width = colWidth+'px');
-  return colWidth;
+  container.querySelectorAll('.game').forEach(el => el.style.width = colWidthGlobal + 'px');
+  return colWidthGlobal;
 }
 
 function getRatingColor(avg) {
-  if(avg>=8) return '#186b40';
-  if(avg>=7) return '#1978b3';
-  if(avg>=5) return '#5369a2';
+  if(avg >= 8) return '#186b40';
+  if(avg >= 7) return '#1978b3';
+  if(avg >= 5) return '#5369a2';
   return '#666e75';
 }
 
-function getWeservUrl(src, width) {
-  return `https://images.weserv.nl/?url=${encodeURIComponent(src)}&w=${Math.round(width)}&output=webp`;
-}
-
-function createGameDiv(game, colWidth) {
+function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
 
   const ratingColor = getRatingColor(game.average);
   let weightColor = '#5bda98';
-  if(game.averageweight>4) weightColor='#df4751';
-  else if(game.averageweight>3) weightColor='#ff6b26';
+  if(game.averageweight > 4) weightColor = '#df4751';
+  else if(game.averageweight > 3) weightColor = '#ff6b26';
 
   const rank = game.overallrank ?? '—';
 
-  // Прокси + fallback
   const img = document.createElement('img');
-  img.src = getWeservUrl(game.image, colWidth);
-  img.onerror = ()=>{ img.src = game.image; };
+  img.src = getWeservUrl(game.image, colWidthGlobal);
+  img.onerror = () => { img.src = game.image; };
 
   div.innerHTML = `
     <div class="overlay">
@@ -112,12 +116,12 @@ function createGameDiv(game, colWidth) {
       <div class="info">
         <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
         <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-        <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight!==null?game.averageweight.toFixed(2):'N/A'}</span> / 5</p>
+        <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
       <div class="info-column">
         <p>Players: ${game.minplayers}–${game.maxplayers}</p>
         <p>Playing time: ${game.playingtime} min</p>
-        <p>Complexity: <span style="color:${weightColor}">${game.averageweight!==null?game.averageweight.toFixed(2):'N/A'}</span> / 5</p>
+        <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
       </div>
     </div>
   `;
@@ -126,30 +130,30 @@ function createGameDiv(game, colWidth) {
 }
 
 function loadGamesSection(file, containerId) {
-  return new Promise(resolve=>{
-    const container=document.getElementById(containerId);
+  return new Promise(resolve => {
+    const container = document.getElementById(containerId);
     fetch(file)
-      .then(res=>res.json())
-      .then(data=>{
-        const games=data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
-        const colWidth = container.clientWidth/getColumnCount();
-        games.forEach(game=>container.appendChild(createGameDiv(game,colWidth)));
+      .then(res => res.json())
+      .then(data => {
+        let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
+        games.forEach(game => container.appendChild(createGameDiv(game)));
 
-        imagesLoaded(container,()=>{
-          const msnry=new Masonry(container,{
-            itemSelector:'.game',
-            columnWidth:colWidth,
+        imagesLoaded(container, () => {
+          const msnry = new Masonry(container, {
+            itemSelector: '.game',
+            columnWidth: colWidthGlobal,
             gutter:0,
             percentPosition:false,
             transitionDuration:'0.4s'
           });
 
-          container.querySelectorAll('.game').forEach((el,i)=>{ setTimeout(()=>el.classList.add('show'),100*i); });
+          container.querySelectorAll('.game').forEach((el,i) => { setTimeout(()=>el.classList.add('show'),100*i); });
 
-          window.addEventListener('resize',()=>{
-            const newColWidth=container.clientWidth/getColumnCount();
+          window.addEventListener('resize', () => {
+            const newColCount = getColumnCount();
+            const newColWidth = container.clientWidth / newColCount;
             container.querySelectorAll('.game').forEach(el=>el.style.width=newColWidth+'px');
-            msnry.options.columnWidth=newColWidth;
+            msnry.options.columnWidth = newColWidth;
             msnry.layout();
           });
 
@@ -159,7 +163,7 @@ function loadGamesSection(file, containerId) {
   });
 }
 
-async function loadAllSections(){
+async function loadAllSections() {
   await loadGamesSection('data/games.json','ownMosaic');
   document.getElementById('loader').style.display='none';
   await loadGamesSection('data/games.json','preMosaic');
@@ -168,5 +172,6 @@ async function loadAllSections(){
 
 loadAllSections();
 </script>
+
 </body>
 </html>
