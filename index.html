@@ -69,7 +69,7 @@ function getRatingColor(avg) {
   return '#666e75';
 }
 
-function createGameDiv(game, colWidth) {
+function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
 
@@ -80,8 +80,8 @@ function createGameDiv(game, colWidth) {
 
   const rank = game.overallrank ?? '—';
 
-  // WebP через weserv.nl под ширину колонки + фолбэк на оригинал
-  const imgSrc = game.image ? `https://images.weserv.nl/?url=${encodeURIComponent(game.image.replace(/^https?:\/\//,''))}&w=${Math.round(colWidth)}&output=webp` : '';
+  // Fixed 600px WebP via weserv.nl + fallback
+  const imgSrc = game.image ? `https://images.weserv.nl/?url=${encodeURIComponent(game.image.replace(/^https?:\/\//,''))}&w=600&output=webp` : '';
 
   div.innerHTML = `
     <img src="${imgSrc}" alt="${game.name}" onerror="this.src='${game.image}'">
@@ -109,27 +109,20 @@ function createGameDiv(game, colWidth) {
 }
 
 async function loadGames(file, containerIds) {
-  const colCount = getColumnCount();
-  const colWidth = document.getElementById('ownMosaic').clientWidth / colCount;
-
   const res = await fetch(file);
   const data = await res.json();
-
-  const allDivs = [];
 
   containerIds.forEach(id => {
     const container = document.getElementById(id);
     const games = data[id==='ownMosaic'?'own':id==='preMosaic'?'preordered':'wishlist'];
-    games.forEach(game => {
-      const div = createGameDiv(game, colWidth);
-      container.appendChild(div);
-      allDivs.push(div);
-    });
+    games.forEach(game => container.appendChild(createGameDiv(game)));
   });
 
   imagesLoaded(document.body, () => {
     containerIds.forEach(id => {
       const container = document.getElementById(id);
+      const colCount = getColumnCount();
+      const colWidth = container.clientWidth / colCount;
       const msnry = new Masonry(container, {
         itemSelector: '.game',
         columnWidth: colWidth,
@@ -138,9 +131,10 @@ async function loadGames(file, containerIds) {
         transitionDuration:'0.4s'
       });
       container.querySelectorAll('.game').forEach((el,i)=>setTimeout(()=>el.classList.add('show'),100*i));
+
       window.addEventListener('resize', ()=>{
         const newColCount = getColumnCount();
-        const newColWidth = document.getElementById('ownMosaic').clientWidth / newColCount;
+        const newColWidth = container.clientWidth / newColCount;
         container.querySelectorAll('.game').forEach(el=>el.style.width=newColWidth+'px');
         msnry.options.columnWidth = newColWidth;
         msnry.layout();
