@@ -153,7 +153,7 @@ h2.section-title {
   z-index:9999;
 }
 .loader-gif {
-  width: 250px; 
+  width: 250px;
   height: 250px;
 }
 
@@ -182,16 +182,6 @@ h2.section-title {
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-// Возвращает URL через weserv.nl с WebP и ресайзом, fallback на оригинал
-function getWeservUrl(bggUrl) {
-  try {
-    const urlObj = new URL(bggUrl);
-    return `https://images.weserv.nl/?url=${urlObj.hostname}${urlObj.pathname}&output=webp&h=400&w=400&fit=cover`;
-  } catch(e) {
-    return bggUrl;
-  }
-}
-
 function getColumnCount() {
   if (window.innerWidth < 600) return 2;
   if (window.innerWidth < 900) return 3;
@@ -212,7 +202,18 @@ function getRatingColor(avg) {
   return '#666e75';                     
 }
 
-function createGameDiv(game) {
+// WebP через weserv.nl с fallback на оригинал
+function getWeservUrl(originalUrl, colWidth) {
+  try {
+    const urlObj = new URL(originalUrl);
+    const proxyUrl = `https://images.weserv.nl/?url=${urlObj.hostname}${urlObj.pathname}&output=webp&w=${Math.round(colWidth)}`;
+    return proxyUrl;
+  } catch(e) {
+    return originalUrl;
+  }
+}
+
+function createGameDiv(game, colWidth) {
   const div = document.createElement('div');
   div.className = 'game';
 
@@ -222,9 +223,10 @@ function createGameDiv(game) {
   else if(game.averageweight > 3) weightColor = '#ff6b26';
 
   const rank = game.overallrank ?? '—';
+  const imgUrl = getWeservUrl(game.image, colWidth);
 
   div.innerHTML = `
-    <img src="${getWeservUrl(game.image)}" alt="${game.name}">
+    <img src="${imgUrl}" data-original="${game.image}" alt="${game.name}">
     <div class="overlay">
       <div class="overlay-content">
         <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
@@ -245,54 +247,14 @@ function createGameDiv(game) {
       </div>
     </div>
   `;
+
+  // Фолбэк на оригинальное изображение при ошибке
+  const img = div.querySelector('img');
+  img.onerror = () => { img.src = img.dataset.original; };
+
   return div;
 }
 
 function loadGamesSection(file, containerId) {
   return new Promise(resolve => {
-    const container = document.getElementById(containerId);
-    fetch(file)
-      .then(res => res.json())
-      .then(data => {
-        let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
-        games.forEach(game => container.appendChild(createGameDiv(game)));
-
-        imagesLoaded(container, () => {
-          const colWidth = updateColumns(container);
-          const msnry = new Masonry(container, {
-            itemSelector: '.game',
-            columnWidth: colWidth,
-            gutter: 0,
-            percentPosition: false,
-            transitionDuration: '0.4s'
-          });
-
-          container.querySelectorAll('.game').forEach((el, i) => {
-            setTimeout(() => el.classList.add('show'), 100*i);
-          });
-
-          window.addEventListener('resize', () => {
-            const newColWidth = container.clientWidth / getColumnCount();
-            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-            msnry.options.columnWidth = newColWidth;
-            msnry.layout();
-          });
-
-          resolve();
-        });
-      });
-  });
-}
-
-async function loadAllSections() {
-  await loadGamesSection('data/games.json', 'ownMosaic');
-  document.getElementById('loader').style.display = 'none';
-  await loadGamesSection('data/games.json', 'preMosaic');
-  await loadGamesSection('data/games.json', 'wishMosaic');
-}
-
-loadAllSections();
-</script>
-
-</body>
-</html>
+   
