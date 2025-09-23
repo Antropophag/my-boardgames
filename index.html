@@ -153,7 +153,7 @@ h2.section-title {
   z-index:9999;
 }
 .loader-gif {
-  width: 250px; /* 50px * 5 */
+  width: 250px; 
   height: 250px;
 }
 
@@ -182,6 +182,16 @@ h2.section-title {
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
+// Возвращает URL через weserv.nl с WebP и ресайзом, fallback на оригинал
+function getWeservUrl(bggUrl) {
+  try {
+    const urlObj = new URL(bggUrl);
+    return `https://images.weserv.nl/?url=${urlObj.hostname}${urlObj.pathname}&output=webp&h=400&w=400&fit=cover`;
+  } catch(e) {
+    return bggUrl;
+  }
+}
+
 function getColumnCount() {
   if (window.innerWidth < 600) return 2;
   if (window.innerWidth < 900) return 3;
@@ -202,33 +212,9 @@ function getRatingColor(avg) {
   return '#666e75';                     
 }
 
-// --- Проксирование через weserv.nl с fallback ---
-function getWeservUrl(bggUrl) {
-  try {
-    const urlObj = new URL(bggUrl);
-    return `https://images.weserv.nl/?url=${urlObj.hostname}${urlObj.pathname}`;
-  } catch(e) {
-    return bggUrl; // fallback если URL неверный
-  }
-}
-
-function getImageUrl(originalUrl) {
-  const proxyUrl = getWeservUrl(originalUrl);
-  const fallback = originalUrl;
-
-  return new Promise(resolve => {
-    const img = new Image();
-    img.onload = () => resolve(proxyUrl);
-    img.onerror = () => resolve(fallback);
-    img.src = proxyUrl;
-  });
-}
-
-async function createGameDiv(game) {
+function createGameDiv(game) {
   const div = document.createElement('div');
   div.className = 'game';
-
-  const imgUrl = await getImageUrl(game.image);
 
   const ratingColor = getRatingColor(game.average);
   let weightColor = '#5bda98';
@@ -238,7 +224,7 @@ async function createGameDiv(game) {
   const rank = game.overallrank ?? '—';
 
   div.innerHTML = `
-    <img src="${imgUrl}" alt="${game.name}">
+    <img src="${getWeservUrl(game.image)}" alt="${game.name}">
     <div class="overlay">
       <div class="overlay-content">
         <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
@@ -262,37 +248,39 @@ async function createGameDiv(game) {
   return div;
 }
 
-async function loadGamesSection(file, containerId) {
-  const container = document.getElementById(containerId);
-  const res = await fetch(file);
-  const data = await res.json();
-  const games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
+function loadGamesSection(file, containerId) {
+  return new Promise(resolve => {
+    const container = document.getElementById(containerId);
+    fetch(file)
+      .then(res => res.json())
+      .then(data => {
+        let games = data[containerId === 'ownMosaic' ? 'own' : containerId === 'preMosaic' ? 'preordered' : 'wishlist'];
+        games.forEach(game => container.appendChild(createGameDiv(game)));
 
-  for (const game of games) {
-    const div = await createGameDiv(game);
-    container.appendChild(div);
-  }
+        imagesLoaded(container, () => {
+          const colWidth = updateColumns(container);
+          const msnry = new Masonry(container, {
+            itemSelector: '.game',
+            columnWidth: colWidth,
+            gutter: 0,
+            percentPosition: false,
+            transitionDuration: '0.4s'
+          });
 
-  imagesLoaded(container, () => {
-    const colWidth = updateColumns(container);
-    const msnry = new Masonry(container, {
-      itemSelector: '.game',
-      columnWidth: colWidth,
-      gutter: 0,
-      percentPosition: false,
-      transitionDuration: '0.4s'
-    });
+          container.querySelectorAll('.game').forEach((el, i) => {
+            setTimeout(() => el.classList.add('show'), 100*i);
+          });
 
-    container.querySelectorAll('.game').forEach((el, i) => {
-      setTimeout(() => el.classList.add('show'), 100*i);
-    });
+          window.addEventListener('resize', () => {
+            const newColWidth = container.clientWidth / getColumnCount();
+            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+            msnry.options.columnWidth = newColWidth;
+            msnry.layout();
+          });
 
-    window.addEventListener('resize', () => {
-      const newColWidth = container.clientWidth / getColumnCount();
-      container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-      msnry.options.columnWidth = newColWidth;
-      msnry.layout();
-    });
+          resolve();
+        });
+      });
   });
 }
 
