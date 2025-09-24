@@ -80,10 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
     else if(game.averageweight>3) weightColor='#ff6b26';
 
     const rank = game.overallrank ?? '—';
-    const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
+    const isMobile = window.innerWidth <= 800; // мобильное устройство
+    const imgUrl = isMobile ? game.thumbnail : game.image;
+    const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(imgUrl)}&w=100%25&output=webp`;
 
     div.innerHTML = `
-      <img src="${proxiedUrl}" alt="${game.name}" loading="lazy" onerror="this.src='${game.image}'">
+      <img src="${proxiedUrl}" alt="${game.name}" loading="lazy" onerror="this.src='${imgUrl}'">
       <div class="overlay">
         <div class="overlay-content">
           <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
