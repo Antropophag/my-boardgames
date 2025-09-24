@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const proxiedBase = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}`;
     const srcset = `
-      ${proxiedBase}&w=200&output=webp 200w,
       ${proxiedBase}&w=400&output=webp 400w,
       ${proxiedBase}&w=800&output=webp 800w,
       ${proxiedBase}&w=1200&output=webp 1200w
@@ -91,9 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     div.innerHTML = `
       <img 
-        src="${proxiedBase}&w=400&output=webp" 
+        src="${proxiedBase}&w=800&output=webp" 
         srcset="${srcset}"
-        sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 400px"
+        sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 800px"
         alt="${game.name}" 
         loading="lazy"
         onerror="this.src='${game.image}'">
@@ -124,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(window.innerWidth < 600) return 2;
     if(window.innerWidth < 900) return 3;
     if(window.innerWidth < 1200) return 4;
-    return 5;
+    return 3; // на широких экранах карточки шире
   }
 
   function layoutMasonry(container){
@@ -171,16 +170,3 @@ document.addEventListener('DOMContentLoaded', () => {
             msnry.layout();
           });
         });
-      })
-      .catch(err => console.error('Failed to load games:', err));
-  }
-
-  loadGames('data/games.json','ownMosaic');
-  loadGames('data/games.json','preMosaic');
-  loadGames('data/games.json','wishMosaic');
-
-});
-</script>
-
-</body>
-</html>
