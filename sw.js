@@ -1,5 +1,4 @@
 const CACHE_NAME = "antropophag-cache-v2";
-
 const STATIC_ASSETS = [
   "/",
   "/index.html",
@@ -10,66 +9,45 @@ const STATIC_ASSETS = [
   "/dice.gif"
 ];
 
-// Установка сервис-воркера и кеширование файлов
 self.addEventListener("install", event => {
   console.log("[SW] Установка сервис-воркера...");
   event.waitUntil(
     caches.open(CACHE_NAME).then(async cache => {
-      let cachedCount = 0;
       for (const url of STATIC_ASSETS) {
-        try {
-          await cache.add(url);
-          cachedCount++;
-          console.log(`[SW] Закеширован (${cachedCount}/${STATIC_ASSETS.length}):`, url);
-        } catch (err) {
-          console.warn("[SW] Не удалось закешировать:", url, err);
+        try { 
+          await cache.add(url); 
+          console.log("[SW] Закеширован:", url);
+        } catch(e){ 
+          console.warn("[SW] Не удалось закешировать", url); 
         }
       }
-      console.log("[SW] Установка завершена.");
-      self.skipWaiting(); // активируем новый SW сразу
+      self.skipWaiting();
     })
   );
 });
 
-// Активация сервис-воркера и удаление старых кэшей
 self.addEventListener("activate", event => {
   console.log("[SW] Активация сервис-воркера...");
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            console.log("[SW] Удаляем старый кэш:", key);
-            return caches.delete(key);
-          }
-        })
-      ).then(() => {
-        console.log("[SW] Активация завершена.");
-        return self.clients.claim(); // новый SW начинает контролировать все вкладки
-      })
+        keys.map(key => key !== CACHE_NAME ? caches.delete(key) : null)
+      ).then(() => self.clients.claim())
     )
   );
 });
 
-// Стратегия Cache First с обновлением сети
+// Cache First только для статики, JSON грузим напрямую
 self.addEventListener("fetch", event => {
+  if (event.request.url.includes('/data/games.json')) return; // игнорируем JSON
   event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request)
-        .then(networkResponse => {
-          if (!networkResponse || !networkResponse.ok) return networkResponse;
-
-          // Клонируем ответ для кэша
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseClone);
-          });
-
-          return networkResponse; // оригинал для браузера
-        })
-        .catch(() => cachedResponse);
-
-      return cachedResponse || fetchPromise;
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request).then(resp => {
+        if(resp.ok){
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, resp.clone()));
+        }
+        return resp;
+      }).catch(() => cached);
     })
   );
 });
