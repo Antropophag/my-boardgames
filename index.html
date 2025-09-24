@@ -20,15 +20,11 @@ body, html {
   font-family:'Montserrat',sans-serif;
   color:#fff;
 }
-
-/* Заголовки секций */
 h2.section-title {
   text-align:center;
   font-size:28px;
   margin:30px 0 20px;
 }
-
-/* Лоадер */
 #loader {
   position:fixed; top:0; left:0;
   width:100%; height:100%;
@@ -38,39 +34,25 @@ h2.section-title {
 }
 .loader-gif { width:250px; height:250px; }
 
-/* Сетка через CSS Grid */
-.mosaic {
-  display:grid;
-  grid-gap:10px;
-  padding:10px;
-  justify-content:center;
-  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
-}
+.mosaic { width:100%; position:relative; }
 
-/* Карточка игры */
 .game {
   position:relative;
   overflow:hidden;
   opacity:0;
   transform:translateY(20px);
-  animation:popIn 0.4s ease forwards;
+  transition:opacity .5s ease, transform .5s ease;
 }
-.game.show { opacity:1; transform:translateY(0); }
+.game.show { opacity:1; transform:translateY(0); animation:popIn .4s ease; }
 
-@keyframes popIn {
-  0%{ transform:translateY(20px); opacity:0; }
-  60%{ transform:translateY(-5px); opacity:1; }
-  100%{ transform:translateY(0); opacity:1; }
-}
+@keyframes popIn { 0%{transform:translateY(20px);}60%{transform:translateY(-5px);}100%{transform:translateY(0);} }
 
-/* Изображения */
 .game img {
   width:100%; display:block; vertical-align:bottom;
   transition: transform .3s ease;
 }
 .game:hover img { transform:scale(1.05); }
 
-/* Overlay */
 .overlay {
   position:absolute; left:0; right:0; bottom:0;
   background:rgba(0,0,0,0.8);
@@ -100,7 +82,6 @@ h2.section-title {
 .title-rank .rank { display:flex; align-items:center; gap:4px; font-weight:bold; font-size:14px; color:white; }
 .title-rank .rank i { color:#e64900; font-size:14px; }
 
-/* Info внутри overlay */
 .overlay .info {
   display:flex; justify-content:space-between;
   font-weight:bold; font-size:13px;
@@ -112,7 +93,6 @@ h2.section-title {
 .weight-medium { color:#ff6b26; }
 .weight-high { color:#df4751; }
 
-/* Адаптивность */
 @media(max-width:800px){ .game img{height:auto;} .overlay .info{flex-direction:column; gap:4px;} }
 </style>
 </head>
@@ -122,19 +102,17 @@ h2.section-title {
   <img src="dice.gif" alt="loading" class="loader-gif">
 </div>
 
-<!-- Секции будут сгенерированы JS -->
-<div id="mosaics-container"></div>
+<div id="ownMosaic" class="mosaic"></div>
+<h2 class="section-title">Pre-ordered</h2>
+<div id="preMosaic" class="mosaic"></div>
+<h2 class="section-title">Wishlist</h2>
+<div id="wishMosaic" class="mosaic"></div>
 
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  const sections = [
-    {id:'ownMosaic', title:'Own'},
-    {id:'preMosaic', title:'Pre-ordered'},
-    {id:'wishMosaic', title:'Wishlist'}
-  ];
-
-  // Цвет рейтинга
   function getRatingClass(avg){
     if(avg>=8) return 'rating-high';
     if(avg>=7) return 'rating-medium';
@@ -151,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function createGameDiv(game, index){
     const div = document.createElement('div');
     div.className = 'game';
-    div.style.animationDelay = (index * 0.08)+'s';
+    div.style.transitionDelay = (index*0.08)+'s';
 
     const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
 
@@ -177,51 +155,77 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    // Безопасный обработчик ошибки загрузки
     const img = div.querySelector('img');
-    img.addEventListener('error', ()=>{ img.src=game.image; });
+    img.addEventListener('error', ()=>{ img.src = game.image; });
 
     return div;
   }
 
-  // Создание секции
-  function createSection(section, games){
-    const container = document.createElement('div');
-    container.id = section.id;
-    container.className = 'mosaic';
-
-    const title = document.createElement('h2');
-    title.className = 'section-title';
-    title.textContent = section.title;
-    container.prepend(title);
-
-    games.forEach((game, index)=> container.appendChild(createGameDiv(game,index)));
-
-    return container;
+  function getColumnCount(){
+    if(window.innerWidth < 600) return 2;
+    if(window.innerWidth < 900) return 3;
+    if(window.innerWidth < 1200) return 4;
+    return 5;
   }
 
-  // Fetch данных один раз
-  fetch('data/games.json')
-    .then(res => res.json())
-    .then(data => {
-      const mosaicsContainer = document.getElementById('mosaics-container');
+  function layoutMasonry(container){
+    const colCount = getColumnCount();
+    const colWidth = container.clientWidth / colCount;
 
-      sections.forEach(section => {
-        const key = section.id==='ownMosaic'?'own':section.id==='preMosaic'?'preordered':'wishlist';
-        if(data[key]) {
-          const secDiv = createSection(section, data[key]);
-          mosaicsContainer.appendChild(secDiv);
-        }
-      });
+    container.querySelectorAll('.game').forEach(el => {
+      el.style.width = colWidth + 'px';
+    });
 
-      // Скрываем лоадер
-      const loader = document.getElementById('loader');
-      if(loader) loader.style.display='none';
-    })
-    .catch(err => console.error('Failed to load games:', err));
+    return new Masonry(container, {
+      itemSelector: '.game',
+      columnWidth: colWidth,
+      gutter: 0,
+      percentPosition: false,
+      transitionDuration: '0.4s'
+    });
+  }
+
+  function loadGames(file, containerId){
+    const container = document.getElementById(containerId);
+    if(!container) return console.warn('Container not found:', containerId);
+
+    fetch(file)
+      .then(res => res.json())
+      .then(data => {
+        const key = containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist';
+        const games = data[key];
+        games.forEach((game, index) => container.appendChild(createGameDiv(game, index)));
+
+        imagesLoaded(container, () => {
+          const msnry = layoutMasonry(container);
+
+          container.querySelectorAll('.game').forEach((el,i)=>{
+            setTimeout(()=>el.classList.add('show'), 100*i);
+          });
+
+          const loader = document.getElementById('loader');
+          if(loader) loader.style.display='none';
+
+          let resizeTimeout;
+          window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(()=>{
+              const newColWidth = container.clientWidth / getColumnCount();
+              container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+              msnry.options.columnWidth = newColWidth;
+              msnry.layout();
+            }, 150);
+          });
+        });
+      })
+      .catch(err => console.error('Failed to load games:', err));
+  }
+
+  loadGames('data/games.json','ownMosaic');
+  loadGames('data/games.json','preMosaic');
+  loadGames('data/games.json','wishMosaic');
 
 });
 </script>
-
 </body>
 </html>
