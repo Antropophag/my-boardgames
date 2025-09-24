@@ -61,99 +61,112 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-function getRatingColor(avg){
-  if(avg>=8) return '#186b40';
-  if(avg>=7) return '#1978b3';
-  if(avg>=5) return '#5369a2';
-  return '#666e75';
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-function createGameDiv(game){
-  const div = document.createElement('div');
-  div.className = 'game';
+  function getRatingColor(avg){
+    if(avg>=8) return '#186b40';
+    if(avg>=7) return '#1978b3';
+    if(avg>=5) return '#5369a2';
+    return '#666e75';
+  }
 
-  const ratingColor = getRatingColor(game.average);
-  let weightColor = '#5bda98';
-  if(game.averageweight>4) weightColor='#df4751';
-  else if(game.averageweight>3) weightColor='#ff6b26';
+  function createGameDiv(game){
+    const div = document.createElement('div');
+    div.className = 'game';
 
-  const rank = game.overallrank ?? '—';
+    const ratingColor = getRatingColor(game.average);
+    let weightColor = '#5bda98';
+    if(game.averageweight>4) weightColor='#df4751';
+    else if(game.averageweight>3) weightColor='#ff6b26';
 
-  // WebP через Weserv, fallback на оригинал
-  let proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=600&output=webp`;
+    const rank = game.overallrank ?? '—';
+    const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
 
-  div.innerHTML = `
-    <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
-    <div class="overlay">
-      <div class="overlay-content">
-        <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
-        <div class="title-rank">
-          <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
-          <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+    div.innerHTML = `
+      <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
+      <div class="overlay">
+        <div class="overlay-content">
+          <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
+          <div class="title-rank">
+            <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
+            <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+          </div>
+        </div>
+        <div class="info">
+          <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
+          <p><i class="fi-clock"></i> ${game.playingtime} min</p>
+          <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+        </div>
+        <div class="info-column">
+          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
+          <p>Playing time: ${game.playingtime} min</p>
+          <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
         </div>
       </div>
-      <div class="info">
-        <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
-        <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-        <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-      </div>
-      <div class="info-column">
-        <p>Players: ${game.minplayers}–${game.maxplayers}</p>
-        <p>Playing time: ${game.playingtime} min</p>
-        <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-      </div>
-    </div>
-  `;
-  return div;
-}
+    `;
+    return div;
+  }
 
-function getColumnCount(){
-  if(window.innerWidth<600) return 2;
-  if(window.innerWidth<900) return 3;
-  if(window.innerWidth<1200) return 4;
-  return 5;
-}
+  function getColumnCount(){
+    if(window.innerWidth < 600) return 2;
+    if(window.innerWidth < 900) return 3;
+    if(window.innerWidth < 1200) return 4;
+    return 5;
+  }
 
-function loadGames(file, containerId){
-  const container=document.getElementById(containerId);
-  fetch(file)
-    .then(res=>res.json())
-    .then(data=>{
-      const games = data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
-      games.forEach(game=>{
-        container.appendChild(createGameDiv(game));
-      });
+  function layoutMasonry(container){
+    const colCount = getColumnCount();
+    const colWidth = container.clientWidth / colCount;
 
-      imagesLoaded(container, ()=>{
-        const colWidth = container.clientWidth/getColumnCount();
-        const msnry = new Masonry(container,{
-          itemSelector:'.game',
-          columnWidth:colWidth,
-          gutter:0,
-          percentPosition:false,
-          transitionDuration:'0.4s'
-        });
-
-        // Анимация появления
-        container.querySelectorAll('.game').forEach((el,i)=>{
-          setTimeout(()=>el.classList.add('show'),100*i);
-        });
-
-        document.getElementById('loader').style.display='none';
-
-        window.addEventListener('resize',()=>{
-          const newColWidth = container.clientWidth/getColumnCount();
-          container.querySelectorAll('.game').forEach(el=>el.style.width=newColWidth+'px');
-          msnry.options.columnWidth=newColWidth;
-          msnry.layout();
-        });
-      });
+    container.querySelectorAll('.game').forEach(el => {
+      el.style.width = colWidth + 'px';
     });
-}
 
-loadGames('data/games.json','ownMosaic');
-loadGames('data/games.json','preMosaic');
-loadGames('data/games.json','wishMosaic');
+    return new Masonry(container, {
+      itemSelector: '.game',
+      columnWidth: colWidth,
+      gutter: 0,
+      percentPosition: false,
+      transitionDuration: '0.4s'
+    });
+  }
+
+  function loadGames(file, containerId){
+    const container = document.getElementById(containerId);
+    if(!container) return console.warn('Container not found:', containerId);
+
+    fetch(file)
+      .then(res => res.json())
+      .then(data => {
+        const games = data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
+        games.forEach(game => container.appendChild(createGameDiv(game)));
+
+        imagesLoaded(container, () => {
+          const msnry = layoutMasonry(container);
+
+          container.querySelectorAll('.game').forEach((el,i)=>{
+            setTimeout(()=>el.classList.add('show'), 100*i);
+          });
+
+          const loader = document.getElementById('loader');
+          if(loader) loader.style.display='none';
+
+          window.addEventListener('resize', () => {
+            const newColWidth = container.clientWidth / getColumnCount();
+            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+            msnry.options.columnWidth = newColWidth;
+            msnry.layout();
+          });
+        });
+      })
+      .catch(err => console.error('Failed to load games:', err));
+  }
+
+  loadGames('data/games.json','ownMosaic');
+  loadGames('data/games.json','preMosaic');
+  loadGames('data/games.json','wishMosaic');
+
+});
 </script>
 
 </body>
