@@ -3,7 +3,6 @@ const CACHE_NAME = "antropophag-cache-v1";
 const STATIC_ASSETS = [
   "/",
   "/index.html",
-  "/favicon-16x16.png",
   "/favicon-32x32.png",
   "/favicon-512x512.png",
   "/fonts/foundation-icons.css",
