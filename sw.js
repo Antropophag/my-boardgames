@@ -1,15 +1,16 @@
-const CACHE_NAME = "antropophag-cache-v1";
+const CACHE_NAME = "antropophag-cache-v2";
 
 const STATIC_ASSETS = [
   "/",
   "/index.html",
+  "/favicon-16x16.png",
   "/favicon-32x32.png",
   "/favicon-512x512.png",
   "/fonts/foundation-icons.css",
   "/dice.gif"
 ];
 
-// Установка сервис-воркера и кеширование файлов с логированием
+// Установка сервис-воркера и кеширование файлов
 self.addEventListener("install", event => {
   console.log("[SW] Установка сервис-воркера...");
   event.waitUntil(
@@ -44,7 +45,7 @@ self.addEventListener("activate", event => {
         })
       ).then(() => {
         console.log("[SW] Активация завершена.");
-        return self.clients.claim(); // контролируем все вкладки сразу
+        return self.clients.claim(); // новый SW начинает контролировать все вкладки
       })
     )
   );
@@ -54,14 +55,19 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request).then(networkResponse => {
-        if (networkResponse.ok) {
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(event.request, networkResponse.clone())
-          );
-        }
-        return networkResponse;
-      }).catch(() => cachedResponse);
+      const fetchPromise = fetch(event.request)
+        .then(networkResponse => {
+          if (!networkResponse || !networkResponse.ok) return networkResponse;
+
+          // Клонируем ответ для кэша
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
+
+          return networkResponse; // оригинал для браузера
+        })
+        .catch(() => cachedResponse);
 
       return cachedResponse || fetchPromise;
     })
