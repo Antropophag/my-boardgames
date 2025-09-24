@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
 
     div.innerHTML = `
-      <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
+      <img src="${proxiedUrl}" alt="${game.name}" loading="lazy" onerror="this.src='${game.image}'">
       <div class="overlay">
         <div class="overlay-content">
           <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
