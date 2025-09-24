@@ -14,63 +14,25 @@
 <link rel="stylesheet" href="fonts/foundation-icons.css">
 
 <style>
-body, html {
-  margin:0; padding:0;
-  background:#262626;
-  font-family:'Montserrat',sans-serif;
-  color:#fff;
-}
-h2.section-title {
-  text-align:center;
-  font-size:28px;
-  margin:30px 0 20px;
-}
-#loader {
-  position:fixed; top:0; left:0;
-  width:100%; height:100%;
-  background:#262626;
-  display:flex; justify-content:center; align-items:center;
-  z-index:9999;
-}
+body, html { margin:0; padding:0; background:#262626; font-family:'Montserrat',sans-serif; color:#fff; }
+h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
+#loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#262626; display:flex; justify-content:center; align-items:center; z-index:9999; }
 .loader-gif { width:250px; height:250px; }
 
 .mosaic { width:100%; position:relative; }
 
-.game {
-  position:relative;
-  overflow:hidden;
-  opacity:0;
-  transform:translateY(20px);
-  transition:opacity .5s ease, transform .5s ease;
-}
+.game { position:relative; overflow:hidden; opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
 .game.show { opacity:1; transform:translateY(0); animation:popIn .4s ease; }
-
 @keyframes popIn { 0%{transform:translateY(20px);}60%{transform:translateY(-5px);}100%{transform:translateY(0);} }
 
-.game img {
-  width:100%; display:block; vertical-align:bottom;
-  transition: transform .3s ease;
-}
+.game img { width:100%; display:block; vertical-align:bottom; transition: transform .3s ease; }
 .game:hover img { transform:scale(1.05); }
 
-.overlay {
-  position:absolute; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.8);
-  color:#fff;
-  font-weight:bold;
-  padding:8px;
-  opacity:0;
-  transition:opacity .3s ease;
-}
+.overlay { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); color:#fff; font-weight:bold; padding:8px; opacity:0; transition:opacity .3s ease; }
 .game:hover .overlay { opacity:1; }
 
 .overlay-content { display:flex; align-items:center; margin-bottom:4px; }
-.rating-hex {
-  width:40px; aspect-ratio:1.15;
-  clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
-  display:flex; justify-content:center; align-items:center;
-  font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0;
-}
+.rating-hex { width:40px; aspect-ratio:1.15; clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0; }
 .rating-high { background-color:#186b40; }
 .rating-medium { background-color:#1978b3; }
 .rating-low { background-color:#5369a2; }
@@ -82,18 +44,26 @@ h2.section-title {
 .title-rank .rank { display:flex; align-items:center; gap:4px; font-weight:bold; font-size:14px; color:white; }
 .title-rank .rank i { color:#e64900; font-size:14px; }
 
-.overlay .info {
-  display:flex; justify-content:space-between;
-  font-weight:bold; font-size:13px;
-  color:#fff;
-  flex:1;
-}
+.overlay .info { display:flex; justify-content:space-between; font-weight:bold; font-size:13px; color:#fff; flex:1; }
 .overlay .info i { font-size:16px; }
+
+.info-column { display:none; font-weight:bold; font-size:13px; color:#fff; }
+.info-column p { margin:2px 0; line-height:1.2; }
+
 .weight-low { color:#5bda98; }
 .weight-medium { color:#ff6b26; }
 .weight-high { color:#df4751; }
 
-@media(max-width:800px){ .game img{height:auto;} .overlay .info{flex-direction:column; gap:4px;} }
+/* Адаптивные оверлеи */
+@media(max-width:800px){ 
+  .overlay .info{display:none;} 
+  .info-column{display:block;} 
+  .game img{height:auto;}
+}
+@media(min-width:801px){ 
+  .overlay .info{display:flex;} 
+  .info-column{display:none;} 
+}
 </style>
 </head>
 <body>
@@ -126,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'weight-low';
   }
 
-  function createGameDiv(game, index){
+  function createGameDiv(game,index){
     const div = document.createElement('div');
     div.className = 'game';
     div.style.transitionDelay = (index*0.08)+'s';
@@ -152,11 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
           <p><i class="fi-clock"></i> ${game.playingtime} min</p>
           <p><i class="fi-puzzle"></i> <span class="${weightClass}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'} / 5</span></p>
         </div>
+        <div class="info-column">
+          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
+          <p>Playing time: ${game.playingtime} min</p>
+          <p>Complexity: <span class="${weightClass}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+        </div>
       </div>
     `;
 
     const img = div.querySelector('img');
-    img.addEventListener('error', ()=>{ img.src = game.image; });
+    img.addEventListener('error', ()=>{ img.src=game.image; });
 
     return div;
   }
@@ -171,32 +146,29 @@ document.addEventListener('DOMContentLoaded', () => {
   function layoutMasonry(container){
     const colCount = getColumnCount();
     const colWidth = container.clientWidth / colCount;
+    container.querySelectorAll('.game').forEach(el => el.style.width = colWidth + 'px');
 
-    container.querySelectorAll('.game').forEach(el => {
-      el.style.width = colWidth + 'px';
-    });
-
-    return new Masonry(container, {
+    return new Masonry(container,{
       itemSelector: '.game',
       columnWidth: colWidth,
-      gutter: 0,
-      percentPosition: false,
-      transitionDuration: '0.4s'
+      gutter:0,
+      percentPosition:false,
+      transitionDuration:'0.4s'
     });
   }
 
-  function loadGames(file, containerId){
+  function loadGames(file,containerId){
     const container = document.getElementById(containerId);
     if(!container) return console.warn('Container not found:', containerId);
 
     fetch(file)
-      .then(res => res.json())
-      .then(data => {
+      .then(res=>res.json())
+      .then(data=>{
         const key = containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist';
         const games = data[key];
-        games.forEach((game, index) => container.appendChild(createGameDiv(game, index)));
+        games.forEach((game,index)=>container.appendChild(createGameDiv(game,index)));
 
-        imagesLoaded(container, () => {
+        imagesLoaded(container,()=>{
           const msnry = layoutMasonry(container);
 
           container.querySelectorAll('.game').forEach((el,i)=>{
@@ -207,18 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
           if(loader) loader.style.display='none';
 
           let resizeTimeout;
-          window.addEventListener('resize', () => {
+          window.addEventListener('resize', ()=>{
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(()=>{
               const newColWidth = container.clientWidth / getColumnCount();
-              container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+              container.querySelectorAll('.game').forEach(el=>el.style.width=newColWidth+'px');
               msnry.options.columnWidth = newColWidth;
               msnry.layout();
-            }, 150);
+            },150);
           });
         });
       })
-      .catch(err => console.error('Failed to load games:', err));
+      .catch(err=>console.error('Failed to load games:', err));
   }
 
   loadGames('data/games.json','ownMosaic');
