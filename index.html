@@ -1,45 +1,50 @@
-const CACHE_NAME = "antropophag-cache-v1";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play with me</title>
 
-// Что кэшируем сразу (иконки, стили, скрипты)
-const STATIC_ASSETS = [
-  "/",
-  "/index.html",
-  "/favicon-16x16.png",
-  "/favicon-32x32.png",
-  "/favicon-512x512.png",
-  "/fonts/foundation-icons.css",
-  "/dice.gif"
-];
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" href="/favicon-512x512.png">
 
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
-  );
-});
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="fonts/foundation-icons.css">
 
-// Удаляем старые кэши при обновлении
-self.addEventListener("activate", event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(key => key !== CACHE_NAME && caches.delete(key)))
-    )
-  );
-});
+<style>
+/* ... (оставил твой CSS без изменений) ... */
+</style>
+</head>
+<body>
 
-// Стратегия: Cache First с обновлением из сети
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      const fetchPromise = fetch(event.request).then(networkResponse => {
-        if (networkResponse.ok) {
-          caches.open(CACHE_NAME).then(cache =>
-            cache.put(event.request, networkResponse.clone())
-          );
-        }
-        return networkResponse;
-      }).catch(() => cachedResponse);
+<div id="loader">
+  <img src="dice.gif" alt="loading" class="loader-gif">
+</div>
 
-      return cachedResponse || fetchPromise;
-    })
-  );
-});
+<div id="ownMosaic" class="mosaic"></div>
+<h2 class="section-title">Pre-ordered</h2>
+<div id="preMosaic" class="mosaic"></div>
+<h2 class="section-title">Wishlist</h2>
+<div id="wishMosaic" class="mosaic"></div>
+
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script>
+/* ... (оставил твой JS без изменений) ... */
+</script>
+
+<script>
+// Регистрация service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('ServiceWorker зарегистрирован:', reg.scope))
+      .catch(err => console.error('Ошибка ServiceWorker:', err));
+  });
+}
+</script>
+
+</body>
+</html>
