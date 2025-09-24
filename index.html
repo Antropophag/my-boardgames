@@ -14,36 +14,106 @@
 <link rel="stylesheet" href="fonts/foundation-icons.css">
 
 <style>
-body, html { margin:0; padding:0; background:#262626; font-family:'Montserrat',sans-serif; color:#fff; }
-h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
-.mosaic { width:100%; }
-.game { position:relative; overflow:hidden; opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
-.game.show { opacity:1; transform:translateY(0); animation:popIn .4s ease; }
-@keyframes popIn { 0%{transform:translateY(20px);}60%{transform:translateY(-5px);}100%{transform:translateY(0);} }
-.game img { width:100%; display:block; vertical-align:bottom; transition: transform .3s ease; }
+body, html {
+  margin:0; padding:0;
+  background:#262626;
+  font-family:'Montserrat',sans-serif;
+  color:#fff;
+}
+
+/* Заголовки секций */
+h2.section-title {
+  text-align:center;
+  font-size:28px;
+  margin:30px 0 20px;
+}
+
+/* Лоадер */
+#loader {
+  position:fixed; top:0; left:0;
+  width:100%; height:100%;
+  background:#262626;
+  display:flex; justify-content:center; align-items:center;
+  z-index:9999;
+}
+.loader-gif { width:250px; height:250px; }
+
+/* Сетка через CSS Grid */
+.mosaic {
+  display:grid;
+  grid-gap:10px;
+  padding:10px;
+  justify-content:center;
+  grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+}
+
+/* Карточка игры */
+.game {
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(20px);
+  animation:popIn 0.4s ease forwards;
+}
+.game.show { opacity:1; transform:translateY(0); }
+
+@keyframes popIn {
+  0%{ transform:translateY(20px); opacity:0; }
+  60%{ transform:translateY(-5px); opacity:1; }
+  100%{ transform:translateY(0); opacity:1; }
+}
+
+/* Изображения */
+.game img {
+  width:100%; display:block; vertical-align:bottom;
+  transition: transform .3s ease;
+}
 .game:hover img { transform:scale(1.05); }
 
-.overlay { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); color:#fff; font-weight:bold; padding:8px; opacity:0; transition:opacity .3s ease; }
+/* Overlay */
+.overlay {
+  position:absolute; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.8);
+  color:#fff;
+  font-weight:bold;
+  padding:8px;
+  opacity:0;
+  transition:opacity .3s ease;
+}
 .game:hover .overlay { opacity:1; }
+
 .overlay-content { display:flex; align-items:center; margin-bottom:4px; }
-.rating-hex { width:40px; aspect-ratio:1.15; background-color:gray; clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%); display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0; }
+.rating-hex {
+  width:40px; aspect-ratio:1.15;
+  clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+  display:flex; justify-content:center; align-items:center;
+  font-weight:bold; color:#fff; margin-right:8px; flex-shrink:0;
+}
+.rating-high { background-color:#186b40; }
+.rating-medium { background-color:#1978b3; }
+.rating-low { background-color:#5369a2; }
+.rating-verylow { background-color:#666e75; }
+
 .title-rank { display:flex; justify-content:space-between; flex:1; align-items:center; }
 .title-rank .title a { color:white; text-decoration:none; font-size:14px; }
 .title-rank .title a:hover { text-decoration:underline dotted white; }
 .title-rank .rank { display:flex; align-items:center; gap:4px; font-weight:bold; font-size:14px; color:white; }
 .title-rank .rank i { color:#e64900; font-size:14px; }
 
-.overlay .info { display:flex; justify-content:space-between; font-weight:bold; font-size:13px; color:#fff; flex:1; }
+/* Info внутри overlay */
+.overlay .info {
+  display:flex; justify-content:space-between;
+  font-weight:bold; font-size:13px;
+  color:#fff;
+  flex:1;
+}
 .overlay .info i { font-size:16px; }
+.weight-low { color:#5bda98; }
+.weight-medium { color:#ff6b26; }
+.weight-high { color:#df4751; }
 
-.info-column { display:none; font-weight:bold; font-size:13px; color:#fff; }
-.info-column p { margin:2px 0; line-height:1.2; }
-
-#loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#262626; display:flex; justify-content:center; align-items:center; z-index:9999; }
-.loader-gif { width:250px; height:250px; }
-
-@media(max-width:800px){ .game img{width:100%;height:auto;} .info-column{display:none;} }
-@media(min-width:801px){ .overlay .info{display:none;} .info-column{display:block;} }
+/* Адаптивность */
+@media(max-width:800px){ .game img{height:auto;} .overlay .info{flex-direction:column; gap:4px;} }
 </style>
 </head>
 <body>
@@ -52,41 +122,48 @@ h2.section-title { text-align:center; font-size:28px; margin:30px 0 20px; }
   <img src="dice.gif" alt="loading" class="loader-gif">
 </div>
 
-<div id="ownMosaic" class="mosaic"></div>
-<h2 class="section-title">Pre-ordered</h2>
-<div id="preMosaic" class="mosaic"></div>
-<h2 class="section-title">Wishlist</h2>
-<div id="wishMosaic" class="mosaic"></div>
+<!-- Секции будут сгенерированы JS -->
+<div id="mosaics-container"></div>
 
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  function getRatingColor(avg){
-    if(avg>=8) return '#186b40';
-    if(avg>=7) return '#1978b3';
-    if(avg>=5) return '#5369a2';
-    return '#666e75';
+  const sections = [
+    {id:'ownMosaic', title:'Own'},
+    {id:'preMosaic', title:'Pre-ordered'},
+    {id:'wishMosaic', title:'Wishlist'}
+  ];
+
+  // Цвет рейтинга
+  function getRatingClass(avg){
+    if(avg>=8) return 'rating-high';
+    if(avg>=7) return 'rating-medium';
+    if(avg>=5) return 'rating-low';
+    return 'rating-verylow';
   }
 
-  function createGameDiv(game){
+  function getWeightClass(weight){
+    if(weight>4) return 'weight-high';
+    if(weight>3) return 'weight-medium';
+    return 'weight-low';
+  }
+
+  function createGameDiv(game, index){
     const div = document.createElement('div');
     div.className = 'game';
+    div.style.animationDelay = (index * 0.08)+'s';
 
-    const ratingColor = getRatingColor(game.average);
-    let weightColor = '#5bda98';
-    if(game.averageweight>4) weightColor='#df4751';
-    else if(game.averageweight>3) weightColor='#ff6b26';
-
-    const rank = game.overallrank ?? '—';
     const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
 
+    const ratingClass = getRatingClass(game.average);
+    const weightClass = getWeightClass(game.averageweight || 0);
+    const rank = game.overallrank ?? '—';
+
     div.innerHTML = `
-      <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
+      <img src="${proxiedUrl}" alt="${game.name}">
       <div class="overlay">
         <div class="overlay-content">
-          <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
+          <div class="rating-hex ${ratingClass}">${game.average.toFixed(1)}</div>
           <div class="title-rank">
             <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
             <div class="rank"><i class="fi-crown"></i> ${rank}</div>
@@ -95,76 +172,53 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="info">
           <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
           <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-          <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-        </div>
-        <div class="info-column">
-          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
-          <p>Playing time: ${game.playingtime} min</p>
-          <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
+          <p><i class="fi-puzzle"></i> <span class="${weightClass}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'} / 5</span></p>
         </div>
       </div>
     `;
+
+    // Безопасный обработчик ошибки загрузки
+    const img = div.querySelector('img');
+    img.addEventListener('error', ()=>{ img.src=game.image; });
+
     return div;
   }
 
-  function getColumnCount(){
-    if(window.innerWidth < 600) return 2;
-    if(window.innerWidth < 900) return 3;
-    if(window.innerWidth < 1200) return 4;
-    return 5;
+  // Создание секции
+  function createSection(section, games){
+    const container = document.createElement('div');
+    container.id = section.id;
+    container.className = 'mosaic';
+
+    const title = document.createElement('h2');
+    title.className = 'section-title';
+    title.textContent = section.title;
+    container.prepend(title);
+
+    games.forEach((game, index)=> container.appendChild(createGameDiv(game,index)));
+
+    return container;
   }
 
-  function layoutMasonry(container){
-    const colCount = getColumnCount();
-    const colWidth = container.clientWidth / colCount;
+  // Fetch данных один раз
+  fetch('data/games.json')
+    .then(res => res.json())
+    .then(data => {
+      const mosaicsContainer = document.getElementById('mosaics-container');
 
-    container.querySelectorAll('.game').forEach(el => {
-      el.style.width = colWidth + 'px';
-    });
+      sections.forEach(section => {
+        const key = section.id==='ownMosaic'?'own':section.id==='preMosaic'?'preordered':'wishlist';
+        if(data[key]) {
+          const secDiv = createSection(section, data[key]);
+          mosaicsContainer.appendChild(secDiv);
+        }
+      });
 
-    return new Masonry(container, {
-      itemSelector: '.game',
-      columnWidth: colWidth,
-      gutter: 0,
-      percentPosition: false,
-      transitionDuration: '0.4s'
-    });
-  }
-
-  function loadGames(file, containerId){
-    const container = document.getElementById(containerId);
-    if(!container) return console.warn('Container not found:', containerId);
-
-    fetch(file)
-      .then(res => res.json())
-      .then(data => {
-        const games = data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
-        games.forEach(game => container.appendChild(createGameDiv(game)));
-
-        imagesLoaded(container, () => {
-          const msnry = layoutMasonry(container);
-
-          container.querySelectorAll('.game').forEach((el,i)=>{
-            setTimeout(()=>el.classList.add('show'), 100*i);
-          });
-
-          const loader = document.getElementById('loader');
-          if(loader) loader.style.display='none';
-
-          window.addEventListener('resize', () => {
-            const newColWidth = container.clientWidth / getColumnCount();
-            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
-            msnry.options.columnWidth = newColWidth;
-            msnry.layout();
-          });
-        });
-      })
-      .catch(err => console.error('Failed to load games:', err));
-  }
-
-  loadGames('data/games.json','ownMosaic');
-  loadGames('data/games.json','preMosaic');
-  loadGames('data/games.json','wishMosaic');
+      // Скрываем лоадер
+      const loader = document.getElementById('loader');
+      if(loader) loader.style.display='none';
+    })
+    .catch(err => console.error('Failed to load games:', err));
 
 });
 </script>
