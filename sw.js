@@ -1,6 +1,5 @@
 const CACHE_NAME = "antropophag-cache-v1";
 
-// Что кэшируем сразу (иконки, стили, скрипты)
 const STATIC_ASSETS = [
   "/",
   "/index.html",
@@ -11,22 +10,48 @@ const STATIC_ASSETS = [
   "/dice.gif"
 ];
 
+// Установка сервис-воркера и кеширование файлов с логированием
 self.addEventListener("install", event => {
+  console.log("[SW] Установка сервис-воркера...");
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
+    caches.open(CACHE_NAME).then(async cache => {
+      let cachedCount = 0;
+      for (const url of STATIC_ASSETS) {
+        try {
+          await cache.add(url);
+          cachedCount++;
+          console.log(`[SW] Закеширован (${cachedCount}/${STATIC_ASSETS.length}):`, url);
+        } catch (err) {
+          console.warn("[SW] Не удалось закешировать:", url, err);
+        }
+      }
+      console.log("[SW] Установка завершена.");
+      self.skipWaiting(); // активируем новый SW сразу
+    })
   );
 });
 
-// Удаляем старые кэши при обновлении
+// Активация сервис-воркера и удаление старых кэшей
 self.addEventListener("activate", event => {
+  console.log("[SW] Активация сервис-воркера...");
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.map(key => key !== CACHE_NAME && caches.delete(key)))
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            console.log("[SW] Удаляем старый кэш:", key);
+            return caches.delete(key);
+          }
+        })
+      ).then(() => {
+        console.log("[SW] Активация завершена.");
+        return self.clients.claim(); // контролируем все вкладки сразу
+      })
     )
   );
 });
 
-// Стратегия: Cache First с обновлением из сети
+// Стратегия Cache First с обновлением сети
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
