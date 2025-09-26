@@ -744,32 +744,6 @@
       "url": "https://boardgamegeek.com/boardgame/413246"
     },
     {
-      "id": "290236",
-      "name": "Canvas",
-      "minplayers": 1,
-      "maxplayers": 5,
-      "playingtime": 30,
-      "image": "https://cf.geekdo-images.com/kXJLvPqcDF7Id5KRejhnuQ__original/img/jiORb05QSdRMi-eo1Vi_3wjUSWU=/0x0/filters:format(jpeg)/pic7125372.jpg",
-      "thumbnail": "https://cf.geekdo-images.com/kXJLvPqcDF7Id5KRejhnuQ__small/img/5kQGDC3kYmvil7dU8uT-o0sZiEo=/fit-in/200x150/filters:strip_icc()/pic7125372.jpg",
-      "average": 7.20986,
-      "averageweight": 1.7231,
-      "overallrank": 573,
-      "url": "https://boardgamegeek.com/boardgame/290236"
-    },
-    {
-      "id": "822",
-      "name": "Carcassonne",
-      "minplayers": 2,
-      "maxplayers": 5,
-      "playingtime": 45,
-      "image": "https://cf.geekdo-images.com/okM0dq_bEXnbyQTOvHfwRA__original/img/aVZEXAI-cUtuunNfPhjeHlS4fwQ=/0x0/filters:format(png)/pic6544250.png",
-      "thumbnail": "https://cf.geekdo-images.com/okM0dq_bEXnbyQTOvHfwRA__small/img/88274KiOg94wziybVHyW8AeOiXg=/fit-in/200x150/filters:strip_icc()/pic6544250.png",
-      "average": 7.41265,
-      "averageweight": 1.8875,
-      "overallrank": 235,
-      "url": "https://boardgamegeek.com/boardgame/822"
-    },
-    {
       "id": "105593",
       "name": "Cheating Moth",
       "minplayers": 3,
