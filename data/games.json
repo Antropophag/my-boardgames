@@ -757,6 +757,19 @@
       "url": "https://boardgamegeek.com/boardgame/413246"
     },
     {
+      "id": "310873",
+      "name": "Carnegie",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 120,
+      "image": "https://cf.geekdo-images.com/0qxz9DRRhsJrIW1TJ-kz0w__original/img/PzsJsCLfGGo4IG3v43VPvH_etPw=/0x0/filters:format(jpeg)/pic5710736.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/0qxz9DRRhsJrIW1TJ-kz0w__small/img/ma4yc5wbMVrfbg9r21-LxGVwRKw=/fit-in/200x150/filters:strip_icc()/pic5710736.jpg",
+      "average": 7.97828,
+      "averageweight": 3.8137,
+      "overallrank": 119,
+      "url": "https://boardgamegeek.com/boardgame/310873"
+    },
+    {
       "id": "105593",
       "name": "Cheating Moth",
       "minplayers": 3,
@@ -872,6 +885,19 @@
       "averageweight": 2.3735,
       "overallrank": 641,
       "url": "https://boardgamegeek.com/boardgame/218074"
+    },
+    {
+      "id": "447243",
+      "name": "Duel for Cardia",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 15,
+      "image": "https://cf.geekdo-images.com/e-Xx7mz_tgisEx2Aq4Wa6w__original/img/pe7roKL2-gtXSvGIzHBiXzb0yzk=/0x0/filters:format(png)/pic8910865.png",
+      "thumbnail": "https://cf.geekdo-images.com/e-Xx7mz_tgisEx2Aq4Wa6w__small/img/ie98O_KC7v3m_jSXZpYd1vqmd_I=/fit-in/200x150/filters:strip_icc()/pic8910865.png",
+      "average": 7.55669,
+      "averageweight": 1.7143,
+      "overallrank": 2825,
+      "url": "https://boardgamegeek.com/boardgame/447243"
     },
     {
       "id": "363307",
@@ -1470,6 +1496,19 @@
       "averageweight": 4.0076,
       "overallrank": 357,
       "url": "https://boardgamegeek.com/boardgame/329500"
+    },
+    {
+      "id": "379330",
+      "name": "Unconscious Mind: Nightmares",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 0,
+      "image": "https://cf.geekdo-images.com/InbhWpR2poX7RFs2izOpTg__original/img/fkJect1WImjA70P2rj_kcU2iVZ4=/0x0/filters:format(png)/pic8014729.png",
+      "thumbnail": "https://cf.geekdo-images.com/InbhWpR2poX7RFs2izOpTg__small/img/4aV72wYgCV6FQ4k_iozQe0IJZl4=/fit-in/200x150/filters:strip_icc()/pic8014729.png",
+      "average": 8.17641,
+      "averageweight": 3.8462,
+      "overallrank": null,
+      "url": "https://boardgamegeek.com/boardgame/379330"
     },
     {
       "id": "294484",
