@@ -1082,6 +1082,19 @@
       "url": "https://boardgamegeek.com/boardgame/177478"
     },
     {
+      "id": "353945",
+      "name": "Infiltraitors",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/poTZOHBjq83dzXYqICfJkw__original/img/c2PMyIoGCHBUZEALmzQP54ojHLk=/0x0/filters:format(png)/pic7558309.png",
+      "thumbnail": "https://cf.geekdo-images.com/poTZOHBjq83dzXYqICfJkw__small/img/UrDY_co4wmq0hxhO6J2g9sSfbLg=/fit-in/200x150/filters:strip_icc()/pic7558309.png",
+      "average": 7.24278,
+      "averageweight": 2.1053,
+      "overallrank": 4390,
+      "url": "https://boardgamegeek.com/boardgame/353945"
+    },
+    {
       "id": "409572",
       "name": "Intent to Kill",
       "minplayers": 2,
@@ -1223,6 +1236,19 @@
       "averageweight": 3.0,
       "overallrank": null,
       "url": "https://boardgamegeek.com/boardgame/393322"
+    },
+    {
+      "id": "319135",
+      "name": "Nightmare Horror Adventures: Welcome to Crafton Mansion",
+      "minplayers": 4,
+      "maxplayers": 5,
+      "playingtime": 120,
+      "image": "https://cf.geekdo-images.com/lA_4VD6cskRB6snUO9skKw__original/img/ZlmoqhZgG_NMvCQo2NfnL9BJXDs=/0x0/filters:format(jpeg)/pic7818086.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/lA_4VD6cskRB6snUO9skKw__small/img/OliAcOydDU9eRSvpuIXWOseQ7Qg=/fit-in/200x150/filters:strip_icc()/pic7818086.jpg",
+      "average": 7.72124,
+      "averageweight": 2.1111,
+      "overallrank": 3962,
+      "url": "https://boardgamegeek.com/boardgame/319135"
     },
     {
       "id": "291572",
