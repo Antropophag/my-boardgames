@@ -1550,6 +1550,19 @@
       "url": "https://boardgamegeek.com/boardgame/162886"
     },
     {
+      "id": "256606",
+      "name": "Spirits of the Wild",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/3x2kFEjL0qygSNU2w9T0qQ__original/img/je95EGvN9aS1vEbyre5l66YZl3M=/0x0/filters:format(jpeg)/pic5521767.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/3x2kFEjL0qygSNU2w9T0qQ__small/img/tKTqxcZNBnX_8xgQ11NwZqMLjQY=/fit-in/200x150/filters:strip_icc()/pic5521767.jpg",
+      "average": 7.33735,
+      "averageweight": 1.4306,
+      "overallrank": 1354,
+      "url": "https://boardgamegeek.com/boardgame/256606"
+    },
+    {
       "id": "422042",
       "name": "Tea Garden",
       "minplayers": 2,
@@ -1626,6 +1639,19 @@
       "averageweight": 1.5,
       "overallrank": 10769,
       "url": "https://boardgamegeek.com/boardgame/313439"
+    },
+    {
+      "id": "356123",
+      "name": "Turing Machine",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 20,
+      "image": "https://cf.geekdo-images.com/un5yundwtC6q1U9gWTY8Yw__original/img/wFqPVYmL1i9rc426afzYana7ZnE=/0x0/filters:format(png)/pic6883492.png",
+      "thumbnail": "https://cf.geekdo-images.com/un5yundwtC6q1U9gWTY8Yw__small/img/I4QR01ZS6TTIHgW3UpdOYvePRxQ=/fit-in/200x150/filters:strip_icc()/pic6883492.png",
+      "average": 7.63424,
+      "averageweight": 2.5234,
+      "overallrank": 317,
+      "url": "https://boardgamegeek.com/boardgame/356123"
     },
     {
       "id": "336847",
