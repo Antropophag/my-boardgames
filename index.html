@@ -182,9 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Функция выбора цвета рейтинга
   function getRatingColor(avg){
-    if(avg>=8) return '#186b40';
-    if(avg>=7) return '#1978b3';
-    if(avg>=5) return '#5369a2';
+    if(avg>7.9) return '#186b40';
+    if(avg>6.9) return '#1978b3';
+    if(avg>4.9) return '#5369a2';
     return '#666e75';
   }
 
