@@ -66,6 +66,19 @@
       "url": "https://boardgamegeek.com/boardgame/332386"
     },
     {
+      "id": "263918",
+      "name": "Cartographers",
+      "minplayers": 1,
+      "maxplayers": 100,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/GifbnAmsA4lfEcDkeaC9VA__original/img/YzJORdIDNza8kmrY6KEU_h2p2Wo=/0x0/filters:format(png)/pic4397932.png",
+      "thumbnail": "https://cf.geekdo-images.com/GifbnAmsA4lfEcDkeaC9VA__small/img/TTxZzwbna07hMcPQ0xaFtT10egE=/fit-in/200x150/filters:strip_icc()/pic4397932.png",
+      "average": 7.56659,
+      "averageweight": 1.8875,
+      "overallrank": 171,
+      "url": "https://boardgamegeek.com/boardgame/263918"
+    },
+    {
       "id": "478",
       "name": "Citadels",
       "minplayers": 2,
@@ -690,6 +703,19 @@
       "url": "https://boardgamegeek.com/boardgame/385529"
     },
     {
+      "id": "274364",
+      "name": "Watergate",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 60,
+      "image": "https://cf.geekdo-images.com/iTBogxNFa3Ymh-6ST3srsw__original/img/ECgm53fEsB3eDVjZjgeejiZ__Qk=/0x0/filters:format(jpeg)/pic4768766.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/iTBogxNFa3Ymh-6ST3srsw__small/img/5vZps-04NqSAuUC4e6-E9M96VxE=/fit-in/200x150/filters:strip_icc()/pic4768766.jpg",
+      "average": 7.7353,
+      "averageweight": 2.2705,
+      "overallrank": 177,
+      "url": "https://boardgamegeek.com/boardgame/274364"
+    },
+    {
       "id": "266192",
       "name": "Wingspan",
       "minplayers": 1,
@@ -701,6 +727,19 @@
       "averageweight": 2.4754,
       "overallrank": 38,
       "url": "https://boardgamegeek.com/boardgame/266192"
+    },
+    {
+      "id": "266266",
+      "name": "Детективные истории: Роковая Антарктика",
+      "minplayers": 1,
+      "maxplayers": 6,
+      "playingtime": 180,
+      "image": "https://cf.geekdo-images.com/jvqX3i5oEvZ2hXbP4fi_AQ__original/img/UaurrgHRnEQ8SBKIaKXevUXpuHU=/0x0/filters:format(jpeg)/pic6590558.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/jvqX3i5oEvZ2hXbP4fi_AQ__small/img/zDxSgSbjuueAK0IzoMJ0rbLaAcE=/fit-in/200x150/filters:strip_icc()/pic6590558.jpg",
+      "average": 7.17176,
+      "averageweight": 2.25,
+      "overallrank": 6357,
+      "url": "https://boardgamegeek.com/boardgame/266266"
     },
     {
       "id": "146548",
@@ -1756,19 +1795,6 @@
       "averageweight": 2.0,
       "overallrank": null,
       "url": "https://boardgamegeek.com/boardgame/436651"
-    },
-    {
-      "id": "274364",
-      "name": "Watergate",
-      "minplayers": 2,
-      "maxplayers": 2,
-      "playingtime": 60,
-      "image": "https://cf.geekdo-images.com/iTBogxNFa3Ymh-6ST3srsw__original/img/ECgm53fEsB3eDVjZjgeejiZ__Qk=/0x0/filters:format(jpeg)/pic4768766.jpg",
-      "thumbnail": "https://cf.geekdo-images.com/iTBogxNFa3Ymh-6ST3srsw__small/img/5vZps-04NqSAuUC4e6-E9M96VxE=/fit-in/200x150/filters:strip_icc()/pic4768766.jpg",
-      "average": 7.7353,
-      "averageweight": 2.2705,
-      "overallrank": 177,
-      "url": "https://boardgamegeek.com/boardgame/274364"
     },
     {
       "id": "335275",
