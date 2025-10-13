@@ -1108,6 +1108,19 @@
       "url": "https://boardgamegeek.com/boardgame/447243"
     },
     {
+      "id": "293207",
+      "name": "Eila and Something Shiny",
+      "minplayers": 1,
+      "maxplayers": 1,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/ddeXV_p59xHZJtIyNSclvg__original/img/tZc2EYPuGTzURBV786LypUP8Cvs=/0x0/filters:format(jpeg)/pic5391049.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/ddeXV_p59xHZJtIyNSclvg__small/img/LnGEEwnCNfGjR9JEgCf2xAoi3no=/fit-in/200x150/filters:strip_icc()/pic5391049.jpg",
+      "average": 7.94357,
+      "averageweight": 2.0152,
+      "overallrank": 1293,
+      "url": "https://boardgamegeek.com/boardgame/293207"
+    },
+    {
       "id": "363307",
       "name": "Evergreen",
       "minplayers": 1,
@@ -1912,6 +1925,19 @@
       "averageweight": 3.0,
       "overallrank": null,
       "url": "https://boardgamegeek.com/boardgame/443074"
+    },
+    {
+      "id": "368061",
+      "name": "Zoo Vadis",
+      "minplayers": 3,
+      "maxplayers": 7,
+      "playingtime": 40,
+      "image": "https://cf.geekdo-images.com/Kl3NjtNKpuJNPjdBQtdsow__original/img/3ABkMQwQ-85hqaBO7gHP5ekBAQ0=/0x0/filters:format(jpeg)/pic6988937.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/Kl3NjtNKpuJNPjdBQtdsow__small/img/Or2YcwIFnCP84aWJ_63HMwRJDis=/fit-in/200x150/filters:strip_icc()/pic6988937.jpg",
+      "average": 7.48711,
+      "averageweight": 2.1209,
+      "overallrank": 825,
+      "url": "https://boardgamegeek.com/boardgame/368061"
     }
   ],
   "preordered": [
