@@ -27,6 +27,19 @@
       "url": "https://boardgamegeek.com/boardgame/419279"
     },
     {
+      "id": "188866",
+      "name": "Awkward Guests: The Walton Case",
+      "minplayers": 1,
+      "maxplayers": 8,
+      "playingtime": 75,
+      "image": "https://cf.geekdo-images.com/Awopfw5_5Qyh-7YcSbtudA__original/img/GxYtTK43oCTDn2J3pyukUw07bKo=/0x0/filters:format(jpeg)/pic4870482.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/Awopfw5_5Qyh-7YcSbtudA__small/img/HHn3So0Mum6VZliDmEnB2LwfeQ0=/fit-in/200x150/filters:strip_icc()/pic4870482.jpg",
+      "average": 7.54983,
+      "averageweight": 2.3223,
+      "overallrank": 389,
+      "url": "https://boardgamegeek.com/boardgame/188866"
+    },
+    {
       "id": "379959",
       "name": "The Battle of Versailles",
       "minplayers": 2,
@@ -1017,17 +1030,17 @@
       "url": "https://boardgamegeek.com/boardgame/144797"
     },
     {
-      "id": "188866",
-      "name": "Awkward Guests: The Walton Case",
-      "minplayers": 1,
-      "maxplayers": 8,
-      "playingtime": 75,
-      "image": "https://cf.geekdo-images.com/Awopfw5_5Qyh-7YcSbtudA__original/img/GxYtTK43oCTDn2J3pyukUw07bKo=/0x0/filters:format(jpeg)/pic4870482.jpg",
-      "thumbnail": "https://cf.geekdo-images.com/Awopfw5_5Qyh-7YcSbtudA__small/img/HHn3So0Mum6VZliDmEnB2LwfeQ0=/fit-in/200x150/filters:strip_icc()/pic4870482.jpg",
-      "average": 7.54983,
-      "averageweight": 2.3223,
-      "overallrank": 389,
-      "url": "https://boardgamegeek.com/boardgame/188866"
+      "id": "173452",
+      "name": "Art of War: The Card Game",
+      "minplayers": 2,
+      "maxplayers": 2,
+      "playingtime": 15,
+      "image": "https://cf.geekdo-images.com/IjfLuB_4BU1NDlfLZ8axjg__original/img/7u3VFSd-M0-UwQJMvQWww7k6-vM=/0x0/filters:format(jpeg)/pic2416945.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/IjfLuB_4BU1NDlfLZ8axjg__small/img/r0_xcv1RTQ7RaR1vHWTTODAv1MU=/fit-in/200x150/filters:strip_icc()/pic2416945.jpg",
+      "average": 6.59811,
+      "averageweight": 2.3077,
+      "overallrank": 10012,
+      "url": "https://boardgamegeek.com/boardgame/173452"
     },
     {
       "id": "423787",
@@ -1615,6 +1628,19 @@
       "url": "https://boardgamegeek.com/boardgame/415792"
     },
     {
+      "id": "417561",
+      "name": "o BOM, o MAU e o BODE",
+      "minplayers": 2,
+      "maxplayers": 5,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/jjQuSFO-ZRsAF5miOQ4tGg__original/img/FA9tK2DFRAeCduckexSz8IR39hI=/0x0/filters:format(jpeg)/pic8104257.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/jjQuSFO-ZRsAF5miOQ4tGg__small/img/oVcQqqznF0awklfkgRMB_3vYFMQ=/fit-in/200x150/filters:strip_icc()/pic8104257.jpg",
+      "average": 6.81707,
+      "averageweight": 2.0,
+      "overallrank": 19420,
+      "url": "https://boardgamegeek.com/boardgame/417561"
+    },
+    {
       "id": "291572",
       "name": "Oath",
       "minplayers": 1,
@@ -2068,6 +2094,19 @@
       "averageweight": 3.0216,
       "overallrank": 456,
       "url": "https://boardgamegeek.com/boardgame/400366"
+    },
+    {
+      "id": "179245",
+      "name": "World Championship Russian Roulette",
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/5zvqwlo3ZQVlOuqh7rHLGQ__original/img/4AMJVKvRBTnwGcfcRxuyaKg76jk=/0x0/filters:format(jpeg)/pic3041023.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/5zvqwlo3ZQVlOuqh7rHLGQ__small/img/Bf0GCzwwSU8L1NEQXzzAzGoNzWU=/fit-in/200x150/filters:strip_icc()/pic3041023.jpg",
+      "average": 6.88373,
+      "averageweight": 1.2857,
+      "overallrank": 3415,
+      "url": "https://boardgamegeek.com/boardgame/179245"
     },
     {
       "id": "443074",
