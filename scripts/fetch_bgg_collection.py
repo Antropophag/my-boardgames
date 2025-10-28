@@ -7,20 +7,23 @@ import sys
 
 BGG_API_COLLECTION = "https://boardgamegeek.com/xmlapi2/collection"
 BGG_API_THING = "https://boardgamegeek.com/xmlapi2/thing"
-HEADERS = {"User-Agent": "Antropophag-GitHubAction/1.0"}
+HEADERS_BASE = {"User-Agent": "Antropophag-GitHubAction/1.0"}
 
-def fetch_collection_ready(username, subtype="boardgame", stats=1, delay=15, retries=20):
+def fetch_collection_ready(username, api_key=None, subtype="boardgame", stats=1, delay=15, retries=20):
+    headers = HEADERS_BASE.copy()
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+
     params = {"username": username, "subtype": subtype, "stats": stats}
 
     for attempt in range(retries):
         print(f"➡️  Fetching collection (attempt {attempt+1}/{retries})...")
         try:
-            response = requests.get(BGG_API_COLLECTION, params=params, headers=HEADERS, timeout=30)
+            response = requests.get(BGG_API_COLLECTION, params=params, headers=headers, timeout=30)
             print(f"   ↳ {response.url} → {response.status_code}")
 
-            # Проверяем код ответа
             if response.status_code == 401:
-                print("❌ Ошибка 401: Профиль недоступен. Проверь настройки приватности на BGG (Collection Visibility).")
+                print("❌ Ошибка 401: Профиль недоступен или API key неверный.")
                 sys.exit(1)
             response.raise_for_status()
 
@@ -41,20 +44,24 @@ def fetch_collection_ready(username, subtype="boardgame", stats=1, delay=15, ret
     print("❌ Коллекция так и не загрузилась после всех попыток.")
     sys.exit(1)
 
-def fetch_game_stats_batch(ids):
+def fetch_game_stats_batch(ids, api_key=None):
     stats = {}
     batch_size = 20
+    headers = HEADERS_BASE.copy()
+    if api_key:
+        headers["Authorization"] = f"Bearer {api_key}"
+
     for i in range(0, len(ids), batch_size):
         batch_ids = ids[i:i+batch_size]
         ids_str = ",".join(batch_ids)
         print(f"➡️  Fetching stats for games {i+1}-{i+len(batch_ids)} / {len(ids)}...")
 
         try:
-            response = requests.get(BGG_API_THING, params={"id": ids_str, "stats": 1}, headers=HEADERS, timeout=30)
+            response = requests.get(BGG_API_THING, params={"id": ids_str, "stats": 1}, headers=headers, timeout=30)
             print(f"   ↳ {response.url} → {response.status_code}")
 
             if response.status_code == 401:
-                print("❌ Ошибка 401 при запросе статистики. Вероятно, BGG блокирует запросы без логина.")
+                print("❌ Ошибка 401 при запросе статистики. Проверь API key.")
                 continue
 
             response.raise_for_status()
@@ -86,7 +93,7 @@ def fetch_game_stats_batch(ids):
         time.sleep(5)
     return stats
 
-def parse_collection(root):
+def parse_collection(root, api_key=None):
     data = {"own": [], "wishlist": [], "preordered": []}
     ids_to_fetch = []
 
@@ -139,7 +146,7 @@ def parse_collection(root):
         ids_to_fetch.append(objectid)
 
     # Получаем weight и rank
-    stats_data = fetch_game_stats_batch(ids_to_fetch)
+    stats_data = fetch_game_stats_batch(ids_to_fetch, api_key)
     for category in data:
         for game in data[category]:
             game_stats = stats_data.get(game["id"], {})
@@ -152,11 +159,15 @@ def main():
     parser = argparse.ArgumentParser(description="Fetch BGG collection")
     parser.add_argument("--username", required=True, help="BGG username")
     parser.add_argument("--out", required=True, help="Output JSON file path")
+    parser.add_argument("--apikey", required=False, help="BGG API key (after approval)")
     args = parser.parse_args()
 
+    if not args.apikey:
+        print("⚠ No API key provided. You may encounter 401 errors on private or new collections.")
+
     print(f"🎲 Fetching BGG collection for user: {args.username}")
-    root = fetch_collection_ready(args.username)
-    collection = parse_collection(root)
+    root = fetch_collection_ready(args.username, api_key=args.apikey)
+    collection = parse_collection(root, api_key=args.apikey)
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(collection, f, ensure_ascii=False, indent=2)
