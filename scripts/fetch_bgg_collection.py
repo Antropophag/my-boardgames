@@ -3,23 +3,43 @@ import json
 import requests
 import xml.etree.ElementTree as ET
 import time
+import sys
 
 BGG_API_COLLECTION = "https://boardgamegeek.com/xmlapi2/collection"
 BGG_API_THING = "https://boardgamegeek.com/xmlapi2/thing"
+HEADERS = {"User-Agent": "Antropophag-GitHubAction/1.0"}
 
 def fetch_collection_ready(username, subtype="boardgame", stats=1, delay=15, retries=20):
     params = {"username": username, "subtype": subtype, "stats": stats}
+
     for attempt in range(retries):
-        response = requests.get(BGG_API_COLLECTION, params=params)
-        response.raise_for_status()
-        root = ET.fromstring(response.content)
-        totalitems = int(root.attrib.get("totalitems", 0))
-        if totalitems > 0:
-            return root
-        print(f"⚠ Collection empty, retry {attempt+1}/{retries} in {delay}s...")
-        time.sleep(delay)
-    print("❌ Collection still empty after retries")
-    return root
+        print(f"➡️  Fetching collection (attempt {attempt+1}/{retries})...")
+        try:
+            response = requests.get(BGG_API_COLLECTION, params=params, headers=HEADERS, timeout=30)
+            print(f"   ↳ {response.url} → {response.status_code}")
+
+            # Проверяем код ответа
+            if response.status_code == 401:
+                print("❌ Ошибка 401: Профиль недоступен. Проверь настройки приватности на BGG (Collection Visibility).")
+                sys.exit(1)
+            response.raise_for_status()
+
+            root = ET.fromstring(response.content)
+            totalitems = int(root.attrib.get("totalitems", 0))
+
+            if totalitems > 0:
+                print(f"✅ Найдено {totalitems} игр.")
+                return root
+
+            print(f"⚠ Коллекция пуста, повтор через {delay} секунд...")
+            time.sleep(delay)
+
+        except requests.RequestException as e:
+            print(f"⚠ Ошибка сети: {e}")
+            time.sleep(delay)
+
+    print("❌ Коллекция так и не загрузилась после всех попыток.")
+    sys.exit(1)
 
 def fetch_game_stats_batch(ids):
     stats = {}
@@ -27,11 +47,20 @@ def fetch_game_stats_batch(ids):
     for i in range(0, len(ids), batch_size):
         batch_ids = ids[i:i+batch_size]
         ids_str = ",".join(batch_ids)
+        print(f"➡️  Fetching stats for games {i+1}-{i+len(batch_ids)} / {len(ids)}...")
+
         try:
-            response = requests.get(BGG_API_THING, params={"id": ids_str, "stats": 1})
+            response = requests.get(BGG_API_THING, params={"id": ids_str, "stats": 1}, headers=HEADERS, timeout=30)
+            print(f"   ↳ {response.url} → {response.status_code}")
+
+            if response.status_code == 401:
+                print("❌ Ошибка 401 при запросе статистики. Вероятно, BGG блокирует запросы без логина.")
+                continue
+
             response.raise_for_status()
-        except requests.HTTPError as e:
-            print(f"⚠ Error fetching batch {ids_str}: {e}")
+
+        except requests.RequestException as e:
+            print(f"⚠ Ошибка при загрузке статистики: {e}")
             time.sleep(5)
             continue
 
@@ -39,11 +68,9 @@ def fetch_game_stats_batch(ids):
         for item in root.findall("item"):
             game_id = item.attrib["id"]
 
-            # --- Average weight
             avgweight_node = item.find("statistics/ratings/averageweight")
             avgweight = float(avgweight_node.attrib.get("value")) if avgweight_node is not None else None
 
-            # --- Overall rank
             overallrank = None
             for rank in item.findall("statistics/ratings/ranks/rank"):
                 if rank.attrib.get("name") == "boardgame":
@@ -101,7 +128,7 @@ def parse_collection(root):
             "maxplayers": maxplayers,
             "playingtime": playingtime,
             "image": image,
-            "thumbnail": thumbnail,  # добавлено
+            "thumbnail": thumbnail,
             "average": average,
             "averageweight": None,
             "overallrank": None,
@@ -111,7 +138,7 @@ def parse_collection(root):
         data[category].append(game)
         ids_to_fetch.append(objectid)
 
-    # тянем weight и rank
+    # Получаем weight и rank
     stats_data = fetch_game_stats_batch(ids_to_fetch)
     for category in data:
         for game in data[category]:
@@ -127,6 +154,7 @@ def main():
     parser.add_argument("--out", required=True, help="Output JSON file path")
     args = parser.parse_args()
 
+    print(f"🎲 Fetching BGG collection for user: {args.username}")
     root = fetch_collection_ready(args.username)
     collection = parse_collection(root)
 
