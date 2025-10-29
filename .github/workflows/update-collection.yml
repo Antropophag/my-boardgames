@@ -30,7 +30,7 @@ jobs:
 
       # 4️⃣ Fetch collection
       - name: Update BGG collection
-        run: python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json --apikeu "${{ secrets.BGG_API_KEY }}"
+        run: python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json --apikey "${{ secrets.BGG_API_KEY }}"
 
       # 5️⃣ Debug GH_TOKEN
       - name: Check GH_TOKEN
