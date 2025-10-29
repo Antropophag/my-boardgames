@@ -1,4 +1,5 @@
-name: Update BGG collection
+- name: Update BGG collection
+  run: python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json --apikeu "${{ secrets.BGG_API_KEY }}"
 
 on:
   # Добавляем возможность запускать вручную и по расписанию
