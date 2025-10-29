@@ -1,5 +1,5 @@
-- name: Update BGG collection
-  run: python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json --apikeu "${{ secrets.BGG_API_KEY }}"
+name: Update BGG collection
+
 
 on:
   # Добавляем возможность запускать вручную и по расписанию
@@ -29,9 +29,8 @@ jobs:
         run: pip install requests
 
       # 4️⃣ Fetch collection
-      - name: Fetch BGG collection
-        run: |
-          python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json
+      - name: Update BGG collection
+        run: python scripts/fetch_bgg_collection.py --username "Antropophag" --out data/games.json --apikeu "${{ secrets.BGG_API_KEY }}"
 
       # 5️⃣ Debug GH_TOKEN
       - name: Check GH_TOKEN
