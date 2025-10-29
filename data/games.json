@@ -1368,19 +1368,6 @@
       "url": "https://boardgamegeek.com/boardgame/410768"
     },
     {
-      "id": "439305",
-      "name": "Flamecraft Duals",
-      "minplayers": 1,
-      "maxplayers": 2,
-      "playingtime": 45,
-      "image": "https://cf.geekdo-images.com/wIpk8_5xO9Hh3cAPvWAslQ__original/img/Ko8nRSvQkLHcwn6TTPoPj4z_zVI=/0x0/filters:format(png)/pic8706498.png",
-      "thumbnail": "https://cf.geekdo-images.com/wIpk8_5xO9Hh3cAPvWAslQ__small/img/rLl3hBXX7FLdQQyCfEXyt_HIN8M=/fit-in/200x150/filters:strip_icc()/pic8706498.png",
-      "average": 8.18055,
-      "averageweight": 1.8,
-      "overallrank": 15637,
-      "url": "https://boardgamegeek.com/boardgame/439305"
-    },
-    {
       "id": "420087",
       "name": "Flip 7",
       "minplayers": 3,
@@ -2252,6 +2239,19 @@
       "averageweight": 3.1429,
       "overallrank": 11011,
       "url": "https://boardgamegeek.com/boardgame/438442"
+    },
+    {
+      "id": "439305",
+      "name": "Flamecraft Duals",
+      "minplayers": 1,
+      "maxplayers": 2,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/wIpk8_5xO9Hh3cAPvWAslQ__original/img/Ko8nRSvQkLHcwn6TTPoPj4z_zVI=/0x0/filters:format(png)/pic8706498.png",
+      "thumbnail": "https://cf.geekdo-images.com/wIpk8_5xO9Hh3cAPvWAslQ__small/img/rLl3hBXX7FLdQQyCfEXyt_HIN8M=/fit-in/200x150/filters:strip_icc()/pic8706498.png",
+      "average": 8.18055,
+      "averageweight": 1.8,
+      "overallrank": 15637,
+      "url": "https://boardgamegeek.com/boardgame/439305"
     },
     {
       "id": "384213",
