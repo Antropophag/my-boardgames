@@ -2163,6 +2163,32 @@
       "url": "https://boardgamegeek.com/boardgame/330950"
     },
     {
+      "id": "366162",
+      "name": "Clever 4Ever",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/sPi_5WA2TdMTNx0ZGeshTg__original/img/d8eUDvwhteyCzYnD1dF4pN5gDps=/0x0/filters:format(jpeg)/pic7596285.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/sPi_5WA2TdMTNx0ZGeshTg__small/img/2lAMtqiiUU0jo4AxwwBqgrbRUus=/fit-in/200x150/filters:strip_icc()/pic7596285.jpg",
+      "average": 7.64166,
+      "averageweight": 2.3659,
+      "overallrank": 1312,
+      "url": "https://boardgamegeek.com/boardgame/366162"
+    },
+    {
+      "id": "316546",
+      "name": "Clever Cubed",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/ksjSyTc0AY0M7CKLD6OA5w__original/img/KivWSWuu1M9OUvga-bmltHA9mRw=/0x0/filters:format(jpeg)/pic5929690.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/ksjSyTc0AY0M7CKLD6OA5w__small/img/iNPGRJGuD3nWLqqpW6A2fes34CE=/fit-in/200x150/filters:strip_icc()/pic5929690.jpg",
+      "average": 7.47396,
+      "averageweight": 2.3804,
+      "overallrank": 875,
+      "url": "https://boardgamegeek.com/boardgame/316546"
+    },
+    {
       "id": "441850",
       "name": "Echoes of Time",
       "minplayers": 2,
@@ -2434,6 +2460,32 @@
       "averageweight": 2.3117,
       "overallrank": 792,
       "url": "https://boardgamegeek.com/boardgame/371433"
+    },
+    {
+      "id": "244522",
+      "name": "That's Pretty Clever!",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/u1EZSUC5n8k4g4OFPkn3ow__original/img/e4QJiofBkd18ZffIURPyqNWrhxk=/0x0/filters:format(jpeg)/pic8014078.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/u1EZSUC5n8k4g4OFPkn3ow__small/img/mOfaidSnvnq2gHEQuAsYTLyIQQQ=/fit-in/200x150/filters:strip_icc()/pic8014078.jpg",
+      "average": 7.55744,
+      "averageweight": 1.856,
+      "overallrank": 197,
+      "url": "https://boardgamegeek.com/boardgame/244522"
+    },
+    {
+      "id": "269210",
+      "name": "Twice as Clever!",
+      "minplayers": 1,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/5F4jkBIAbtkLJXOtvBjh3g__original/img/wnrJkPHJDbaT5nDbpjCxGIN5ZZE=/0x0/filters:format(jpeg)/pic8014068.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/5F4jkBIAbtkLJXOtvBjh3g__small/img/1wKiUIxUBZpJaDRiRwHPCUrGZdk=/fit-in/200x150/filters:strip_icc()/pic8014068.jpg",
+      "average": 7.424,
+      "averageweight": 2.2772,
+      "overallrank": 445,
+      "url": "https://boardgamegeek.com/boardgame/269210"
     },
     {
       "id": "439765",
