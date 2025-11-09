@@ -1680,6 +1680,19 @@
       "url": "https://boardgamegeek.com/boardgame/244992"
     },
     {
+      "id": "448428",
+      "name": "Moustache",
+      "minplayers": 3,
+      "maxplayers": 6,
+      "playingtime": 20,
+      "image": "https://cf.geekdo-images.com/3vzNlkeEPykCNkce2WqMIQ__original/img/LV6UuG70dP5RqcM1-geYdP0_6sE=/0x0/filters:format(jpeg)/pic8970227.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/3vzNlkeEPykCNkce2WqMIQ__small/img/u8QU7IU1NlIGp2_CvDnCu7j6J20=/fit-in/200x150/filters:strip_icc()/pic8970227.jpg",
+      "average": 7.19102,
+      "averageweight": 1.0,
+      "overallrank": 11953,
+      "url": "https://boardgamegeek.com/boardgame/448428"
+    },
+    {
       "id": "393322",
       "name": "Mutagen",
       "minplayers": 1,
@@ -1730,6 +1743,19 @@
       "averageweight": 4.1188,
       "overallrank": 332,
       "url": "https://boardgamegeek.com/boardgame/291572"
+    },
+    {
+      "id": "454523",
+      "name": "Peanuts Talent Show!",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/-DqkzS_EzSLoOJ-jxS1qvQ__original/img/bx4yLliLD1lZQSi_W9qbxTpR_hc=/0x0/filters:format(png)/pic9123042.png",
+      "thumbnail": "https://cf.geekdo-images.com/-DqkzS_EzSLoOJ-jxS1qvQ__small/img/OiABLnUvyO8hNWkopJoeo2YCg94=/fit-in/200x150/filters:strip_icc()/pic9123042.png",
+      "average": 7.375,
+      "averageweight": 0.0,
+      "overallrank": null,
+      "url": "https://boardgamegeek.com/boardgame/454523"
     },
     {
       "id": "252526",
