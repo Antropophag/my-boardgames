@@ -1732,6 +1732,19 @@
       "url": "https://boardgamegeek.com/boardgame/374595"
     },
     {
+      "id": "454103",
+      "name": "Magical Athlete",
+      "minplayers": 2,
+      "maxplayers": 6,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/1uW8t9AkuqOF0xjv_sXKgw__original/img/iBRrCDdqyVY1ckqWIjo0xQ_k70A=/0x0/filters:format(png)/pic9106864.png",
+      "thumbnail": "https://cf.geekdo-images.com/1uW8t9AkuqOF0xjv_sXKgw__small/img/tWEmoT1EaoYUpbwrTGCLMHaaZGs=/fit-in/200x150/filters:strip_icc()/pic9106864.png",
+      "average": 7.94435,
+      "averageweight": 1.1724,
+      "overallrank": 1649,
+      "url": "https://boardgamegeek.com/boardgame/454103"
+    },
+    {
       "id": "151347",
       "name": "Millennium Blades",
       "minplayers": 2,
@@ -2198,6 +2211,19 @@
       "averageweight": 1.2857,
       "overallrank": 3463,
       "url": "https://boardgamegeek.com/boardgame/179245"
+    },
+    {
+      "id": "424219",
+      "name": "Zenith",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 35,
+      "image": "https://cf.geekdo-images.com/NvE9BcCiYXhYT2iV61C6kA__original/img/ZxXhPAnG6YBLQ9wDdWV3AUfc6Ac=/0x0/filters:format(jpeg)/pic8855575.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/NvE9BcCiYXhYT2iV61C6kA__small/img/_AyGGL7XIk3fuC6czOG5LN1G6ik=/fit-in/200x150/filters:strip_icc()/pic8855575.jpg",
+      "average": 7.94823,
+      "averageweight": 2.3875,
+      "overallrank": 1076,
+      "url": "https://boardgamegeek.com/boardgame/424219"
     },
     {
       "id": "443074",
