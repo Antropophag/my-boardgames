@@ -1849,6 +1849,19 @@
       "url": "https://boardgamegeek.com/boardgame/374595"
     },
     {
+      "id": "404356",
+      "name": "Little Soldiers",
+      "minplayers": 2,
+      "maxplayers": 4,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/48-8SHa1Hlxg51bN7vji2A__original/img/ehr09v80YjTABJRhTsB8669KEHA=/0x0/filters:format(jpeg)/pic8968319.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/48-8SHa1Hlxg51bN7vji2A__small/img/HB7h_OxBAiF8-_uM8CUPjY7rsVg=/fit-in/200x150/filters:strip_icc()/pic8968319.jpg",
+      "average": 6.79172,
+      "averageweight": 2.0,
+      "overallrank": 13421,
+      "url": "https://boardgamegeek.com/boardgame/404356"
+    },
+    {
       "id": "454103",
       "name": "Magical Athlete",
       "minplayers": 2,
@@ -1899,6 +1912,19 @@
       "averageweight": 3.1667,
       "overallrank": 17544,
       "url": "https://boardgamegeek.com/boardgame/393322"
+    },
+    {
+      "id": "191071",
+      "name": "Mythical Dice",
+      "minplayers": 3,
+      "maxplayers": 6,
+      "playingtime": 30,
+      "image": "https://cf.geekdo-images.com/RgAOz0_78OhnjASEVq-gTg__original/img/_jlZv3I8UCE0VfZeLNQ4o88XtJ0=/0x0/filters:format(png)/pic8715055.png",
+      "thumbnail": "https://cf.geekdo-images.com/RgAOz0_78OhnjASEVq-gTg__small/img/iqlnwdfMRn1pCR6Q3ZWmPpB5AuQ=/fit-in/200x150/filters:strip_icc()/pic8715055.png",
+      "average": 6.85059,
+      "averageweight": 1.5385,
+      "overallrank": 3101,
+      "url": "https://boardgamegeek.com/boardgame/191071"
     },
     {
       "id": "415792",
@@ -2159,6 +2185,19 @@
       "averageweight": 1.1204,
       "overallrank": 276,
       "url": "https://boardgamegeek.com/boardgame/329839"
+    },
+    {
+      "id": "420931",
+      "name": "Spooktacular",
+      "minplayers": 1,
+      "maxplayers": 5,
+      "playingtime": 45,
+      "image": "https://cf.geekdo-images.com/6MhSo4tSxkMlhXJ362nqHg__original/img/waGEPkzsAb_TnOcQhPGqwtDTOao=/0x0/filters:format(jpeg)/pic8356842.jpg",
+      "thumbnail": "https://cf.geekdo-images.com/6MhSo4tSxkMlhXJ362nqHg__small/img/4L9xE3d42fI3tKIdfNl6RR3ON6c=/fit-in/200x150/filters:strip_icc()/pic8356842.jpg",
+      "average": 7.64029,
+      "averageweight": 2.1053,
+      "overallrank": 3228,
+      "url": "https://boardgamegeek.com/boardgame/420931"
     },
     {
       "id": "339473",
