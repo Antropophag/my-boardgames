@@ -178,60 +178,15 @@ h2.section-title {
 <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
 <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
 
-  // Функция выбора цвета рейтинга
   function getRatingColor(avg){
-    if(avg>7.9) return '#186b40';
-    if(avg>6.9) return '#1978b3';
-    if(avg>4.9) return '#5369a2';
+    if(avg > 7.9) return '#186b40';
+    if(avg > 6.9) return '#1978b3';
+    if(avg > 4.9) return '#5369a2';
     return '#666e75';
   }
 
-  // Создание карточки игры
-  function createGameDiv(game){
-    const div = document.createElement('div');
-    div.className = 'game';
-
-    const ratingColor = getRatingColor(game.average);
-
-    // Цвет для сложности игры
-    let weightColor = '#5bda98';
-    if(game.averageweight>4) weightColor='#df4751';
-    else if(game.averageweight>3) weightColor='#ff6b26';
-
-    const rank = game.overallrank ?? '—';
-
-    // Прокси для изображений (WebP и кэширование)
-    const proxiedUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=100%25&output=webp`;
-
-    // Вставляем HTML карточки
-    div.innerHTML = `
-      <img src="${proxiedUrl}" alt="${game.name}" onerror="this.src='${game.image}'">
-      <div class="overlay">
-        <div class="overlay-content">
-          <div class="rating-hex" style="background-color:${ratingColor}">${game.average.toFixed(1)}</div>
-          <div class="title-rank">
-            <div class="title"><a href="${game.url}" target="_blank">${game.name}</a></div>
-            <div class="rank"><i class="fi-crown"></i> ${rank}</div>
-          </div>
-        </div>
-        <div class="info">
-          <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
-          <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-          <p><i class="fi-puzzle"></i> <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-        </div>
-        <div class="info-column">
-          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
-          <p>Playing time: ${game.playingtime} min</p>
-          <p>Complexity: <span style="color:${weightColor}">${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}</span> / 5</p>
-        </div>
-      </div>
-    `;
-    return div;
-  }
-
-  // Количество колонок в Masonry в зависимости от ширины
   function getColumnCount(){
     if(window.innerWidth < 600) return 2;
     if(window.innerWidth < 900) return 3;
@@ -239,70 +194,168 @@ document.addEventListener('DOMContentLoaded', () => {
     return 5;
   }
 
-  // Настройка Masonry
+  const fullImageObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if(!entry.isIntersecting) return;
+
+        const img = entry.target;
+        if(img.dataset.fullLoaded) return;
+
+        const fullImg = new Image();
+        fullImg.decoding = 'async';
+        fullImg.src = img.dataset.full;
+
+        fullImg.onload = () => {
+          img.src = img.dataset.full;
+          img.dataset.fullLoaded = '1';
+        };
+
+        fullImageObserver.unobserve(img);
+      });
+    },
+    { rootMargin: '200px' }
+  );
+
+  function createGameDiv(game, container){
+    const div = document.createElement('div');
+    div.className = 'game';
+
+    const ratingColor = getRatingColor(game.average);
+
+    let weightColor = '#5bda98';
+    if(game.averageweight > 4) weightColor = '#df4751';
+    else if(game.averageweight > 3) weightColor = '#ff6b26';
+
+    const rank = game.overallrank ?? '—';
+
+    const dpr = window.devicePixelRatio || 1;
+    const colWidth = Math.ceil(container.clientWidth / getColumnCount() * dpr);
+
+    const thumbSource = game.thumbnail || game.image;
+    const thumbWidth = Math.min(colWidth, 320);
+
+    const thumbUrl =
+      `https://images.weserv.nl/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
+
+    const fullUrl =
+      `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
+
+    div.innerHTML = `
+      <img
+        src="${thumbUrl}"
+        data-full="${fullUrl}"
+        loading="lazy"
+        decoding="async"
+        alt="${game.name}"
+      >
+      <div class="overlay">
+        <div class="overlay-content">
+          <div class="rating-hex" style="background-color:${ratingColor}">
+            ${game.average.toFixed(1)}
+          </div>
+          <div class="title-rank">
+            <div class="title">
+              <a href="${game.url}" target="_blank">${game.name}</a>
+            </div>
+            <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+          </div>
+        </div>
+        <div class="info">
+          <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
+          <p><i class="fi-clock"></i> ${game.playingtime} min</p>
+          <p>
+            <i class="fi-puzzle"></i>
+            <span style="color:${weightColor}">
+              ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}
+            </span> / 5
+          </p>
+        </div>
+        <div class="info-column">
+          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
+          <p>Playing time: ${game.playingtime} min</p>
+          <p>
+            Complexity:
+            <span style="color:${weightColor}">
+              ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}
+            </span> / 5
+          </p>
+        </div>
+      </div>
+    `;
+
+    const img = div.querySelector('img');
+    img.onerror = () => img.src = game.image;
+
+    fullImageObserver.observe(img);
+
+    return div;
+  }
+
   function layoutMasonry(container){
     const colCount = getColumnCount();
     const colWidth = container.clientWidth / colCount;
 
-    // Присваиваем ширину каждой карточке
     container.querySelectorAll('.game').forEach(el => {
       el.style.width = colWidth + 'px';
     });
 
-    // Инициализация Masonry
     return new Masonry(container, {
       itemSelector: '.game',
       columnWidth: colWidth,
       gutter: 0,
-      percentPosition: false,
       transitionDuration: '0.4s'
     });
   }
 
-  // Загрузка игр из JSON
   function loadGames(file, containerId){
     const container = document.getElementById(containerId);
-    if(!container) return console.warn('Container not found:', containerId);
+    if(!container) return;
 
-    fetch(file)
+    return fetch(file)
       .then(res => res.json())
       .then(data => {
-        // Выбор раздела по ID контейнера
-        const games = data[containerId==='ownMosaic'?'own':containerId==='preMosaic'?'preordered':'wishlist'];
+        const games =
+          data[
+            containerId === 'ownMosaic'
+              ? 'own'
+              : containerId === 'preMosaic'
+              ? 'preordered'
+              : 'wishlist'
+          ];
 
-        // Создаем и добавляем карточки
-        games.forEach(game => container.appendChild(createGameDiv(game)));
+        games.forEach(game =>
+          container.appendChild(createGameDiv(game, container))
+        );
 
-        // Masonry после загрузки изображений
         imagesLoaded(container, () => {
           const msnry = layoutMasonry(container);
 
-          // Анимация появления карточек
-          container.querySelectorAll('.game').forEach((el,i)=>{
-            setTimeout(()=>el.classList.add('show'), 100*i);
+          container.querySelectorAll('.game').forEach((el, i) => {
+            setTimeout(() => el.classList.add('show'), 80 * i);
           });
 
-          // Скрываем лоадскрин
-          const loader = document.getElementById('loader');
-          if(loader) loader.style.display='none';
+          document.getElementById('loader')?.remove();
 
-          // Обновление Masonry при изменении размера окна
           window.addEventListener('resize', () => {
             const newColWidth = container.clientWidth / getColumnCount();
-            container.querySelectorAll('.game').forEach(el => el.style.width = newColWidth + 'px');
+            container.querySelectorAll('.game').forEach(el => {
+              el.style.width = newColWidth + 'px';
+            });
             msnry.options.columnWidth = newColWidth;
             msnry.layout();
           });
         });
-      })
-      .catch(err => console.error('Failed to load games:', err));
+      });
   }
 
-  // Загрузка всех разделов
-  loadGames('data/games.json','ownMosaic');
-  loadGames('data/games.json','preMosaic');
-  loadGames('data/games.json','wishMosaic');
+  async function loadAll(){
+    await loadGames('data/games.json', 'ownMosaic');
+    await loadGames('data/games.json', 'preMosaic');
+    await loadGames('data/games.json', 'wishMosaic');
+  }
 
+  loadAll();
 });
 </script>
 
