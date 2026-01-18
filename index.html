@@ -332,47 +332,47 @@
           }
 
           div.innerHTML = `
-        <img
-          src="${thumbUrl}"
-          data-full="${fullUrl}"
-          loading="lazy"
-          decoding="async"
-          alt="${game.name}"
-        >
-        <div class="overlay">
-          <div class="overlay-content">
-            <div class="rating-hex" style="background-color:${ratingColor}">
-              ${game.average.toFixed(1)}
-            </div>
-            <div class="title-rank">
-              <div class="title">
-                <a href="${game.url}" target="_blank">${game.name}</a>
+            <img
+              src="${thumbUrl}"
+              data-full="${fullUrl}"
+              loading="lazy"
+              decoding="async"
+              alt="${game.name}"
+            >
+            <div class="overlay">
+              <div class="overlay-content">
+                <div class="rating-hex" style="background-color:${ratingColor}">
+                  ${game.average.toFixed(1)}
+                </div>
+                <div class="title-rank">
+                  <div class="title">
+                    <a href="${game.url}" target="_blank">${game.name}</a>
+                  </div>
+                  <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+                </div>
               </div>
-              <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+              <div class="info">
+                <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
+                <p><i class="fi-clock"></i> ${game.playingtime} min</p>
+                <p>
+                  <i class="fi-puzzle"></i>
+                  <span style="color:${weightColor}">
+                    ${game.averageweight !== null ? game.averageweight.toFixed(2) : "N/A"}
+                  </span> / 5
+                </p>
+              </div>
+              <div class="info-column">
+                <p>Players: ${game.minplayers}–${game.maxplayers}</p>
+                <p>Playing time: ${game.playingtime} min</p>
+                <p>
+                  Complexity:
+                  <span style="color:${weightColor}">
+                    ${game.averageweight !== null ? game.averageweight.toFixed(2) : "N/A"}
+                  </span> / 5
+                </p>
+              </div>
             </div>
-          </div>
-          <div class="info">
-            <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
-            <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-            <p>
-              <i class="fi-puzzle"></i>
-              <span style="color:${weightColor}">
-                ${game.averageweight !== null ? game.averageweight.toFixed(2) : "N/A"}
-              </span> / 5
-            </p>
-          </div>
-          <div class="info-column">
-            <p>Players: ${game.minplayers}–${game.maxplayers}</p>
-            <p>Playing time: ${game.playingtime} min</p>
-            <p>
-              Complexity:
-              <span style="color:${weightColor}">
-                ${game.averageweight !== null ? game.averageweight.toFixed(2) : "N/A"}
-              </span> / 5
-            </p>
-          </div>
-        </div>
-      `;
+          `;
 
           const img = div.querySelector("img");
 
@@ -436,25 +436,20 @@
         }
 
         async function loadAll() {
-          // Показываем индикатор загрузки
           document.getElementById("loadingIndicator").style.display = "block";
 
-          // Ждем определения страны
           await detectCountry();
 
           try {
-            // Загружаем все разделы параллельно
             const [ownMsnry, preMsnry, wishMsnry] = await Promise.all([
               loadGames("data/games.json", "ownMosaic"),
               loadGames("data/games.json", "preMosaic"),
               loadGames("data/games.json", "wishMosaic"),
             ]);
 
-            // Убираем лоадер
             document.getElementById("loader")?.remove();
             document.getElementById("loadingIndicator").style.display = "none";
 
-            // Добавляем обработчик ресайза
             function handleResize() {
               const containers = [
                 {
@@ -483,7 +478,6 @@
               });
             }
 
-            // Дебаунс для ресайза
             let resizeTimeout;
             window.addEventListener("resize", () => {
               clearTimeout(resizeTimeout);
@@ -496,7 +490,6 @@
           }
         }
 
-        // Запускаем загрузку
         loadAll();
       });
     </script>
