@@ -67,7 +67,6 @@ jobs:
           path: results.txt
 
       - name: Post results to PR
-        if: ${{ github.repository_owner == 'Antropophag' && basename(github.repository) == 'my-boardgames' }}
         uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
