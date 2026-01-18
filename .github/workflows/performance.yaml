@@ -2,7 +2,11 @@ name: Performance test
 
 on:
   pull_request_target:
-    types: [assigned, opened, synchronize, reopened]
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 permissions:
   contents: read
