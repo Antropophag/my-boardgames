@@ -2,6 +2,7 @@ name: Performance test
 
 on:
   pull_request_target:
+    types: [assigned, opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -69,17 +70,6 @@ jobs:
         with:
           name: perf-results
           path: results.txt
-
-      - name: Check GH_TOKEN
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          if [ -z "$GH_TOKEN" ]; then
-            echo "❌ GH_TOKEN is empty"
-            exit 1
-          else
-            echo "✅ GH_TOKEN ok, length: ${#GH_TOKEN}"
-          fi
 
       - name: Post results to PR
         uses: peter-evans/create-or-update-comment@v5
