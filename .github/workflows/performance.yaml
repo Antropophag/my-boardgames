@@ -61,7 +61,7 @@ jobs:
           kill $PID_BASE
 
       - name: Save results as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v6
         with:
           name: perf-results
           path: results.txt
