@@ -4,6 +4,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   performance:
     runs-on: ubuntu-latest
@@ -66,8 +71,10 @@ jobs:
           name: perf-results
           path: results.txt
 
+      - name: Use the repository name
+        run: echo "The repository name is ${{ github.repository }}"
+
       - name: Post results to PR
-        if: ${{ github.repository == 'Antropophag/my-boardgames' }}
         uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
