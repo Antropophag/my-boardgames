@@ -322,17 +322,16 @@
           const thumbSource = game.thumbnail || game.image;
           const thumbWidth = Math.min(colWidth, 320);
 
-          let thumbUrl, fullUrl;
 
-          thumbUrl = thumbSource;
-          fullUrl = game.image;
           if (!isRussia) {
-            thumbUrl = `https://images.weserv.nl/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
-            fullUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
+            domain = "images.weserv.nl"
           } else {
-            thumbUrl = `https://img.alchemmist.xyz/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
-            fullUrl = `https://img.alchemmist.xyz/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
+            domain = "img.alchemmist.xyz";
           }
+
+          let thumbUrl, fullUrl;
+          thumbUrl = `https://${domain}/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
+          fullUrl = `https://${domain}/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
 
           div.innerHTML = `
             <img
