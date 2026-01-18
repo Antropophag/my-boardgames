@@ -61,14 +61,20 @@ jobs:
           kill $PID_PR
           kill $PID_BASE
 
-      - name: Comment results
+      - name: Read results
+        id: results
+        run: |
+          echo "RESULTS<<EOF" >> $GITHUB_ENV
+          cat results.txt >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Post results to PR
         uses: peter-evans/create-or-update-comment@v5
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ### Performance comparison
             ```
-            $(cat results.txt)
+            ${{ env.RESULTS }}
             ```
-
