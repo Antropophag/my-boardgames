@@ -1,11 +1,74 @@
-name: Test PR Target
+name: Performance test
 
 on:
   pull_request_target:
-    types: [opened, synchronize]
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
-  test:
+  performance:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
-      - run: echo "Hello from PR target"
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+
+      - name: Prepare baseline
+        run: |
+          mkdir ../baseline
+          cp -r . ../baseline
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright tabulate
+          playwright install chromium
+
+      - name: Start servers and run test
+        run: |
+          python -m http.server 8000 &
+          PID_PR=$!
+
+          cd ../baseline
+          python -m http.server 8001 &
+          PID_BASE=$!
+
+          sleep 5
+          cd -
+
+          python perf_test.py > results.txt
+          cat results.txt
+
+          kill $PID_PR
+          kill $PID_BASE
+
+      - name: Comment results
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### Performance comparison
+            ```
+            $(cat results.txt)
+            ```
+
