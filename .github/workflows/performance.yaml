@@ -67,7 +67,7 @@ jobs:
           path: results.txt
 
       - name: Post results to PR
-        if: github.event.pull_request.head.repo.owner.login == github.repository_owner
+        if: github.event.repository == "Antropophag/my-boardgames"
         uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
