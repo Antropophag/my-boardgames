@@ -1,363 +1,497 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Play with me</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Play with me</title>
 
-<!-- Иконки сайта -->
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="shortcut icon" href="/favicon-32x32.png" />
-<link rel="apple-touch-icon" href="/favicon-512x512.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-31x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/favicon-512x512.png" />
 
-<!-- Шрифты и иконки -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="fonts/foundation-icons.css">
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        background: #262626;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        color: #fff;
+      }
 
-<style>
-/* Общие стили */
-body, html { 
-  margin:0; 
-  padding:0; 
-  background:#262626; 
-  font-family:'Montserrat',sans-serif; 
-  color:#fff; 
-}
+      h2.section-title {
+        text-align: center;
+        font-size: 28px;
+        margin: 30px 0 20px;
+      }
 
-/* Заголовки разделов */
-h2.section-title { 
-  text-align:center; 
-  font-size:28px; 
-  margin:30px 0 20px; 
-}
+      .mosaic {
+        width: 100%;
+      }
 
-/* Контейнер плиток */
-.mosaic { width:100%; }
+      .game {
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
 
-/* Карточка игры */
-.game { 
-  position:relative; 
-  overflow:hidden; 
-  opacity:0; 
-  transform:translateY(20px); 
-  transition:opacity .5s ease, transform .5s ease; 
-}
+      .game.show {
+        opacity: 1;
+        transform: translateY(0);
+        animation: popIn 0.4s ease;
+      }
 
-/* Анимация появления */
-.game.show { 
-  opacity:1; 
-  transform:translateY(0); 
-  animation:popIn .4s ease; 
-}
+      @keyframes popIn {
+        0% {
+          transform: translateY(20px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
 
-/* Ключевые кадры анимации */
-@keyframes popIn { 
-  0%{transform:translateY(20px);}
-  60%{transform:translateY(-5px);}
-  100%{transform:translateY(0);} 
-}
+      .game img {
+        width: 100%;
+        display: block;
+        vertical-align: bottom;
+        transition: transform 0.3s ease;
+      }
 
-/* Изображения внутри карточки */
-.game img { 
-  width:100%; 
-  display:block; 
-  vertical-align:bottom; 
-  transition: transform .3s ease; 
-}
+      .game:hover img {
+        transform: scale(1.05);
+      }
 
-/* Масштабирование при наведении */
-.game:hover img { transform:scale(1.05); }
+      .overlay {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        font-weight: bold;
+        padding: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .game:hover .overlay {
+        opacity: 1;
+      }
 
-/* Оверлей с информацией */
-.overlay { 
-  position:absolute; 
-  left:0; right:0; bottom:0; 
-  background:rgba(0,0,0,0.8); 
-  color:#fff; 
-  font-weight:bold; 
-  padding:8px; 
-  opacity:0; 
-  transition:opacity .3s ease; 
-}
-.game:hover .overlay { opacity:1; }
+      .overlay-content {
+        display: flex;
+        align-items: center;
+        margin-bottom: 4px;
+      }
 
-/* Содержимое оверлея */
-.overlay-content { 
-  display:flex; 
-  align-items:center; 
-  margin-bottom:4px; 
-}
+      .rating-hex {
+        width: 40px;
+        aspect-ratio: 1.15;
+        background-color: gray;
+        clip-path: polygon(
+          25% 0%,
+          75% 0%,
+          100% 50%,
+          75% 100%,
+          25% 100%,
+          0% 50%
+        );
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        color: #fff;
+        margin-right: 8px;
+        flex-shrink: 0;
+      }
 
-/* Шестигранник с рейтингом */
-.rating-hex { 
-  width:40px; 
-  aspect-ratio:1.15; 
-  background-color:gray; 
-  clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%); 
-  display:flex; 
-  justify-content:center; 
-  align-items:center; 
-  font-weight:bold; 
-  color:#fff; 
-  margin-right:8px; 
-  flex-shrink:0; 
-}
+      .title-rank {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+        align-items: center;
+      }
+      .title-rank .title a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .title-rank .title a:hover {
+        text-decoration: underline dotted white;
+      }
+      .title-rank .rank {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: bold;
+        font-size: 14px;
+        color: white;
+      }
+      .title-rank .rank i {
+        color: #e64900;
+        font-size: 14px;
+      }
 
-/* Название и ранг игры */
-.title-rank { 
-  display:flex; 
-  justify-content:space-between; 
-  flex:1; 
-  align-items:center; 
-}
-.title-rank .title a { color:white; text-decoration:none; font-size:14px; }
-.title-rank .title a:hover { text-decoration:underline dotted white; }
-.title-rank .rank { display:flex; align-items:center; gap:4px; font-weight:bold; font-size:14px; color:white; }
-.title-rank .rank i { color:#e64900; font-size:14px; }
+      .overlay .info {
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 13px;
+        color: #fff;
+        flex: 1;
+      }
+      .overlay .info i {
+        font-size: 16px;
+      }
 
-/* Дополнительная информация */
-.overlay .info { 
-  display:flex; 
-  justify-content:space-between; 
-  font-weight:bold; 
-  font-size:13px; 
-  color:#fff; 
-  flex:1; 
-}
-.overlay .info i { font-size:16px; }
+      .info-column {
+        display: none;
+        font-weight: bold;
+        font-size: 13px;
+        color: #fff;
+      }
+      .info-column p {
+        margin: 2px 0;
+        line-height: 1.2;
+      }
 
-/* Версия информации для десктопа */
-.info-column { 
-  display:none; 
-  font-weight:bold; 
-  font-size:13px; 
-  color:#fff; 
-}
-.info-column p { margin:2px 0; line-height:1.2; }
+      #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #262626;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+      .loader-gif {
+        width: 250px;
+        height: 250px;
+      }
 
-/* Лоадскрин */
-#loader { 
-  position:fixed; 
-  top:0; left:0; 
-  width:100%; height:100%; 
-  background:#262626; 
-  display:flex; 
-  justify-content:center; 
-  align-items:center; 
-  z-index:9999; 
-}
-.loader-gif { width:250px; height:250px; }
+      .loading-indicator {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 9998;
+        display: none;
+      }
 
-/* Адаптив */
-@media(max-width:800px){ 
-  .game img{width:100%;height:auto;} 
-  .info-column{display:none;} 
-}
-@media(min-width:801px){ 
-  .overlay .info{display:none;} 
-  .info-column{display:block;} 
-}
-</style>
-</head>
-<body>
+      @media (max-width: 800px) {
+        .game img {
+          width: 100%;
+          height: auto;
+        }
+        .info-column {
+          display: none;
+        }
+      }
+      @media (min-width: 801px) {
+        .overlay .info {
+          display: none;
+        }
+        .info-column {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loader">
+      <img src="dice.gif" alt="loading" class="loader-gif" />
+    </div>
 
-<!-- Лоадскрин -->
-<div id="loader">
-  <img src="dice.gif" alt="loading" class="loader-gif">
-</div>
+    <div class="loading-indicator" id="loadingIndicator">
+      Загрузка изображений...
+    </div>
 
-<!-- Плитки игр -->
-<div id="ownMosaic" class="mosaic"></div>
-<h2 class="section-title">Pre-ordered</h2>
-<div id="preMosaic" class="mosaic"></div>
-<h2 class="section-title">Wishlist</h2>
-<div id="wishMosaic" class="mosaic"></div>
+    <div id="ownMosaic" class="mosaic"></div>
+    <h2 class="section-title">Pre-ordered</h2>
+    <div id="preMosaic" class="mosaic"></div>
+    <h2 class="section-title">Wishlist</h2>
+    <div id="wishMosaic" class="mosaic"></div>
 
-<!-- Скрипты для Masonry и imagesLoaded -->
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let isRussia = false;
+        let countryDetectionComplete = false;
 
-  function getRatingColor(avg){
-    if(avg > 7.9) return '#186b40';
-    if(avg > 6.9) return '#1978b3';
-    if(avg > 4.9) return '#5369a2';
-    return '#666e75';
-  }
+        async function detectCountry() {
+          try {
+            const response = await fetch("https://ipinfo.io/json");
+            const data = await response.json();
 
-  function getColumnCount(){
-    if(window.innerWidth < 600) return 2;
-    if(window.innerWidth < 900) return 3;
-    if(window.innerWidth < 2000) return 4;
-    return 5;
-  }
+            isRussia = data.country === "RU";
+            console.log(
+              "Страна пользователя:",
+              data.country,
+              isRussia ? "(Россия)" : "(Не Россия)",
+            );
+          } catch (error) {
+            console.log(
+              "Не удалось определить страну через ipinfo.io. Используем weserv.nl по умолчанию.",
+              error,
+            );
+            isRussia = false;
+          } finally {
+            countryDetectionComplete = true;
+          }
+        }
 
-  const fullImageObserver = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if(!entry.isIntersecting) return;
+        function getRatingColor(avg) {
+          if (avg > 7.9) return "#186b40";
+          if (avg > 6.9) return "#1978b3";
+          if (avg > 4.9) return "#5369a2";
+          return "#666e75";
+        }
 
-        const img = entry.target;
-        if(img.dataset.fullLoaded) return;
+        function getColumnCount() {
+          if (window.innerWidth < 600) return 2;
+          if (window.innerWidth < 900) return 3;
+          if (window.innerWidth < 2000) return 4;
+          return 5;
+        }
 
-        const fullImg = new Image();
-        fullImg.decoding = 'async';
-        fullImg.src = img.dataset.full;
+        const fullImageObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
 
-        fullImg.onload = () => {
-          img.src = img.dataset.full;
-          img.dataset.fullLoaded = '1';
-        };
+              const img = entry.target;
+              if (img.dataset.fullLoaded) return;
 
-        fullImageObserver.unobserve(img);
-      });
-    },
-    { rootMargin: '200px' }
-  );
+              const fullImg = new Image();
+              fullImg.decoding = "async";
+              fullImg.src = img.dataset.full;
 
-  function createGameDiv(game, container){
-    const div = document.createElement('div');
-    div.className = 'game';
+              fullImg.onload = () => {
+                img.src = img.dataset.full;
+                img.dataset.fullLoaded = "1";
+              };
 
-    const ratingColor = getRatingColor(game.average);
-
-    let weightColor = '#5bda98';
-    if(game.averageweight > 4) weightColor = '#df4751';
-    else if(game.averageweight > 3) weightColor = '#ff6b26';
-
-    const rank = game.overallrank ?? '—';
-
-    const dpr = window.devicePixelRatio || 1;
-    const colWidth = Math.ceil(container.clientWidth / getColumnCount() * dpr);
-
-    const thumbSource = game.thumbnail || game.image;
-    const thumbWidth = Math.min(colWidth, 320);
-
-    const thumbUrl =
-      `https://images.weserv.nl/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
-
-    const fullUrl =
-      `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
-
-    div.innerHTML = `
-      <img
-        src="${thumbUrl}"
-        data-full="${fullUrl}"
-        loading="lazy"
-        decoding="async"
-        alt="${game.name}"
-      >
-      <div class="overlay">
-        <div class="overlay-content">
-          <div class="rating-hex" style="background-color:${ratingColor}">
-            ${game.average.toFixed(1)}
-          </div>
-          <div class="title-rank">
-            <div class="title">
-              <a href="${game.url}" target="_blank">${game.name}</a>
-            </div>
-            <div class="rank"><i class="fi-crown"></i> ${rank}</div>
-          </div>
-        </div>
-        <div class="info">
-          <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
-          <p><i class="fi-clock"></i> ${game.playingtime} min</p>
-          <p>
-            <i class="fi-puzzle"></i>
-            <span style="color:${weightColor}">
-              ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}
-            </span> / 5
-          </p>
-        </div>
-        <div class="info-column">
-          <p>Players: ${game.minplayers}–${game.maxplayers}</p>
-          <p>Playing time: ${game.playingtime} min</p>
-          <p>
-            Complexity:
-            <span style="color:${weightColor}">
-              ${game.averageweight !== null ? game.averageweight.toFixed(2) : 'N/A'}
-            </span> / 5
-          </p>
-        </div>
-      </div>
-    `;
-
-    const img = div.querySelector('img');
-    img.onerror = () => img.src = game.image;
-
-    fullImageObserver.observe(img);
-
-    return div;
-  }
-
-  function layoutMasonry(container){
-    const colCount = getColumnCount();
-    const colWidth = container.clientWidth / colCount;
-
-    container.querySelectorAll('.game').forEach(el => {
-      el.style.width = colWidth + 'px';
-    });
-
-    return new Masonry(container, {
-      itemSelector: '.game',
-      columnWidth: colWidth,
-      gutter: 0,
-      transitionDuration: '0.4s'
-    });
-  }
-
-  function loadGames(file, containerId){
-    const container = document.getElementById(containerId);
-    if(!container) return;
-
-    return fetch(file)
-      .then(res => res.json())
-      .then(data => {
-        const games =
-          data[
-            containerId === 'ownMosaic'
-              ? 'own'
-              : containerId === 'preMosaic'
-              ? 'preordered'
-              : 'wishlist'
-          ];
-
-        games.forEach(game =>
-          container.appendChild(createGameDiv(game, container))
+              fullImageObserver.unobserve(img);
+            });
+          },
+          { rootMargin: "200px" },
         );
 
-        imagesLoaded(container, () => {
-          const msnry = layoutMasonry(container);
+        function createGameDiv(game, container) {
+          const div = document.createElement("div");
+          div.className = "game";
 
-          container.querySelectorAll('.game').forEach((el, i) => {
-            setTimeout(() => el.classList.add('show'), 80 * i);
+          const ratingColor = getRatingColor(game.average);
+
+          let weightColor = "#5bda98";
+          if (game.averageweight > 4) weightColor = "#df4751";
+          else if (game.averageweight > 3) weightColor = "#ff6b26";
+
+          const rank = game.overallrank ?? "—";
+
+          const dpr = window.devicePixelRatio || 1;
+          const colWidth = Math.ceil(
+            (container.clientWidth / getColumnCount()) * dpr,
+          );
+
+          const thumbSource = game.thumbnail || game.image;
+          const thumbWidth = Math.min(colWidth, 320);
+
+          let thumbUrl, fullUrl;
+
+          thumbUrl = thumbSource;
+          fullUrl = game.image;
+          if (!isRussia) {
+            thumbUrl = `https://images.weserv.nl/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
+            fullUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
+          }
+
+          div.innerHTML = `
+            <img
+              src="${thumbUrl}"
+              data-full="${fullUrl}"
+              loading="lazy"
+              decoding="async"
+              alt="${game.name}"
+            >
+            <div class="overlay">
+              <div class="overlay-content">
+                <div class="rating-hex" style="background-color:${ratingColor}">
+                  ${game.average.toFixed(1)}
+                </div>
+                <div class="title-rank">
+                  <div class="title">
+                    <a href="${game.url}" target="_blank">${game.name}</a>
+                  </div>
+                  <div class="rank"><i class="fi-crown"></i> ${rank}</div>
+                </div>
+              </div>
+              <div class="info">
+                <p><i class="fi-torso"></i> ${game.minplayers}–${game.maxplayers}</p>
+                <p><i class="fi-clock"></i> ${game.playingtime} min</p>
+                <p>
+                  <i class="fi-puzzle"></i>
+                  <span style="color:${weightColor}">
+                    ${game.averageweight !== null ? game.averageweight.toFixed(2) : "N/A"}
+                  </span> / 5
+                </p>
+              </div>
+              <div class="info-column">
+                <p>Players: ${game.minplayers}–${game.maxplayers}</p>
+                <p>Playing time: ${game.playingtime} min</p>
+                <p>
+                  Complexity:
+                  <span style="color:${weightColor}">
+                    ${game.averageweight !== null ? game.averageweight.toFixed(2) : "N/A"}
+                  </span> / 5
+                </p>
+              </div>
+            </div>
+          `;
+
+          const img = div.querySelector("img");
+
+          fullImageObserver.observe(img);
+
+          return div;
+        }
+
+        function layoutMasonry(container) {
+          const colCount = getColumnCount();
+          const colWidth = container.clientWidth / colCount;
+
+          container.querySelectorAll(".game").forEach((el) => {
+            el.style.width = colWidth + "px";
           });
 
-          document.getElementById('loader')?.remove();
+          return new Masonry(container, {
+            itemSelector: ".game",
+            columnWidth: colWidth,
+            gutter: 0,
+            transitionDuration: "0.4s",
+          });
+        }
 
-          window.addEventListener('resize', () => {
-            const newColWidth = container.clientWidth / getColumnCount();
-            container.querySelectorAll('.game').forEach(el => {
-              el.style.width = newColWidth + 'px';
+        async function loadGames(file, containerId) {
+          const container = document.getElementById(containerId);
+          if (!container) return;
+
+          try {
+            const response = await fetch(file);
+            const data = await response.json();
+
+            const games =
+              data[
+                containerId === "ownMosaic"
+                  ? "own"
+                  : containerId === "preMosaic"
+                    ? "preordered"
+                    : "wishlist"
+              ];
+
+            games.forEach((game) => {
+              container.appendChild(createGameDiv(game, container));
             });
-            msnry.options.columnWidth = newColWidth;
-            msnry.layout();
-          });
-        });
+
+            return new Promise((resolve) => {
+              imagesLoaded(container, () => {
+                const msnry = layoutMasonry(container);
+
+                container.querySelectorAll(".game").forEach((el, i) => {
+                  setTimeout(() => el.classList.add("show"), 80 * i);
+                });
+
+                resolve(msnry);
+              });
+            });
+          } catch (error) {
+            console.error("Ошибка загрузки игр:", error);
+            return null;
+          }
+        }
+
+        async function loadAll() {
+          document.getElementById("loadingIndicator").style.display = "block";
+
+          await detectCountry();
+
+          try {
+            const [ownMsnry, preMsnry, wishMsnry] = await Promise.all([
+              loadGames("data/games.json", "ownMosaic"),
+              loadGames("data/games.json", "preMosaic"),
+              loadGames("data/games.json", "wishMosaic"),
+            ]);
+
+            document.getElementById("loader")?.remove();
+            document.getElementById("loadingIndicator").style.display = "none";
+
+            function handleResize() {
+              const containers = [
+                {
+                  msnry: ownMsnry,
+                  container: document.getElementById("ownMosaic"),
+                },
+                {
+                  msnry: preMsnry,
+                  container: document.getElementById("preMosaic"),
+                },
+                {
+                  msnry: wishMsnry,
+                  container: document.getElementById("wishMosaic"),
+                },
+              ];
+
+              containers.forEach(({ msnry, container }) => {
+                if (msnry && container) {
+                  const newColWidth = container.clientWidth / getColumnCount();
+                  container.querySelectorAll(".game").forEach((el) => {
+                    el.style.width = newColWidth + "px";
+                  });
+                  msnry.options.columnWidth = newColWidth;
+                  msnry.layout();
+                }
+              });
+            }
+
+            let resizeTimeout;
+            window.addEventListener("resize", () => {
+              clearTimeout(resizeTimeout);
+              resizeTimeout = setTimeout(handleResize, 250);
+            });
+          } catch (error) {
+            console.error("Ошибка при загрузке всех данных:", error);
+            document.getElementById("loader")?.remove();
+            document.getElementById("loadingIndicator").style.display = "none";
+          }
+        }
+
+        loadAll();
       });
-  }
-
-  async function loadAll(){
-    await loadGames('data/games.json', 'ownMosaic');
-    await loadGames('data/games.json', 'preMosaic');
-    await loadGames('data/games.json', 'wishMosaic');
-  }
-
-  loadAll();
-});
-</script>
-
-</body>
+    </script>
+  </body>
 </html>
