@@ -71,10 +71,19 @@ jobs:
           name: perf-results
           path: results.txt
 
-      - name: Use the repository name
-        run: echo "The repository name is ${{ github.repository }}"
+      - name: Check GH_TOKEN
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "❌ GH_TOKEN is empty"
+            exit 1
+          else
+            echo "✅ GH_TOKEN ok, length: ${#GH_TOKEN}"
+          fi
 
       - name: Post results to PR
+        if: ${{ github.repository == 'Antropophag/my-boardgames' }}
         uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
