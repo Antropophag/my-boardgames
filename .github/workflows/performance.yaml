@@ -1,8 +1,7 @@
 name: Performance test
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  pull_request_target:
 
 permissions:
   contents: read
@@ -83,7 +82,6 @@ jobs:
           fi
 
       - name: Post results to PR
-        if: ${{ github.repository == 'Antropophag/my-boardgames' }}
         uses: peter-evans/create-or-update-comment@v5
         with:
           token: ${{ secrets.GH_TOKEN }}
