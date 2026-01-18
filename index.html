@@ -329,6 +329,9 @@
           if (!isRussia) {
             thumbUrl = `https://images.weserv.nl/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
             fullUrl = `https://images.weserv.nl/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
+          } else {
+            thumbUrl = `https://img.alchemmist.xyz/?url=${encodeURIComponent(thumbSource)}&w=${thumbWidth}&q=80&output=webp`;
+            fullUrl = `https://img.alchemmist.xyz/?url=${encodeURIComponent(game.image)}&w=${colWidth}&q=90&output=webp`;
           }
 
           div.innerHTML = `
