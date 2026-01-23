@@ -55,7 +55,7 @@ jobs:
           sleep 5
           cd -
 
-          python perf_test.py > results.txt
+          python scripts/perf_test.py > results.txt
           cat results.txt
 
           kill $PID_PR
