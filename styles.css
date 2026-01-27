@@ -17,6 +17,23 @@ html {
   color: #fff;
 }
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;     
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 h2.section-title {
   text-align: center;
   font-size: 28px;
@@ -198,4 +215,60 @@ h2.section-title {
   .info-column {
     display: block;
   }
+}
+
+.site-footer {
+  margin-top: 20px;
+  padding: 20px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  font-family: monospace;
+}
+
+.site-footer * span {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+}
+
+.site-footer a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-inner {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+}
+
+#powered-by-bgg-logo {
+  width: 10em;
+  opacity: 0.5;
+}
+
+#github-logo {
+  width: 1em;
+  filter: brightness(0) invert(1);
+  opacity: 0.5;
+}
+
+.left-foot-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5em;
+}
+
+.gh-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
 }
