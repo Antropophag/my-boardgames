@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const startYear = 2025;
+  const currentYear = new Date().getFullYear();
+  document.getElementById("year-range").textContent =
+    startYear === currentYear ? startYear : `${startYear}-${currentYear}`;
+
   let isRussia = false;
   let countryDetectionComplete = false;
 
