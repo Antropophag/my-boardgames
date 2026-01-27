@@ -22,8 +22,8 @@ html::-webkit-scrollbar {
 }
 
 html {
-  -ms-overflow-style: none;  
-  scrollbar-width: none;     
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -271,4 +271,50 @@ h2.section-title {
   justify-content: center;
   align-items: center;
   gap: 0.5em;
+}
+
+@media (max-width: 640px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  }
+
+  /* "разбираем" контейнер */
+  .left-foot-container {
+    display: contents;
+  }
+
+  /* теперь это ВСЕ flex-элементы одного уровня */
+
+  /* BGG — первым */
+  .left-foot-container a {
+    order: 1;
+  }
+
+  /* GitHub — вторым */
+  .gh-container {
+    order: 2;
+  }
+
+  /* Copyright — третьим */
+  .left-foot-container span {
+    order: 3;
+  }
+
+  /* размеры */
+  #powered-by-bgg-logo {
+    width: 9em;
+    opacity: 0.55;
+  }
+
+  #github-logo {
+    width: 1.3em;
+  }
+
+  .site-footer {
+    padding: 20px 30px;
+    font-size: 0.85rem;
+  }
 }
