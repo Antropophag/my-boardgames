@@ -1641,6 +1641,32 @@
       "url": "https://boardgamegeek.com/boardgame/163839"
     },
     {
+      "id": "410769",
+      "name": "Final Girl: S2 Ultimate Box",
+      "minplayers": 1,
+      "maxplayers": 1,
+      "playingtime": 0,
+      "image": "https://cf.geekdo-images.com/cn6F99AimieEd1L85fCsGw__original/img/DCIS5yQVaV1FAICkWq7C2LAWQ1A=/0x0/filters:format(png)/pic8737690.png",
+      "thumbnail": "https://cf.geekdo-images.com/cn6F99AimieEd1L85fCsGw__small/img/o9NYnGcl1zk-_d2Whx8WqWpGxMk=/fit-in/200x150/filters:strip_icc()/pic8737690.png",
+      "average": 9.01715,
+      "averageweight": 3.0,
+      "overallrank": null,
+      "url": "https://boardgamegeek.com/boardgame/410769"
+    },
+    {
+      "id": "410767",
+      "name": "Final Girl: S3 Ultimate Box",
+      "minplayers": 1,
+      "maxplayers": 1,
+      "playingtime": 0,
+      "image": "https://cf.geekdo-images.com/EwFPoo3sC76vLN6eL-qb4w__original/img/7hIpkBQ72w36iw8a36MjD2C3SZw=/0x0/filters:format(png)/pic8737698.png",
+      "thumbnail": "https://cf.geekdo-images.com/EwFPoo3sC76vLN6eL-qb4w__small/img/ut56ag8CYujvqFaa6NrFXAzJwdY=/fit-in/200x150/filters:strip_icc()/pic8737698.png",
+      "average": 9.03772,
+      "averageweight": 3.0,
+      "overallrank": null,
+      "url": "https://boardgamegeek.com/boardgame/410767"
+    },
+    {
       "id": "428280",
       "name": "Final Titan",
       "minplayers": 1,
@@ -1771,19 +1797,6 @@
       "url": "https://boardgamegeek.com/boardgame/320718"
     },
     {
-      "id": "339906",
-      "name": "The Hunger",
-      "minplayers": 2,
-      "maxplayers": 6,
-      "playingtime": 60,
-      "image": "https://cf.geekdo-images.com/P6xRtuVTPwR148SP4oIXGQ__original/img/ivfJXcTwNCdEcYj8XjsFbnV2UHY=/0x0/filters:format(jpeg)/pic6218039.jpg",
-      "thumbnail": "https://cf.geekdo-images.com/P6xRtuVTPwR148SP4oIXGQ__small/img/BQeGzaIeQo--PHdB8r9aoP4UHmA=/fit-in/200x150/filters:strip_icc()/pic6218039.jpg",
-      "average": 7.00866,
-      "averageweight": 2.3068,
-      "overallrank": 1545,
-      "url": "https://boardgamegeek.com/boardgame/339906"
-    },
-    {
       "id": "177478",
       "name": "IKI",
       "minplayers": 2,
@@ -1821,19 +1834,6 @@
       "averageweight": 2.1429,
       "overallrank": 4150,
       "url": "https://boardgamegeek.com/boardgame/353945"
-    },
-    {
-      "id": "422126",
-      "name": "Intarsia",
-      "minplayers": 2,
-      "maxplayers": 4,
-      "playingtime": 60,
-      "image": "https://cf.geekdo-images.com/LmiHvBrtsTc8GK-Yd5ekSQ__original/img/bcIxZdA-3GydhyMBxdsMAAdz2NQ=/0x0/filters:format(jpeg)/pic8287936.jpg",
-      "thumbnail": "https://cf.geekdo-images.com/LmiHvBrtsTc8GK-Yd5ekSQ__small/img/lP1hhk8cXJhUEirhu8xP_plUdIQ=/fit-in/200x150/filters:strip_icc()/pic8287936.jpg",
-      "average": 7.10318,
-      "averageweight": 2.0303,
-      "overallrank": 2895,
-      "url": "https://boardgamegeek.com/boardgame/422126"
     },
     {
       "id": "297129",
